@@ -1,12 +1,5 @@
-import { Outlet } from "react-router";
-import { Header } from "./components/Header";
-
+import { Page } from "./components/Page";
 
 export default function Layout() {
-  return (
-    <div>
-      <Header />
-      <Outlet />
-    </div>
-  );
+  return <Page />;
 }

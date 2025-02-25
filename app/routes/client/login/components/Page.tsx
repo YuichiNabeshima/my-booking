@@ -1,11 +1,13 @@
 import * as React from "react"
-import { Link } from "react-router"
+import { Form, Link } from "react-router"
 import { Loader2, Utensils } from "lucide-react"
+import { signInWithEmailAndPassword } from "firebase/auth"
 
 import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+import { auth } from "~/lib/firebase"
 
 export function Page() {
   const [email, setEmail] = React.useState("")
@@ -28,6 +30,8 @@ export function Page() {
       // Implement actual authentication logic here
       // For example: await signIn(email, password)
 
+      signInWithEmailAndPassword(auth, email, password);
+
       // Redirect to dashboard after successful authentication
       // router.push("/dashboard")
     } catch (err) {
@@ -47,13 +51,14 @@ export function Page() {
           <CardTitle className="text-2xl font-bold text-center">Restaurant Admin</CardTitle>
           <CardDescription className="text-center">Sign in to manage your reservations</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <Form method="post">
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
+                name="email"
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -65,6 +70,7 @@ export function Page() {
               <Input
                 id="password"
                 type="password"
+                name="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -91,7 +97,7 @@ export function Page() {
               </Link>
             </p>
           </CardFooter>
-        </form>
+        </Form>
       </Card>
     </div>
   )

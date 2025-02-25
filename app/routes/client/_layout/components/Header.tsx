@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Form, Link } from "react-router";
 import { LogOut, Settings, User } from "lucide-react";
 
 import { Button } from "~/components/ui/button"
@@ -49,13 +49,15 @@ export function Header() {
                 設定
               </Link>
             </Button>
-            <Button
-              variant="ghost"
-              className="justify-start text-red-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              ログアウト
-            </Button>
+            <Form method="post" action="/client/logout/">
+              <Button
+                variant="ghost"
+                className="justify-start text-red-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                ログアウト
+              </Button>
+            </Form>
           </div>
         </SheetContent>
       </Sheet>
