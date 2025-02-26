@@ -4,7 +4,7 @@ import { Page } from "./components/Page";
 import { diContainer } from "./.server/di_container/di_container";
 import { TYPES } from "./.server/di_container/types";
 import type { IActionService } from "./.server/interfaces/i_action_service";
-import { CustomBaseError } from "~/.server/server_utils/logger/custom_base_error";
+import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
 import { auth } from "~/lib/firebase";
 import { parseWithZod } from "@conform-to/zod";
 import { schema } from "./config/schema/schema";

@@ -1,7 +1,7 @@
-import { injectable } from 'inversify';
-import winston from 'winston';
-import type { ILogger } from '~/.server/interfaces/i_logger';
-import { CustomBaseError } from './custom_base_error';
+import { injectable } from "inversify";
+import winston from "winston";
+import type { ILogger } from "~/.server/interfaces/i_logger";
+import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
 
 @injectable()
 export class Logger implements ILogger {

@@ -1,4 +1,4 @@
-export const TYPES = {
+export const GLOBAL_DI_TYPES = {
   Logger: Symbol.for('Logger'),
   TransactionManager: Symbol.for('TransactionManager'),
 

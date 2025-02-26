@@ -2,14 +2,14 @@ import { inject, injectable } from "inversify";
 import { auth } from "~/lib/firebase";
 import type { ILoaderService } from "../interfaces/i_loader_service";
 import type { GetLoaderDataDTO } from "../dtos/loader_service_dto";
-import { TYPES as REPOSITORY_TYPES } from "~/.server/di_container/types";
+import { GLOBAL_DI_TYPES } from "~/.server/di_container/global_di_types";
 import type { IClientRepository } from "~/.server/repositories/interfaces/i_client_repository";
 import { NoClientError } from "../custom_errors/no_client_error";
 
 @injectable()
 export class LoaderService implements ILoaderService {
   constructor(
-    @inject(REPOSITORY_TYPES.ClientRepository) private clientRepository: IClientRepository,
+    @inject(GLOBAL_DI_TYPES.ClientRepository) private clientRepository: IClientRepository,
   ){}
 
   async getLoaderData(): Promise<GetLoaderDataDTO> {

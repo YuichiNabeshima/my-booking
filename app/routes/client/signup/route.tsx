@@ -2,7 +2,7 @@ import { redirect } from "react-router";
 import { FirebaseError } from "firebase/app";
 import { parseWithZod } from "@conform-to/zod";
 import type { Route } from "./+types/route";
-import { CustomBaseError } from "~/.server/server_utils/logger/custom_base_error";
+import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
 import { STATUS } from "~/config/const/status";
 import { auth } from "~/lib/firebase";
 import { Page } from "./components/Page";
