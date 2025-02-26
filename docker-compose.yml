@@ -32,5 +32,16 @@ services:
       - "11211:11211"
     restart: unless-stopped
 
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=redis
+    volumes:
+      - redis-data:/data
+
 volumes:
   postgres-data:
+  redis-data:

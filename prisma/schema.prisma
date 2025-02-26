@@ -13,15 +13,134 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client {
+enum CustomerKind {
+  SINGLE
+  GROUP
+}
+
+enum DayOfWeek {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Business {
   id                Int @id @default(autoincrement())
   name              String @db.VarChar(255)
   email             String @unique @db.VarChar(255)
+  password          String @db.VarChar(255)
   support_single    Boolean @default(true)
   support_group     Boolean @default(true)
   capacity_of_group Int @default(4)
   updated_at        DateTime @updatedAt
   created_at        DateTime @default(now())
 
-  @@map("client")
+  @@map("business")
+}
+
+model Booking {
+  id                 Int @id @default(autoincrement())
+  date               DateTime @db.Date
+  start              String @db.VarChar(10)
+  customer_id        Int
+  business_id        Int
+  course_id          Int
+  number_of_guests   Int
+  customer_kind      CustomerKind @default(SINGLE)
+  status             BookingStatus @default(CONFIRMED)
+  updated_at         DateTime @updatedAt
+  created_at         DateTime @default(now())
+
+  @@map("booking")
+}
+
+model BookingCapacity {
+  id            Int @id @default(autoincrement())
+  business_id   Int
+  day           DayOfWeek
+  customer_kind CustomerKind
+  time_0_1      Int @default(0)
+  time_1_2      Int @default(0)
+  time_2_3      Int @default(0)
+  time_3_4      Int @default(0)
+  time_4_5      Int @default(0)
+  time_5_6      Int @default(0)
+  time_6_7      Int @default(0)
+  time_7_8      Int @default(0)
+  time_8_9      Int @default(0)
+  time_9_10     Int @default(0)
+  time_10_11    Int @default(0)
+  time_11_12    Int @default(2)
+  time_12_13    Int @default(2)
+  time_13_14    Int @default(2)
+  time_14_15    Int @default(2)
+  time_15_16    Int @default(0)
+  time_16_17    Int @default(0)
+  time_17_18    Int @default(2)
+  time_18_19    Int @default(2)
+  time_19_20    Int @default(2)
+  time_20_21    Int @default(2)
+  time_21_22    Int @default(0)
+  time_22_23    Int @default(0)
+  time_23_24    Int @default(0)
+  updated_at    DateTime @updatedAt
+  created_at    DateTime @default(now())
+
+  @@unique(fields: [business_id, day, customer_kind])
+  @@map("booking_capacity")
+}
+
+model Course {
+  id            Int @id @default(autoincrement())
+  name          String @db.VarChar(255)
+  time_duration Int
+  business_id   Int
+  updated_at    DateTime @updatedAt
+  created_at    DateTime @default(now())
+
+  @@map("course")
+}
+
+model Customer {
+  id         Int @id @default(autoincrement())
+  name       String @db.VarChar(255)
+  email      String @unique @db.VarChar(255)
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("customer")
+}
+
+model MailQue {
+  id         Int @id @default(autoincrement())
+  to         String @db.VarChar(255)
+  from       String @db.VarChar(255)
+  subject    String @db.VarChar(255)
+  body       String @db.Text
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("mail_que")
+}
+
+model MailLog {
+  id         Int @id @default(autoincrement())
+  to         String @db.VarChar(255)
+  from       String @db.VarChar(255)
+  subject    String @db.VarChar(255)
+  body       String @db.Text
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("mail_log")
 }

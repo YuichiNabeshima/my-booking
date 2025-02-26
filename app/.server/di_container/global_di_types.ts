@@ -1,14 +1,15 @@
 export const GLOBAL_DI_TYPES = {
   Logger: Symbol.for('Logger'),
   TransactionManager: Symbol.for('TransactionManager'),
+  SessionStorageService: Symbol.for('SessionStorageService'),
+  AuthRedirectService: Symbol.for('AuthRedirectService'),
 
-  BookingCapacityRepository: Symbol.for('BookingCapacityRepository'),
+  // Repositories
   BookingRepository: Symbol.for('BookingRepository'),
-  ClientPictureRepository: Symbol.for('ClientPictureRepository'),
-  ClientRepository: Symbol.for('ClientRepository'),
+  BookingCapacityRepository: Symbol.for('BookingCapacityRepository'),
+  BusinessRepository: Symbol.for('BusinessRepository'),
   CourseRepository: Symbol.for('CourseRepository'),
+  CustomerRepository: Symbol.for('CustomerRepository'),
   MailLogRepository: Symbol.for('MailLogRepository'),
   MailQueRepository: Symbol.for('MailQueRepository'),
-  TemporaryUserRepository: Symbol.for('TemporaryUserRepository'),
-  UserRepository: Symbol.for('UserRepository'),
 }

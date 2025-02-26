@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.dynamic-text-link {
+  @apply text-blue-600 break-words break-all;
+}
