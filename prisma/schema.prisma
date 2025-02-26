@@ -17,7 +17,6 @@ model Client {
   id                Int @id @default(autoincrement())
   name              String @db.VarChar(255)
   email             String @unique @db.VarChar(255)
-  password          String
   support_single    Boolean @default(true)
   support_group     Boolean @default(true)
   capacity_of_group Int @default(4)

@@ -14,7 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~
 import { cn } from "~/lib/utils"
 
 // サンプルデータ - 実際のアプリではAPI/データベースから取得
-const timeSlots = Array.from({ length: 12 }, (_, i) => `${i + 11}:00`)
+const timeSlots = Array.from({ length: 13 }, (_, i) => `${i + 11}:00`)
 const bookings = [
   {
     name: "test test",

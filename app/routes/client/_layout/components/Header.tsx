@@ -13,7 +13,7 @@ export function Header() {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="shrink-0">
-            <span className="sr-only">メニューを開く</span>
+            <span className="sr-only">Open menu</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -34,19 +34,19 @@ export function Header() {
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>メニュー</SheetTitle>
+            <SheetTitle>Menu</SheetTitle>
           </SheetHeader>
           <div className="flex flex-col gap-2 mt-4">
             <Button variant="ghost" className="justify-start" asChild>
-              <Link to="/my-page">
+              <Link to="/client/">
                 <User className="mr-2 h-4 w-4" />
-                マイページ
+                Dashbord
               </Link>
             </Button>
             <Button variant="ghost" className="justify-start" asChild>
               <Link to="/client/settings/">
                 <Settings className="mr-2 h-4 w-4" />
-                設定
+                Settings
               </Link>
             </Button>
             <Form method="post" action="/client/logout/">
@@ -55,7 +55,7 @@ export function Header() {
                 className="justify-start text-red-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                ログアウト
+                Logout
               </Button>
             </Form>
           </div>
