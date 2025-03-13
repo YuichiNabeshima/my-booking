@@ -1,0 +1,5 @@
+export const STATUS = {
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  NO_DIFERRENCE: 'NO_DIFFERENCE',
+} as const;

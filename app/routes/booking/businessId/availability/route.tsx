@@ -1,18 +1,18 @@
 import { AVAILABILITY_PARAMS } from "~/constants/AVAILABLITY_PARAMS";
 import type { Route } from "../index/+types/route";
 import { STATUS } from "~/constants/STATUS";
-import { diContainer } from "./.server/di_container/di_container";
-import type { ILoaderService } from "./.server/interfaces/i_loader_service";
-import { DI_TYPES } from "./.server/di_container/di_types";
+import { diContainer } from "./.server/di_container/DIContainer";
+import type { ILoaderService } from "./.server/interfaces/ILoaderService";
+import { DI_TYPES } from "./.server/di_container/DI_TYPES";
 import { isCustomerKind } from "~/utils/guards/isCustomerKind";
 import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
-import type { GetLoaderDataDTO } from "./.server/dtos/loader_service_dto";
+import type { LoaderServiceResultDTO } from "./.server/dtos/LoaderServiceDTO";
 
 const IS_FAILED = {
   status: STATUS.FAILED,
 };
 
-export type Availability = GetLoaderDataDTO;
+export type Availability = LoaderServiceResultDTO;
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   const { businessId } = params;
@@ -41,7 +41,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 
   try {
-    const data = await loaderService.getLoaderData({
+    const data = await loaderService.execute({
       businessId: businessIdNum ,
       customerKind,
       courseId: courseIdNum,

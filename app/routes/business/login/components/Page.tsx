@@ -8,8 +8,8 @@ import { Label } from "~/components/ui/label"
 import { getFormProps, getInputProps, useForm } from "@conform-to/react"
 import { parseWithZod } from "@conform-to/zod"
 import type { action } from "../route"
-import { schema } from "../config/schema/schema"
-import { LOGIN_FORM } from "../config/const/login_form"
+import { schema } from "../schemas/schema"
+import { FORM_NAME } from "../constants/FORM_NAME"
 import { STATUS } from "~/constants/STATUS"
 
 export function Page() {
@@ -26,8 +26,8 @@ export function Page() {
   });
 
   const globalError = actionResult?.status === STATUS.FAILED;
-  const emailError = field[LOGIN_FORM.EMAIL].errors;
-  const passwordError = field[LOGIN_FORM.PASSWORD].errors;
+  const emailError = field[FORM_NAME.EMAIL].errors;
+  const passwordError = field[FORM_NAME.PASSWORD].errors;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
@@ -49,7 +49,7 @@ export function Page() {
               <Input
                 placeholder="your@email.com"
                 required
-                {...getInputProps(field[LOGIN_FORM.EMAIL], { type: "email" })}
+                {...getInputProps(field[FORM_NAME.EMAIL], { type: "email" })}
               />
               {emailError && <p className="text-sm text-red-500">{emailError}</p>}
             </div>
@@ -58,7 +58,7 @@ export function Page() {
               <Input
                 placeholder="Enter your password"
                 required
-                {...getInputProps(field[LOGIN_FORM.PASSWORD], { type: "password" })}
+                {...getInputProps(field[FORM_NAME.PASSWORD], { type: "password" })}
               />
               {passwordError && <p className="text-sm text-red-500">{passwordError}</p>}
             </div>

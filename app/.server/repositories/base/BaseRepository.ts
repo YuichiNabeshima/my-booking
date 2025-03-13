@@ -18,6 +18,7 @@ type ModelDelegate<
   findUnique: (args: { where: WhereUniqueInput }) => Promise<T | null>;
   findMany: (args?: { where: WhereInput }) => Promise<T[]>;
   create: (args: { data: CreateInput }) => Promise<T>;
+  createMany: (args: { data: CreateInput[] }) => Promise<{count: number}>
   update: (args: { where: WhereUniqueInput; data: UpdateInput }) => Promise<T>;
   delete: (args: { where: WhereUniqueInput }) => Promise<T>;
 };
@@ -55,6 +56,11 @@ export abstract class BaseRepository<
 
   async create(args: CreateInput ) {
     const result = await this.getModel().create({ data: args });
+    return result;
+  }
+
+  async createMany(args: CreateInput[]) {
+    const result = await this.getModel().createMany({ data: args });
     return result;
   }
 

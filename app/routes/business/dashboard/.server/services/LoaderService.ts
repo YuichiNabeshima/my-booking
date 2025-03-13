@@ -1,22 +1,22 @@
 import { inject, injectable } from "inversify";
-import type { ILoaderService } from "../interfaces/ILoaderService";
-import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from "../dtos/LoaderServiceDTO";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
-import { getDatesBetween } from "../../utils/getDatesBetween";
-import type { ICustomerRepository } from "~/.server/repositories/interfaces/ICustomerRepository";
-import type { Booking } from "../../types/Booking";
 import { isTime } from "~/utils/guards/isTime";
 import { CustomerNotFoundError } from "~/.server/custom_errors/repositories/CustomerNotFoundError";
-import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
 import { CourseNotFoundError } from "~/.server/custom_errors/repositories/CourseNotFoundError";
 import { minutesToTimeFormat } from "~/utils/minutesToTimeFormat";
 import { InvalidTimeFormatError } from "~/.server/custom_errors/InvalidTimeFormatError";
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
-import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
 import { BusinessNotFoundError } from "~/.server/custom_errors/repositories/BusinessNotFoundError";
-import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
 import { InvalidAuthError } from "~/.server/custom_errors/InvalidAuthError";
+import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
+import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
+import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
+import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
+import type { ICustomerRepository } from "~/.server/repositories/interfaces/ICustomerRepository";
+import { getDatesBetween } from "../../utils/getDatesBetween";
+import type { Booking } from "../../types/Booking";
+import type { ILoaderService } from "../interfaces/ILoaderService";
+import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from "../dtos/LoaderServiceDTO";
 
 @injectable()
 export class LoaderService implements ILoaderService {
@@ -41,11 +41,11 @@ export class LoaderService implements ILoaderService {
       throw new BusinessNotFoundError('Business not found.');
     }
 
-    const date = dates.length === 2 ? getDatesBetween(dates[0], dates[1]) 
+    const dateRange = dates.length === 2 ? getDatesBetween(dates[0], dates[1]) 
                 : dates.length === 1 ? dates
                 : [new Date()];
 
-    const bookingList = await this.bookingRepository.fetchAll({ business_id: business.id, date: { in: dates } });
+    const bookingList = await this.bookingRepository.fetchAll({ business_id: business.id, date: { in: dateRange } });
 
     const bookingsPromise = bookingList.map(async (booking): Promise<Booking> => {
       const customer = await this.customerRepository.fetch({ id: booking.customer_id });
@@ -81,7 +81,28 @@ export class LoaderService implements ILoaderService {
 
     const bookings = await Promise.all(bookingsPromise);
 
+    const numberOfBookings = bookings.length;
+
+    const totalGuests = bookings.reduce((prev, current) => {
+      return prev + current.numberOfguests;
+    }, 0);
+
+    const totalBarSheets = bookings.reduce((prev, current) => {
+      return current.customerKind === 'Bar Sheet' ? prev + 1 : prev;
+    }, 0);
+
+    const totalTableSheets = bookings.reduce((prev, current) => {
+      return current.customerKind === 'Table Sheet' ? prev + 1 : prev;
+    }, 0);
+
     return {
+      businessName: business.name,
+      stats: {
+        numberOfBookings,
+        totalGuests,
+        totalBarSheets,
+        totalTableSheets,
+      },
       bookings: bookings,
     };
   }

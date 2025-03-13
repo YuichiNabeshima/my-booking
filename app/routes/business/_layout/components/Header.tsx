@@ -44,7 +44,7 @@ export function Header() {
               </Link>
             </Button>
             <Button variant="ghost" className="justify-start" asChild>
-              <Link to="/business/settings/">
+              <Link to="/business/settings/basic-info">
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </Link>

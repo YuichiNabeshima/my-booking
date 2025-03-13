@@ -5,7 +5,7 @@ import { diContainer } from "./.server/di_container/DIContainer";
 import type { IActionService } from "./.server/interfaces/IActionService";
 import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
 import { parseWithZod } from "@conform-to/zod";
-import { schema } from "./config/schema/schema";
+import { schema } from "./schemas/schema";
 import { STATUS } from "./constants/STATUS";
 import type { IAuthRedirectService } from "~/.server/services/auth/auth_redirect_service/IAuthRedirectService";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";

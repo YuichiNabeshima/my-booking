@@ -1,6 +1,6 @@
 import { redirect } from "react-router";
 import { Page } from "./components/Page";
-import { diContainer } from "./.server/di_container/di_contaner";
+import { diContainer } from "./.server/di_container/DIContainer";
 import type { IAuthRedirectService } from "~/.server/services/auth/auth_redirect_service/IAuthRedirectService";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import type { Route } from "./+types/auth";

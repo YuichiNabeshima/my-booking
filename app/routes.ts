@@ -13,7 +13,12 @@ export default [
 
     route("business", "routes/business/_layout/layout.tsx", [
       route("dashboard", "routes/business/dashboard/route.tsx"),
-      route("settings", "routes/business/settings/route.tsx"),
+
+      route("settings", "routes/business/settings/layout.tsx", [
+        route("basic-info", "routes/business/settings/basic_info/route.tsx"),
+        route("course-selection", "routes/business/settings/course_selection/route.tsx"),
+        route("seat-settings", "routes/business/settings/seat_settings/route.tsx"),
+      ]),
     ]),
   ]),
 

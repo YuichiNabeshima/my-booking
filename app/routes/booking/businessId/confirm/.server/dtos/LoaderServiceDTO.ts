@@ -1,5 +1,3 @@
-import type { CustomerKind } from "~/types/CustomerKind";
-
 export interface LoaderServiceArgsDTO {
   businessId: number;
   token: string;

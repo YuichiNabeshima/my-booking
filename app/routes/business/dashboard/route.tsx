@@ -1,3 +1,4 @@
+import { redirect } from "react-router";
 import type { Route } from "./+types/route";
 import type { LoaderResultDTO } from "./.server/dtos/LoaderResultDTO";
 import { Page } from "./components/Page";
@@ -6,7 +7,6 @@ import { STATUS } from "./constants/STATUS";
 import { DI_TYPES } from "./.server/di_container/DI_TYPES";
 import type { ILoaderService } from "./.server/interfaces/ILoaderService";
 import { isValidDatesArray } from "./utils/guards/isValidDatesArray";
-import { redirect } from "react-router";
 
 export async function loader({ request }: Route.LoaderArgs): Promise<LoaderResultDTO> {
   const url = new URL(request.url);
@@ -26,10 +26,12 @@ export async function loader({ request }: Route.LoaderArgs): Promise<LoaderResul
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 
   try {
-    const { bookings } = await loaderService.execute({ cookie, dates });
+    const { businessName, bookings, stats } = await loaderService.execute({ cookie, dates });
 
     return {
       status: STATUS.SUCCESS,
+      businessName, 
+      stats,
       bookings,
     };
 
