@@ -121,6 +121,17 @@ model Customer {
   @@map("customer")
 }
 
+model BusinessPicture {
+  id          Int @id @default(autoincrement())
+  business_id Int
+  key         String @db.VarChar(255)
+  caption     String @db.VarChar(255)
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
+
+  @@map("business_picture")
+}
+
 model MailQue {
   id         Int @id @default(autoincrement())
   to         String @db.VarChar(255)

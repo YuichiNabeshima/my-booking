@@ -18,6 +18,7 @@ export default [
         route("basic-info", "routes/business/settings/basic_info/route.tsx"),
         route("course-selection", "routes/business/settings/course_selection/route.tsx"),
         route("seat-settings", "routes/business/settings/seat_settings/route.tsx"),
+        route("gallery", "routes/business/settings/gallery/route.tsx"),
       ]),
     ]),
   ]),

@@ -22,10 +22,11 @@ import { ConfirmModal } from "./confirmModal/ConfirmModal";
 import { FinishModal } from "./finishModal/FinishModal";
 import type { CustomerKind } from "~/types/CustomerKind";
 import { STATUS } from "../constants/STATUS";
-import type { LoaderResultDTO } from "../.server/dtos/LoaderResultDTO";
+import type { LoaderDTO } from "../.server/dtos/LoaderDTO";
+import { BusinessInfo } from "./business_info/BusinessInfo";
 
 export function Page() {
-  const data = useLoaderData<LoaderResultDTO>();
+  const data = useLoaderData<LoaderDTO>();
   const result = useActionData<typeof action>();
 
   if (data.status === STATUS.FAILED) {
@@ -65,115 +66,123 @@ export function Page() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-50 to-zinc-100/50 p-4 md:p-8">
-      <Card className="mx-auto max-w-3xl">
+
+      <BusinessInfo />
+
+      <Card className="mx-auto max-w-6xl">
         <CardHeader className="text-center border-b">
           <CardTitle className="text-3xl font-bold tracking-tight">Fat Burger Reservation</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <Form method="post" action="./" className="space-y-8" {...getFormProps(form)}>
-            {/* Guest Count */}
-            <div className="space-y-2">
-              <Label htmlFor="guests" className="flex items-center gap-2 text-base">
-                <Users className="w-4 h-4" />
-                Number of Guests
-              </Label>
-              <Select
-                onValueChange={(value) => {
-                  setnumberOfGuests(Number(value))
-                }}
-                {...getSelectProps(field[FORM_NAME.NUMBER_OF_GUESTS])} defaultValue="1"
-              >
-                <SelectTrigger id="guests" className="w-full sm:w-[180px]">
-                  <SelectValue placeholder="Select guests" />
-                </SelectTrigger>
-                <SelectContent>
-                  {[1, 2, 3, 4].map((num) => (
-                    <SelectItem key={num} value={num.toString()}>
-                      {num} {num === 1 ? "guest" : "guests"}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
 
-            {/* Seating Preference */}
-            <div className="space-y-2">
-              <Label className="flex items-center gap-2 text-base">
-                <Utensils className="w-4 h-4" />
-                Seating Preference
-              </Label>
-              <RadioGroup
-                defaultValue={customerKind}
-                className="flex gap-4"
-                name={field[FORM_NAME.CUSTOMER_KIND].name}
-                onValueChange={(value: CustomerKind) => {
-                  setCustomerKind(value)
-                }}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value={CUSTOMER_KIND.SINGLE} id="bar" />
-                  <Label htmlFor="bar">Bar Seat</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value={CUSTOMER_KIND.GROUP} id="table" />
-                  <Label htmlFor="table">Table Seat</Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            {/* Course Selection */}
-            <div className="space-y-2">
-              <Label htmlFor="course" className="flex items-center gap-2 text-base">
-                <Clock className="w-4 h-4" />
-                Course Selection
-              </Label>
-              <div className="grid gap-4">
-                <Select
-                  value={selectedCourse}
-                  onValueChange={(value) => {
-                    setSelectedCourse(value)
-                    setSelectedTime(undefined) // Reset selected time when changing course
-                  }}
-                  name={field[FORM_NAME.COURSE].name}
-                >
-                  <SelectTrigger id="course" className="w-full sm:w-[280px]">
-                    <SelectValue placeholder="Select course" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem key="default" value="default">
-                      Please select a course.
-                    </SelectItem>
-                    {Object.entries(courses).map((course) => (
-                      <SelectItem key={course[0]} value={course[0]}>
-                        {course[1].name} ({course[1].timeDuration} min)
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {selectedTime && (
-                  <div className="flex items-center gap-2 text-sm">
-                    <Badge variant="outline" className={cn("px-3 py-1", courses[selectedCourse].color)}>
-                      {selectedTime} - {getEndTime(selectedTime, courses[selectedCourse].timeDuration)}
-                      <span className="ml-2 text-muted-foreground">({courses[selectedCourse].timeDuration} min)</span>
-                    </Badge>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Date & Time Selection */}
             <div className="grid gap-8 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label className="text-base">Select Date</Label>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className="border rounded-md"
-                  disabled={(date) => date < new Date()}
-                  name={field[FORM_NAME.DATE].name}
-                />
+              <div className="space-y-8">
+
+                {/* Guest Count */}
+                <div className="space-y-2">
+                  <Label htmlFor="guests" className="flex items-center gap-2 text-base">
+                    <Users className="w-4 h-4" />
+                    Number of Guests
+                  </Label>
+                  <Select
+                    onValueChange={(value) => {
+                      setnumberOfGuests(Number(value))
+                    }}
+                    {...getSelectProps(field[FORM_NAME.NUMBER_OF_GUESTS])} defaultValue="1"
+                  >
+                    <SelectTrigger id="guests" className="w-full sm:w-[180px]">
+                      <SelectValue placeholder="Select guests" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[1, 2, 3, 4].map((num) => (
+                        <SelectItem key={num} value={num.toString()}>
+                          {num} {num === 1 ? "guest" : "guests"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Seating Preference */}
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2 text-base">
+                    <Utensils className="w-4 h-4" />
+                    Seating Preference
+                  </Label>
+                  <RadioGroup
+                    defaultValue={customerKind}
+                    className="flex gap-4"
+                    name={field[FORM_NAME.CUSTOMER_KIND].name}
+                    onValueChange={(value: CustomerKind) => {
+                      setCustomerKind(value)
+                    }}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value={CUSTOMER_KIND.SINGLE} id="bar" />
+                      <Label htmlFor="bar">Bar Seat</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value={CUSTOMER_KIND.GROUP} id="table" />
+                      <Label htmlFor="table">Table Seat</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
+                {/* Course Selection */}
+                <div className="space-y-2">
+                  <Label htmlFor="course" className="flex items-center gap-2 text-base">
+                    <Clock className="w-4 h-4" />
+                    Course Selection
+                  </Label>
+                  <div className="grid gap-4">
+                    <Select
+                      value={selectedCourse}
+                      onValueChange={(value) => {
+                        setSelectedCourse(value)
+                        setSelectedTime(undefined) // Reset selected time when changing course
+                      }}
+                      name={field[FORM_NAME.COURSE].name}
+                    >
+                      <SelectTrigger id="course" className="w-full sm:w-[280px]">
+                        <SelectValue placeholder="Select course" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem key="default" value="default">
+                          Please select a course.
+                        </SelectItem>
+                        {Object.entries(courses).map((course) => (
+                          <SelectItem key={course[0]} value={course[0]}>
+                            {course[1].name} ({course[1].timeDuration} min)
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {selectedTime && (
+                      <div className="flex items-center gap-2 text-sm">
+                        <Badge variant="outline" className={cn("px-3 py-1", courses[selectedCourse].color)}>
+                          {selectedTime} - {getEndTime(selectedTime, courses[selectedCourse].timeDuration)}
+                          <span className="ml-2 text-muted-foreground">({courses[selectedCourse].timeDuration} min)</span>
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Date & Time Selection */}
+                <div className="space-y-2">
+                  <Label className="text-base">Select Date</Label>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="border rounded-md"
+                    disabled={(date) => date < new Date()}
+                    name={field[FORM_NAME.DATE].name}
+                  />
+                </div>
+
               </div>
 
               <div className="space-y-2">

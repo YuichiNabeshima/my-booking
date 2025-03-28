@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { PrismaClient } from '@prisma/client';
 import { injectable } from 'inversify';
-import { prisma } from '~/.server/core/prisma/client';
+import { prisma } from '~/lib/prisma/client';
 import type { ITransactionManager } from '~/.server/interfaces/i_transaction_manager';
 
 @injectable()

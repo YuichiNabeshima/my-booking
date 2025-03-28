@@ -24,6 +24,14 @@ import type { IMailLogRepository } from "../repositories/interfaces/IMailLogRepo
 import { MailLogRepository } from "../repositories/entities/MailLogRepository";
 import type { ICustomerRepository } from "../repositories/interfaces/ICustomerRepository";
 import { CustomerRepository } from "../repositories/entities/CustomerRepository";
+import type { IBusinessPictureRepository } from "../repositories/interfaces/IBusinessPictureRepository";
+import { BusinessPictureRepository } from "../repositories/entities/BusinessPictureRepository";
+import type { IImageUploaderService } from "../interfaces/IImageUploadService";
+import { ImageUploaderService } from "../services/image_handler/ImageUploaderService";
+import type { IImageGetService } from "../interfaces/IImageGetService";
+import { ImageGetService } from "../services/image_handler/ImageGetService";
+import type { IImageDeleteService } from "../interfaces/IImageDeleteService";
+import { ImageDeleteService } from "../services/image_handler/ImageDeleteService";
 
 export class BaseDIContainer {
   constructor(
@@ -33,7 +41,11 @@ export class BaseDIContainer {
     this.container.bind<ITransactionManager>(GLOBAL_DI_TYPES.TransactionManager).to(TransactionManager);
     this.container.bind<ISessionStorageService>(GLOBAL_DI_TYPES.SessionStorageService).to(SessionStorageService);
     this.container.bind<IAuthRedirectService>(GLOBAL_DI_TYPES.AuthRedirectService).to(AuthRedirectService);
+    this.container.bind<IImageUploaderService>(GLOBAL_DI_TYPES.ImageUploaderService).to(ImageUploaderService);
+    this.container.bind<IImageGetService>(GLOBAL_DI_TYPES.ImageGetService).to(ImageGetService);
+    this.container.bind<IImageDeleteService>(GLOBAL_DI_TYPES.ImageDeleteService).to(ImageDeleteService);
 
+    // Repositories
     this.container.bind<IBusinessRepository>(GLOBAL_DI_TYPES.BusinessRepository).to(BusinessRepository);
     this.container.bind<IBookingRepository>(GLOBAL_DI_TYPES.BookingRepository).to(BookingRepository);
     this.container.bind<IBookingCapacityRepository>(GLOBAL_DI_TYPES.BookingCapacityRepository).to(BookingCapacityRepository);
@@ -41,6 +53,7 @@ export class BaseDIContainer {
     this.container.bind<ICustomerRepository>(GLOBAL_DI_TYPES.CustomerRepository).to(CustomerRepository);
     this.container.bind<IMailQueRepository>(GLOBAL_DI_TYPES.MailQueRepository).to(MailQueRepository);
     this.container.bind<IMailLogRepository>(GLOBAL_DI_TYPES.MailLogRepository).to(MailLogRepository);
+    this.container.bind<IBusinessPictureRepository>(GLOBAL_DI_TYPES.BusinessPictureRepository).to(BusinessPictureRepository);
   }
 
   public getContainer() {

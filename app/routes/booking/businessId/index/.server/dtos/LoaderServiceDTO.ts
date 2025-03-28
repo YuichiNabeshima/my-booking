@@ -1,3 +1,5 @@
+import type { BusinessGallery } from "../../types/BusinessGallery";
+
 export interface LoaderServiceArgsDTO {
   businessId: number;
 }
@@ -11,5 +13,6 @@ export interface CourseFromLoader {
 }
 
 export interface LoaderServiceResultDTO {
-  courses: CourseFromLoader,
+  courses: CourseFromLoader;
+  images: BusinessGallery;
 }

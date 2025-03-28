@@ -4,11 +4,15 @@ import { CourseNotFoundError } from "~/.server/custom_errors/repositories/Course
 import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
 import type { ILoaderService } from "../interfaces/ILoaderService";
 import type { CourseFromLoader, LoaderServiceArgsDTO, LoaderServiceResultDTO } from "../dtos/LoaderServiceDTO";
+import type { IBusinessPictureRepository } from "~/.server/repositories/interfaces/IBusinessPictureRepository";
+import type { IImageGetService } from "~/.server/interfaces/IImageGetService";
 
 @injectable()
 export class LoaderService implements ILoaderService {
   constructor(
     @inject(GLOBAL_DI_TYPES.CourseRepository) private courseRepository: ICourseRepository,
+    @inject(GLOBAL_DI_TYPES.BusinessPictureRepository) private businessPictureRepository: IBusinessPictureRepository,
+    @inject(GLOBAL_DI_TYPES.ImageGetService) private imageGetService: IImageGetService,
   ){}
 
   async execute({ businessId }: LoaderServiceArgsDTO): Promise<LoaderServiceResultDTO> {
@@ -29,8 +33,17 @@ export class LoaderService implements ILoaderService {
       return acc;
     }, {} as CourseFromLoader);
 
+    const images = (await this.businessPictureRepository.fetchAll({ business_id: businessId })).map(p => {
+      const url = this.imageGetService.getImageUrl(p.key);
+      return {
+        url,
+        caption: p.caption,
+      };
+    });
+
     return {
       courses: coursesResult,
+      images,
     };
   }
 }

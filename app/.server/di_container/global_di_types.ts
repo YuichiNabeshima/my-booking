@@ -3,6 +3,9 @@ export const GLOBAL_DI_TYPES = {
   TransactionManager: Symbol.for('TransactionManager'),
   SessionStorageService: Symbol.for('SessionStorageService'),
   AuthRedirectService: Symbol.for('AuthRedirectService'),
+  ImageUploaderService: Symbol.for('ImageUploaderService'),
+  ImageGetService: Symbol.for('ImageGetService'),
+  ImageDeleteService: Symbol.for('ImageDeleteService'),
 
   // Repositories
   BookingRepository: Symbol.for('BookingRepository'),
@@ -12,4 +15,5 @@ export const GLOBAL_DI_TYPES = {
   CustomerRepository: Symbol.for('CustomerRepository'),
   MailLogRepository: Symbol.for('MailLogRepository'),
   MailQueRepository: Symbol.for('MailQueRepository'),
+  BusinessPictureRepository: Symbol.for('BusinessPictureRepository'),
 }

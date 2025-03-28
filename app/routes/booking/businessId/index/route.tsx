@@ -19,23 +19,24 @@ import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Booking detail" },
-    { name: "description", content: "Welcome to React Router!" },
+    { name: "description", content: "" },
   ];
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { businessId } = params;
 
-  diContainer.bindMock();
+  // diContainer.bindMock();
   const container = diContainer.getContainer();
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 
   try {
-    const { courses } = await loaderService.execute({ businessId: Number(businessId) });
+    const { courses, images } = await loaderService.execute({ businessId: Number(businessId) });
 
     return {
       status: STATUS.SUCCESS,
       courses,
+      images,
     };
   } catch (error) {
     if (error instanceof CustomBaseError || error instanceof Error) {

@@ -9,13 +9,14 @@ export default function Layout() {
     { label: "Basic Information", to: "basic-info" },
     { label: "Course Selection", to: "course-selection" },
     { label: "Seat Settings", to: "seat-settings" },
+    { label: "Gallery", to: "gallery" },
   ];
 
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 p-6">
         <div className="max-w-[1200px] mx-auto space-y-6">
-          <div className="flex w-full rounded-lg border p-1 bg-muted/20">
+          <div className="flex flex-wrap w-full rounded-lg p-1 bg-muted/20">
             {navItems.map((item) => {
               const isActive = lastPath === item.to
               return (
@@ -23,7 +24,7 @@ export default function Layout() {
                   key={item.to}
                   to={item.to}
                   className={cn(
-                    "flex-1 flex justify-center py-2 px-3 text-sm font-medium rounded-md transition-all",
+                    "basis-1/3 flex justify-center py-2 px-3 border text-sm font-medium rounded-md transition-all",
                     isActive
                       ? "bg-primary text-white shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
