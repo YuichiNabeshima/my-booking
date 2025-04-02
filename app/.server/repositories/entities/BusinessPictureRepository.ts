@@ -9,12 +9,14 @@ import type { IBusinessPictureRepository } from "../interfaces/IBusinessPictureR
 
 @injectable()
 export class BusinessPictureRepository extends BaseRepository<
-  BusinessPictureRepositoryDTO,
-  Prisma.BusinessPictureWhereUniqueInput,
-  Prisma.BusinessPictureWhereInput,
-  Prisma.BusinessPictureCreateInput,
-  Prisma.BusinessPictureUpdateInput,
-  Prisma.BusinessPictureDelegate
+  {
+    TModel: BusinessPictureRepositoryDTO;
+    WhereUniqueInput: Prisma.BusinessPictureWhereUniqueInput;
+    WhereInput: Prisma.BusinessPictureWhereInput;
+    CreateManyInput: Prisma.BusinessPictureCreateManyInput;
+    UpdateInput: Prisma.BusinessPictureUpdateInput;
+    TModelDelegate: Prisma.BusinessPictureDelegate;
+  }
 > implements IBusinessPictureRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.BusinessPictureDelegate>>,

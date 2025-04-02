@@ -9,12 +9,14 @@ import type { IBookingRepository } from "../interfaces/IBookingRepository";
 
 @injectable()
 export class BookingRepository extends BaseRepository<
-  BookingRepositoryDTO,
-  Prisma.BookingWhereUniqueInput,
-  Prisma.BookingWhereInput,
-  Prisma.BookingCreateInput,
-  Prisma.BookingUpdateInput,
-  Prisma.BookingDelegate
+  {
+    TModel: BookingRepositoryDTO;
+    WhereUniqueInput: Prisma.BookingWhereUniqueInput;
+    WhereInput: Prisma.BookingWhereInput;
+    CreateManyInput: Prisma.BookingCreateManyInput;
+    UpdateInput: Prisma.BookingUpdateInput;
+    TModelDelegate: Prisma.BookingDelegate;
+  }
 > implements IBookingRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.BookingDelegate>>,

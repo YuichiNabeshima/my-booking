@@ -34,6 +34,25 @@ enum BookingStatus {
   COMPLETED
 }
 
+enum Cuisine {
+  CANADIAN
+  ITALIAN
+  ASIAN
+  SEAFOOD
+  MEXICAN
+  VEGAN
+}
+
+enum Neighborhood {
+  DOWNTOWN
+  GASTOWN
+  YALETOWN
+  WEST_END
+  KITSILANO
+  MAIN_STREET
+  CHINATOWN
+}
+
 model Business {
   id                Int @id @default(autoincrement())
   name              String @db.VarChar(255)
@@ -42,6 +61,10 @@ model Business {
   support_single    Boolean @default(true)
   support_group     Boolean @default(true)
   capacity_of_group Int @default(4)
+  cuisine_kind      Cuisine?
+  price             Int?
+  neighborhood      Neighborhood?
+  business_tag      BusinessTag[]
   updated_at        DateTime @updatedAt
   created_at        DateTime @default(now())
 
@@ -122,14 +145,27 @@ model Customer {
 }
 
 model BusinessPicture {
+  id           Int @id @default(autoincrement())
+  business_id  Int
+  key          String @db.VarChar(255)
+  caption      String @db.VarChar(255)
+  is_top_slide Boolean @default(false)
+  is_gallery   Boolean @default(true)
+  updated_at   DateTime @updatedAt
+  created_at   DateTime @default(now())
+
+  @@map("business_picture")
+}
+
+model BusinessTag {
   id          Int @id @default(autoincrement())
   business_id Int
-  key         String @db.VarChar(255)
-  caption     String @db.VarChar(255)
+  business    Business @relation(fields: [business_id], references: [id])
+  name        String @db.VarChar(255)
   updated_at  DateTime @updatedAt
   created_at  DateTime @default(now())
 
-  @@map("business_picture")
+  @@map("business_tag")
 }
 
 model MailQue {

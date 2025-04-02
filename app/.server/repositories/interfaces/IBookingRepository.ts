@@ -4,10 +4,14 @@ import type { BookingRepositoryDTO } from '../dtos/BookingRepositoryDTO';
 
 export interface IBookingRepository<
   DTO = BookingRepositoryDTO,
+  WhereUniqueInput = Prisma.BookingWhereUniqueInput,
+  WhereInput = Prisma.BookingWhereInput,
+  CreateManyInput = Prisma.BookingCreateManyInput,
+  UpdateInput = Prisma.BookingUpdateInput,
 > extends IBaseRepository<
   DTO,
-  Prisma.BookingWhereUniqueInput,
-  Prisma.BookingWhereInput,
-  Prisma.BookingCreateInput,
-  Prisma.BookingUpdateInput
+  WhereUniqueInput,
+  WhereInput,
+  CreateManyInput,
+  UpdateInput
 > {}

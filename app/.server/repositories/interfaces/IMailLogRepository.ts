@@ -4,10 +4,14 @@ import type { MailLogRepositoryDTO } from '../dtos/MailLogRepositoryDTO';
 
 export interface IMailLogRepository<
   DTO = MailLogRepositoryDTO,
+  WhereUniqueInput = Prisma.MailLogWhereUniqueInput,
+  WhereInput = Prisma.MailLogWhereInput,
+  CreateManyInput = Prisma.MailLogCreateManyInput,
+  UpdateInput = Prisma.MailLogUpdateInput,
 > extends IBaseRepository<
   DTO,
-  Prisma.MailLogWhereUniqueInput,
-  Prisma.MailLogWhereInput,
-  Prisma.MailLogCreateInput,
-  Prisma.MailLogUpdateInput
+  WhereUniqueInput,
+  WhereInput,
+  CreateManyInput,
+  UpdateInput
 > {}

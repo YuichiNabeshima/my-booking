@@ -9,12 +9,14 @@ import type { IMailQueRepository } from "../interfaces/IMailQueRepository";
 
 @injectable()
 export class MailQueRepository extends BaseRepository<
-  MailQueRepositoryDTO,
-  Prisma.MailQueWhereUniqueInput,
-  Prisma.MailQueWhereInput,
-  Prisma.MailQueCreateInput,
-  Prisma.MailQueUpdateInput,
-  Prisma.MailQueDelegate
+  {
+    TModel: MailQueRepositoryDTO;
+    WhereUniqueInput: Prisma.MailQueWhereUniqueInput;
+    WhereInput: Prisma.MailQueWhereInput;
+    CreateManyInput: Prisma.MailQueCreateManyInput;
+    UpdateInput: Prisma.MailQueUpdateInput;
+    TModelDelegate: Prisma.MailQueDelegate;
+  }
 > implements IMailQueRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.MailQueDelegate>>,

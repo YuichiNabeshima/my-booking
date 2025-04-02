@@ -9,12 +9,14 @@ import type { ICustomerRepository } from "../interfaces/ICustomerRepository";
 
 @injectable()
 export class CustomerRepository extends BaseRepository<
-  CustomerRepositoryDTO,
-  Prisma.CustomerWhereUniqueInput,
-  Prisma.CustomerWhereInput,
-  Prisma.CustomerCreateInput,
-  Prisma.CustomerUpdateInput,
-  Prisma.CustomerDelegate
+  {
+    TModel: CustomerRepositoryDTO;
+    WhereUniqueInput: Prisma.CustomerWhereUniqueInput;
+    WhereInput: Prisma.CustomerWhereInput;
+    CreateManyInput: Prisma.CustomerCreateManyInput;
+    UpdateInput: Prisma.CustomerUpdateInput;
+    TModelDelegate: Prisma.CustomerDelegate;
+  }
 > implements ICustomerRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.CustomerDelegate>>,

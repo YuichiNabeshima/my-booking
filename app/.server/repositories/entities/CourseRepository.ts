@@ -9,12 +9,14 @@ import type { ICourseRepository } from "../interfaces/ICourseRepository";
 
 @injectable()
 export class CourseRepository extends BaseRepository<
-  CourseRepositoryDTO,
-  Prisma.CourseWhereUniqueInput,
-  Prisma.CourseWhereInput,
-  Prisma.CourseCreateInput,
-  Prisma.CourseUpdateInput,
-  Prisma.CourseDelegate
+  {
+    TModel: CourseRepositoryDTO;
+    WhereUniqueInput: Prisma.CourseWhereUniqueInput;
+    WhereInput: Prisma.CourseWhereInput;
+    CreateManyInput: Prisma.CourseCreateManyInput;
+    UpdateInput: Prisma.CourseUpdateInput;
+    TModelDelegate: Prisma.CourseDelegate;
+  }
 > implements ICourseRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.CourseDelegate>>,

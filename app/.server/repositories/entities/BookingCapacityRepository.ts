@@ -9,12 +9,14 @@ import type { IBookingCapacityRepository } from "../interfaces/IBookingCapacityR
 
 @injectable()
 export class BookingCapacityRepository extends BaseRepository<
-  BookingCapacityRepositoryDTO,
-  Prisma.BookingCapacityWhereUniqueInput,
-  Prisma.BookingCapacityWhereInput,
-  Prisma.BookingCapacityCreateInput,
-  Prisma.BookingCapacityUpdateInput,
-  Prisma.BookingCapacityDelegate
+  {
+    TModel: BookingCapacityRepositoryDTO;
+    WhereUniqueInput: Prisma.BookingCapacityWhereUniqueInput;
+    WhereInput: Prisma.BookingCapacityWhereInput;
+    CreateManyInput: Prisma.BookingCapacityCreateManyInput;
+    UpdateInput: Prisma.BookingCapacityUpdateInput;
+    TModelDelegate: Prisma.BookingCapacityDelegate;
+  }
 > implements IBookingCapacityRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.BookingCapacityDelegate>>,

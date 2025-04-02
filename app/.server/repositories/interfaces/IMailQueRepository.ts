@@ -4,10 +4,14 @@ import type { MailQueRepositoryDTO } from '../dtos/MailQueRepositoryDTO';
 
 export interface IMailQueRepository<
   DTO = MailQueRepositoryDTO,
+  WhereUniqueInput = Prisma.MailQueWhereUniqueInput,
+  WhereInput = Prisma.MailQueWhereInput,
+  CreateManyInput = Prisma.MailQueCreateManyInput,
+  UpdateInput = Prisma.MailQueUpdateInput,
 > extends IBaseRepository<
   DTO,
-  Prisma.MailQueWhereUniqueInput,
-  Prisma.MailQueWhereInput,
-  Prisma.MailQueCreateInput,
-  Prisma.MailQueUpdateInput
+  WhereUniqueInput,
+  WhereInput,
+  CreateManyInput,
+  UpdateInput
 > {}

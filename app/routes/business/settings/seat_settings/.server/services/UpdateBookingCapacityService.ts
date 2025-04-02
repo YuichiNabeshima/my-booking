@@ -71,7 +71,7 @@ export class UpdateBookingCapacityService implements IUpdateBookingCapacityServi
     // Do transaction
     await this.transactionManager.execute(async () => {
       if (newEntries.length > 0) {
-        await this.bookingCapacityRepository.createMany(newEntries);
+        await this.bookingCapacityRepository.create(newEntries);
       }
 
       await Promise.all(

@@ -3,14 +3,14 @@ import type { BusinessRepositoryDTO } from "~/.server/repositories/dtos/Business
 import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
 
 export class BusinessRepositoryMock
-  extends BaseRepository<Partial<BusinessRepositoryDTO>>
-  implements IBusinessRepository<Partial<BusinessRepositoryDTO>> {
-    async fetch(args: unknown): Promise<Partial<BusinessRepositoryDTO> | null> {
-      void args;
+  extends BaseRepository<{ TModel: Partial<BusinessRepositoryDTO> } >
+  implements Partial<IBusinessRepository<Partial<BusinessRepositoryDTO>>> {
+  async fetch(args: unknown): Promise<Partial<BusinessRepositoryDTO> | null> {
+    void args;
 
-      return {
-        id: 1,
-        name: 'Sample Store',
-      };
-    }
+    return {
+      id: 1,
+      name: 'Sample Store',
+    };
   }
+}

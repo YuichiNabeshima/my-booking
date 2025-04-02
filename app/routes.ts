@@ -3,6 +3,8 @@ import { type RouteConfig, index, layout, prefix, route } from "@react-router/de
 export default [
   index("routes/home.tsx"),
 
+  route("booking", "routes/booking/index/route.tsx"),
+
   ...prefix("booking/:businessId", [
     index("routes/booking/businessId/index/route.tsx"),
     route("confirm", "routes/booking/businessId/confirm/route.tsx"),

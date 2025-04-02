@@ -6,9 +6,8 @@ export interface IBaseRepository<
   UpdateInput,
 > {
   fetch(args: WhereUniqueInput ): Promise<TModel | null>;
-  fetchAll(args?: WhereInput ): Promise<TModel[]>;
-  create(args: CreateInput ): Promise<TModel>;
-  createMany(args: CreateInput[]): Promise<{count: number}>;
+  fetchAll(args?: WhereInput, take?: number, skip?: number ): Promise<TModel[]>;
+  create(args: CreateInput | CreateInput[] ): Promise<TModel | {count: number}>;
   update(args: { where: WhereUniqueInput; data: UpdateInput }): Promise<TModel>;
   remove(args: WhereUniqueInput ): Promise<TModel>;
 }

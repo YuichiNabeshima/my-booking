@@ -4,10 +4,14 @@ import type { CourseRepositoryDTO } from '../dtos/CourseRepositoryDTO';
 
 export interface ICourseRepository<
   DTO = CourseRepositoryDTO,
+  WhereUniqueInput = Prisma.CourseWhereUniqueInput,
+  WhereInput = Prisma.CourseWhereInput,
+  CreateManyInput = Prisma.CourseCreateManyInput,
+  UpdateInput = Prisma.CourseUpdateInput,
 > extends IBaseRepository<
   DTO,
-  Prisma.CourseWhereUniqueInput,
-  Prisma.CourseWhereInput,
-  Prisma.CourseCreateInput,
-  Prisma.CourseUpdateInput
+  WhereUniqueInput,
+  WhereInput,
+  CreateManyInput,
+  UpdateInput
 > {}

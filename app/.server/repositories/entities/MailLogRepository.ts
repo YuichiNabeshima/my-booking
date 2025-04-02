@@ -9,12 +9,14 @@ import type { IMailLogRepository } from "../interfaces/IMailLogRepository";
 
 @injectable()
 export class MailLogRepository extends BaseRepository<
-  MailLogRepositoryDTO,
-  Prisma.MailLogWhereUniqueInput,
-  Prisma.MailLogWhereInput,
-  Prisma.MailLogCreateInput,
-  Prisma.MailLogUpdateInput,
-  Prisma.MailLogDelegate
+  {
+    TModel: MailLogRepositoryDTO;
+    WhereUniqueInput: Prisma.MailLogWhereUniqueInput;
+    WhereInput: Prisma.MailLogWhereInput;
+    CreateManyInput: Prisma.MailLogCreateManyInput;
+    UpdateInput: Prisma.MailLogUpdateInput;
+    TModelDelegate: Prisma.MailLogDelegate;
+  }
 > implements IMailLogRepository {
   constructor(
     @inject(GLOBAL_DI_TYPES.TransactionManager) transactionManager: ITransactionManager<Record<PascalToCamelCase<Prisma.ModelName>, Prisma.MailLogDelegate>>,

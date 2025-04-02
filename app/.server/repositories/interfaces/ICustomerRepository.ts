@@ -4,10 +4,14 @@ import type { CustomerRepositoryDTO } from '../dtos/CustomerRepositoryDTO';
 
 export interface ICustomerRepository<
   DTO = CustomerRepositoryDTO,
+  WhereUniqueInput = Prisma.CustomerWhereUniqueInput,
+  WhereInput = Prisma.CustomerWhereInput,
+  CreateManyInput = Prisma.CustomerCreateManyInput,
+  UpdateInput = Prisma.CustomerUpdateInput,
 > extends IBaseRepository<
   DTO,
-  Prisma.CustomerWhereUniqueInput,
-  Prisma.CustomerWhereInput,
-  Prisma.CustomerCreateInput,
-  Prisma.CustomerUpdateInput
+  WhereUniqueInput,
+  WhereInput,
+  CreateManyInput,
+  UpdateInput
 > {}
