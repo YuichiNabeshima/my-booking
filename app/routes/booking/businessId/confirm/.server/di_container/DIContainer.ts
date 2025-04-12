@@ -20,7 +20,7 @@ class DIContainer extends BaseDIContainer {
   }
 
   bindMock() {
-    this.container.rebind<IBusinessRepository<Partial<BusinessRepositoryDTO>>>(GLOBAL_DI_TYPES.BusinessRepository).to(BusinessRepositoryMock);
+    this.container.rebind<Partial<IBusinessRepository<Partial<BusinessRepositoryDTO>>>>(GLOBAL_DI_TYPES.BusinessRepository).to(BusinessRepositoryMock);
     this.container.rebind<ICourseRepository<Partial<CourseRepositoryDTO>>>(GLOBAL_DI_TYPES.CourseRepository).to(CourseRepositoryMock);
   }
 }

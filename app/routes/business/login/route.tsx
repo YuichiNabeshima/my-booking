@@ -1,24 +1,24 @@
 import { redirect } from "react-router";
+import { parseWithZod } from "@conform-to/zod";
 import type { Route } from "./+types/route";
+import { CustomBaseError } from "~/.server/core/custom_error/custom_base_error";
+import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import { Page } from "./components/Page";
 import { diContainer } from "./.server/di_container/DIContainer";
-import type { IActionService } from "./.server/interfaces/IActionService";
-import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
-import { parseWithZod } from "@conform-to/zod";
 import { schema } from "./schemas/schema";
 import { STATUS } from "./constants/STATUS";
-import type { IAuthRedirectService } from "~/.server/services/auth/auth_redirect_service/IAuthRedirectService";
-import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import { DI_TYPES } from "./.server/di_container/DI_TYPES";
+import type { IActionService } from "./.server/interfaces/IActionService";
+import type { IAuthStateChecker } from "~/.server/core/auth/IAuthStateChecker";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookie = request.headers.get('cookie');
 
   const container = diContainer.getContainer();
-  const authRedirectService = container.get<IAuthRedirectService>(GLOBAL_DI_TYPES.AuthRedirectService);
+  const authStateChecker = container.get<IAuthStateChecker>(GLOBAL_DI_TYPES.AuthStateChecker);
 
   try {
-    const { status } = await authRedirectService.execute({ cookie });
+    const { status } = await authStateChecker.execute({ cookie });
 
     if (status === STATUS.AUTHENTICATED) {
       return redirect('/business/dashboard/');

@@ -1,6 +1,6 @@
 import type { Time } from "~/types/Time";
 import { isTime } from "./guards/isTime";
-import { InvalidTimeFormatError } from "~/.server/custom_errors/InvalidTimeFormatError";
+import { InvalidTimeFormatError } from "~/.server/core/custom_error/errors/InvalidTimeFormatError";
 
 export function minutesToTimeFormat(minutes: number): Time {
   const hours = Math.floor(minutes / 60);

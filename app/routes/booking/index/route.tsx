@@ -1,9 +1,18 @@
 import type { Route } from "./+types/route";
+import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
+import type { ILogger } from "~/.server/core/logger/ILogger";
 import { Page } from "./components/Page";
 import { QUERY_PARAMS } from "./constants/QUERY_PARAMS";
 import { DIContainer } from "./.server/di_container/DIContainer";
 import { DI_TYPES } from "./.server/di_container/DI_TYPES";
 import type { ILoaderService } from "./.server/interfaces/ILoaderService";
+
+export function meta() {
+  return [
+    { title: `Vancouver Dining - My Reservation` },
+    { name: "description", content: `Vancouver Dining - My Reservation` },
+  ];
+}
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -17,6 +26,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const diContainer = new DIContainer();
   const container = diContainer.getContainer();
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
+  const logger = container.get<ILogger>(GLOBAL_DI_TYPES.Logger);
 
   const params: {
     page: number;
@@ -43,6 +53,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     const data = await loaderService.execute(params);
     return data;
   } catch (error) {
+    logger.error(error as Error);
     return null;
   }
 }

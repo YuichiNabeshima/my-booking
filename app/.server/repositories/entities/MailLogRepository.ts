@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { inject, injectable } from "inversify";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { ITransactionManager } from "~/.server/interfaces/i_transaction_manager";
+import type { ITransactionManager } from "~/.server/core/transaction/ITransactionManager";
 import { BaseRepository } from "../base/BaseRepository";
 import type { PascalToCamelCase } from "../base/BaseRepository";
 import type { MailLogRepositoryDTO } from "../dtos/MailLogRepositoryDTO";

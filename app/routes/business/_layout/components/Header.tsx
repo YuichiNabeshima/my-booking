@@ -1,6 +1,5 @@
 import { Form, Link } from "react-router";
 import { LogOut, Settings, User } from "lucide-react";
-
 import { Button } from "~/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "~/components/ui/sheet"
 
@@ -8,7 +7,7 @@ export function Header() {
   return (
     <div className="flex items-center justify-between border-b px-4">
       <Link to="/" className="flex items-center h-16 font-semibold">
-        My Booking
+        My Reservation
       </Link>
       <Sheet>
         <SheetTrigger asChild>

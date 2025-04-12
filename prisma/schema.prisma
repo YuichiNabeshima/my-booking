@@ -53,20 +53,38 @@ enum Neighborhood {
   CHINATOWN
 }
 
+enum BusinessHoursKind {
+  ALL_DAY
+  MORNING
+  LUNCH
+  DINNER
+  BAR
+}
+
 model Business {
-  id                Int @id @default(autoincrement())
-  name              String @db.VarChar(255)
-  email             String @unique @db.VarChar(255)
-  password          String @db.VarChar(255)
-  support_single    Boolean @default(true)
-  support_group     Boolean @default(true)
-  capacity_of_group Int @default(4)
-  cuisine_kind      Cuisine?
-  price             Int?
-  neighborhood      Neighborhood?
-  business_tag      BusinessTag[]
-  updated_at        DateTime @updatedAt
-  created_at        DateTime @default(now())
+  id                   Int @id @default(autoincrement())
+  name                 String @db.VarChar(255)
+  email                String @unique @db.VarChar(255)
+  password             String @db.VarChar(255)
+  support_single       Boolean @default(true)
+  support_group        Boolean @default(true)
+  capacity_of_group    Int @default(4)
+  cuisine_kind         Cuisine?
+  price_level          Int?
+  neighborhood         Neighborhood?
+  business_tag         BusinessTag[]
+  zip_code             String? @db.VarChar(7)
+  address              String? @db.VarChar(255)
+  tel                  String? @db.VarChar(20)
+  total_seats          Int?
+  payment_method       String? @db.VarChar(255)
+  parking              String? @db.VarChar(255)
+  description          String? @db.Text
+  business_hours       BusinessHours[]
+  business_hours_note  String? @db.Text
+  business_picture     BusinessPicture[]
+  updated_at           DateTime @updatedAt
+  created_at           DateTime @default(now())
 
   @@map("business")
 }
@@ -151,6 +169,7 @@ model BusinessPicture {
   caption      String @db.VarChar(255)
   is_top_slide Boolean @default(false)
   is_gallery   Boolean @default(true)
+  business     Business @relation(fields: [business_id], references: [id])
   updated_at   DateTime @updatedAt
   created_at   DateTime @default(now())
 
@@ -190,4 +209,20 @@ model MailLog {
   created_at DateTime @default(now())
 
   @@map("mail_log")
+}
+
+model BusinessHours {
+  id          Int      @id @default(autoincrement())
+  business_id Int
+  business    Business @relation(fields: [business_id], references: [id])
+  day_of_week DayOfWeek
+  hours_kind  BusinessHoursKind?
+  is_open     Boolean
+  open_time   String? @db.VarChar(10)
+  close_time  String? @db.VarChar(10)
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
+
+  @@unique(fields: [business_id, day_of_week, hours_kind])
+  @@map("business_hours")
 }

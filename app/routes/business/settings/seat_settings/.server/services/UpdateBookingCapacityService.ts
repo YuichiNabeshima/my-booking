@@ -6,7 +6,7 @@ import type { IBookingCapacityRepository } from "~/.server/repositories/interfac
 import type { BookingCapacityRepositoryDTO } from "~/.server/repositories/dtos/BookingCapacityRepositoryDTO";
 import type { Week } from "../../types/BookingLimit";
 import type { TimeSegments } from "../../types/BookingLimit";
-import type { ITransactionManager } from "~/.server/interfaces/i_transaction_manager";
+import type { ITransactionManager } from "~/.server/core/transaction/ITransactionManager";
 import type { UpdateBookingCapacityServiceArgsDTO } from "../dtos/UpdateBookingCapacityServiceDTO";
 import type { IUpdateBookingCapacityService } from "../interfaces/IUpdateBookingCapacityService";
 

@@ -9,7 +9,7 @@ import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import { CourseRepositoryMock } from "../mocks/CourseRepositoryMock";
 import type { CourseRepositoryDTO } from "~/.server/repositories/dtos/CourseRepositoryDTO";
 
-class DIContainer extends BaseDIContainer {
+export class DIContainer extends BaseDIContainer {
   constructor() {
     super();
     this.container.bind<ILoaderService>(DI_TYPES.LoaderService).to(LoaderService);
@@ -20,5 +20,3 @@ class DIContainer extends BaseDIContainer {
     this.container.rebind<ICourseRepository<Partial<CourseRepositoryDTO>>>(GLOBAL_DI_TYPES.CourseRepository).to(CourseRepositoryMock);
   }
 }
-
-export const diContainer = new DIContainer();

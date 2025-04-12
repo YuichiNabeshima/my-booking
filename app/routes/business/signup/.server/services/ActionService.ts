@@ -6,13 +6,13 @@ import { BusinessAlreadyExists } from "../custom_errors/BusinessAlreadyExists";
 import type { HandleActionArgsDTO, HandleActionResultDTO } from "../dtos/ActionServiceDTO";
 import type { IActionService } from "../interfaces/IActionService";
 import { hash } from "@node-rs/bcrypt";
-import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
+import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
 
 @injectable()
 export class ActionService implements IActionService {
   constructor(
     @inject(GLOBAL_DI_TYPES.BusinessRepository) private businessRepository: IBusinessRepository,
-    @inject(GLOBAL_DI_TYPES.SessionStorageService) private sessionStorageService: ISessionStorageService,
+    @inject(GLOBAL_DI_TYPES.SessionStorageManager) private SessionStorageManager: ISessionStorageManager,
   ){}
 
   async handleAction(args: HandleActionArgsDTO): Promise<HandleActionResultDTO> {
@@ -26,11 +26,10 @@ export class ActionService implements IActionService {
 
     const hashedPassword = await hash(password, 10);
 
-    const business = await this.businessRepository.create({ name, email, password: hashedPassword });
+    await this.businessRepository.create({ name, email, password: hashedPassword });
 
-    const session = await this.sessionStorageService.getSession();
-    session.set('id', business.id);
-    const setCookieHeader = await this.sessionStorageService.commitSession(session);
+    const session = await this.SessionStorageManager.getSession();
+    const setCookieHeader = await this.SessionStorageManager.commitSession(session);
 
     return {
       status: STATUS.SUCCESS,

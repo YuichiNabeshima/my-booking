@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import type { CustomerKind } from '~/types/CustomerKind';
+import type { CustomerKind } from '~/types/enums/CustomerKind';
 
 interface CreateTokenArgs {
   numberOfGuests: number;

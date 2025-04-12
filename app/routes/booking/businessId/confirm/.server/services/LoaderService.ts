@@ -6,8 +6,8 @@ import type { CreateTokenPayload } from "../../../index/utils/createToken.server
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
 import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
-import { BusinessNotFoundError } from "~/.server/custom_errors/repositories/BusinessNotFoundError";
-import { CourseNotFoundError } from "~/.server/custom_errors/repositories/CourseNotFoundError";
+import { BusinessNotFoundError } from "~/.server/core/custom_error/errors/repositories/BusinessNotFoundError";
+import { CourseNotFoundError } from "~/.server/core/custom_error/errors/repositories/CourseNotFoundError";
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
 
 @injectable()

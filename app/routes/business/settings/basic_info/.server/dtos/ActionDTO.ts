@@ -13,7 +13,7 @@ export interface IsActionFailed {
 }
 
 export interface IsActionNoDifference {
-  status: typeof STATUS.NO_DIFERRENCE;
+  status: typeof STATUS.NO_DIFFERENCE;
   lastResult: Submission<string>;
 }
 

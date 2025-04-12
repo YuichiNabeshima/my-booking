@@ -9,7 +9,7 @@ import { STATUS } from "./constants/STATUS";
 import type { LoaderDTO } from "./.server/dtos/LoaderDTO";
 import { schema } from "./schemas/schema";
 import type { IActionService } from "./.server/interfaces/IActionService";
-import { CookieNotFoundError } from "~/.server/custom_errors/CookieNotFoundError";
+import { CookieNotFoundError } from "~/.server/core/custom_error/errors/CookieNotFoundError";
 
 export async function loader({ request }: Route.LoaderArgs): Promise<LoaderDTO> {
   const cookie = request.headers.get('cookie');

@@ -3,7 +3,7 @@ import type { CustomerRepositoryDTO } from "~/.server/repositories/dtos/Customer
 import type { ICustomerRepository } from "~/.server/repositories/interfaces/ICustomerRepository";
 
 export class CustomerRepositoryMock
-  extends BaseRepository<Partial<CustomerRepositoryDTO>>
+  extends BaseRepository<{ TModel: Partial<CustomerRepositoryDTO> }>
   implements ICustomerRepository<Partial<CustomerRepositoryDTO>> {
 
   async fetch(args: unknown): Promise<Partial<CustomerRepositoryDTO> | null> {

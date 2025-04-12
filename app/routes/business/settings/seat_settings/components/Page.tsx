@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Form, useActionData, useLoaderData } from "react-router"
+import { useSetAtom } from "jotai"
 import { getFormProps, useForm } from "@conform-to/react"
 import { parseWithZod } from "@conform-to/zod"
 import { Settings, Coffee, Utensils, Save } from "lucide-react"
@@ -7,32 +8,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
 import { SeatTable } from "./seat_table/SeatTable"
 import { Badge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
-import { ToastNotification } from "~/components/ui/toast-notification"
 import { ErrorContent } from "~/components/ui/error-content"
 import { schema } from "../schemas/schema"
 import { Accordion } from "./accordion/Accordion"
-import type { ActionDTO } from "../.server/dtos/ActionDTO"
 import { isActionSuccess } from "../utils/guards/isActionSuccess"
 import { isActionNoDifference } from "../utils/guards/isActionNoDifference"
-import { isActionFailed } from "../utils/guards/isActionFailed"
 import { isLoaderSuccess } from "../utils/guards/isLoaderSuccess"
+import { showToastAtom } from "../../_layout/stores/toast"
+import type { ActionDTO } from "../.server/dtos/ActionDTO"
 import type { LoaderDTO } from "../.server/dtos/LoaderDTO"
 
 export function Page() {
   const result = useActionData<ActionDTO>();
-  const [showInTime, setShowInTime] = useState(false);
-
-  useEffect(() => {
-    setShowInTime(true);
-
-    const timeOut = setTimeout(() => {
-      setShowInTime(false);
-    }, 3000);
-
-    return () => clearTimeout(timeOut);
-  }, [result]);
-
   const data = useLoaderData<LoaderDTO>();
+  const showToast = useSetAtom(showToastAtom)
 
   if (!isLoaderSuccess(data)) {
     return <ErrorContent />;
@@ -50,11 +39,19 @@ export function Page() {
     },
   });
 
+  useEffect(() => {
+    if (result) {
+      const status = isActionSuccess(result) ? 'success' : 
+                      isActionNoDifference(result) ? 'info' : 'error'
+      const message = isActionSuccess(result) ? 'Updated successfully' :
+                      isActionNoDifference(result) ? 'No changes' :
+                      'Failed to update'
+      showToast(status, message)
+    }
+  }, [result, showToast])
+
   return (
     <>
-      {isActionSuccess(result) && showInTime && <ToastNotification type="success" message="Updated!" />}
-      {isActionNoDifference(result) && showInTime && <ToastNotification type="info" message="No difference!" />}
-      {isActionFailed(result) && showInTime && <ToastNotification type="error" message="Failed to update!" />}
       <Card className="shadow-lg border-slate-200 dark:border-slate-800">
         <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border-b">
           <div className="flex items-center justify-between">

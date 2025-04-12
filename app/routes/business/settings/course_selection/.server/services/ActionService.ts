@@ -2,21 +2,21 @@ import { inject, injectable } from "inversify";
 import type { IActionService } from "../interfaces/IActionService";
 import type { ActionServiceArgsDTO, ActionServiceResultDTO } from "../dtos/ActionServiceDTO";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
-import { InvalidAuthError } from "~/.server/custom_errors/InvalidAuthError";
+import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
+import { InvalidAuthError } from "~/.server/core/custom_error/errors/InvalidAuthError";
 import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
 import { mapValueToDbKey } from "../../utils/mapValueToDbKey";
 
 @injectable()
 export class ActionService implements IActionService {
   constructor(
-    @inject(GLOBAL_DI_TYPES.SessionStorageService) private sessionStorageService: ISessionStorageService,
+    @inject(GLOBAL_DI_TYPES.SessionStorageManager) private SessionStorageManager: ISessionStorageManager,
     @inject(GLOBAL_DI_TYPES.CourseRepository) private courseRepository: ICourseRepository,
   ) {}
 
   async execute({ cookie, courses: newCourses }: ActionServiceArgsDTO): Promise<ActionServiceResultDTO> {
 
-    const session = await this.sessionStorageService.getSession(cookie);
+    const session = await this.SessionStorageManager.getSession(cookie);
 
     if (!session?.data || !session.data.id) {
       throw new InvalidAuthError('Invalid auth.');

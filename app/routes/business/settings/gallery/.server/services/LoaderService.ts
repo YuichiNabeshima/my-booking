@@ -3,19 +3,19 @@ import type { ILoaderService } from "../interfaces/ILoaderService";
 import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from "../dtos/LoaderServiceDTO";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import type { IBusinessPictureRepository } from "~/.server/repositories/interfaces/IBusinessPictureRepository";
-import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
-import { InvalidAuthError } from "~/.server/custom_errors/InvalidAuthError";
-import type { IImageGetService } from "~/.server/interfaces/IImageGetService";
+import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
+import { InvalidAuthError } from "~/.server/core/custom_error/errors/InvalidAuthError";
+import type { IImageStorage } from "~/.server/core/image_storage/IImageStorage";
 
 @injectable()
 export class LoaderService implements ILoaderService {
   constructor(
     @inject(GLOBAL_DI_TYPES.BusinessPictureRepository) private businessPictureRepository: IBusinessPictureRepository,
-    @inject(GLOBAL_DI_TYPES.SessionStorageService) private sessionStorageService: ISessionStorageService,
-    @inject(GLOBAL_DI_TYPES.ImageGetService) private imageGetService: IImageGetService,
+    @inject(GLOBAL_DI_TYPES.SessionStorageManager) private SessionStorageManager: ISessionStorageManager,
+    @inject(GLOBAL_DI_TYPES.ImageStorage) private imageStorage: IImageStorage,
   ) {}
   async execute({ cookie }: LoaderServiceArgsDTO): Promise<LoaderServiceResultDTO> {
-    const session = await this.sessionStorageService.getSession(cookie);
+    const session = await this.SessionStorageManager.getSession(cookie);
 
     if (!session?.data || !session.data.id) {
       throw new InvalidAuthError('Invalid auth.');
@@ -27,11 +27,13 @@ export class LoaderService implements ILoaderService {
 
     return {
       images: businessPictures.map(p => {
-        const url = this.imageGetService.getImageUrl(p.key);
+        const url = this.imageStorage.getImageUrl(p.key);
         return {
           id: p.id,
           url,
           caption: p.caption,
+          isMv: p.is_top_slide,
+          isGallery: p.is_gallery,
         };
       }),
     };

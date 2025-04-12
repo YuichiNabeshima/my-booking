@@ -1,51 +1,22 @@
-import { useState, useEffect } from "react"
-import { Link, useLoaderData, useSearchParams } from "react-router"
+import { Link } from "react-router"
+import { MapPin } from "lucide-react"
 import { Card, CardContent, CardFooter } from "~/components/ui/card"
 import { Button } from "~/components/ui/button"
-import { MapPin } from "lucide-react"
 import { Badge } from "~/components/ui/badge"
-import { Pagination } from "./Pagenation"
-import type { loader } from "../../route"
 import { PRICE_LABEL } from "~/constants/PRICE_LABEL"
-import { type PriceLevel } from "~/types/PriceLabel"
 import { NEIGHBORHOOD } from "~/constants/enums/NEIGHBORHOOD"
+import { type PriceLevel } from "~/types/PriceLabel"
+import { Pagination } from "./pagenation/Pagenation"
+import { useRestaurantList } from "./useRestaurantList"
+import { Image } from "~/components/ui/image/image"
 
 export function RestaurantList() {
-  const data = useLoaderData<typeof loader>();
-  const totalPages = data?.totalPages || 1;
-  const [searchParams] = useSearchParams()
-  const [filteredRestaurants, setFilteredRestaurants] = useState(data ? data.cards : [])
-
-  // Get current page from URL or default to 1
-  const currentPage = Number.parseInt(searchParams.get("page") || "1", 10)
-
-  // Get filter values from URL
-  const cuisineFilter = searchParams.get("cuisine") || "all"
-  const priceFilter = searchParams.get("price") || "all"
-  const neighborhoodFilter = searchParams.get("neighborhood") || "all"
-  const searchQuery = searchParams.get("search") || ""
-
-  // Apply filters when URL parameters change
-  useEffect(() => {
-    let results = [...(data ? data.cards : [])]
-
-    // Apply search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      results = results.filter(
-        (restaurant) =>
-          restaurant.name.toLowerCase().includes(query) ||
-          restaurant.cuisine.toLowerCase().includes(query) ||
-          restaurant.priceRange?.toString().includes(query) ||
-          restaurant.neighborhood.toLowerCase().includes(query)
-      )
-    }
-
-    setFilteredRestaurants(results)
-  }, [cuisineFilter, priceFilter, neighborhoodFilter, searchQuery, data])
-
-  // Get current page restaurants
-  const currentRestaurants = filteredRestaurants
+  const {
+    filteredRestaurants,
+    currentRestaurants,
+    totalPages,
+    currentPage,
+  } = useRestaurantList();
 
   return (
     <>
@@ -60,14 +31,21 @@ export function RestaurantList() {
             {currentRestaurants.map((restaurant, idx) => (
               <Card key={idx} className="overflow-hidden transition-all duration-300 hover:shadow-lg py-0">
                 <div className="relative h-48 w-full overflow-hidden">
-                  <img
-                    src={restaurant.thumbnail || "/img/common/no_image_01.png"}
-                    alt={restaurant.name}
-                    className="object-cover transition-transform duration-300 hover:scale-105"
-                  />
+                  <Link to={`/booking/${restaurant.id}`} className="cursor-pointer">
+                    {/* <img
+                      src={restaurant.thumbnail || "/img/common/no_image_01.png"}
+                      alt={restaurant.name}
+                      className="object-cover transition-transform duration-300 hover:scale-105 h-full w-full"
+                    /> */}
+                    <Image
+                      src={restaurant.thumbnail || "/img/common/no_image_01.png"}
+                      alt={restaurant.name}
+                      className="object-cover transition-transform duration-300 hover:scale-105 h-full w-full"
+                    />
+                  </Link>
                   <div className="absolute top-2 right-2">
                     <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
-                      {PRICE_LABEL[restaurant.priceRange as PriceLevel]}
+                      {PRICE_LABEL[restaurant.priceLevel as PriceLevel]}
                     </Badge>
                   </div>
                 </div>

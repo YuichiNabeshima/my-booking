@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import type { Route } from "./+types/route";
-import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
+import { CustomBaseError } from "~/.server/core/custom_error/custom_base_error";
 import type { Time } from "~/types/Time";
 import type { CreateTokenPayload } from "../index/utils/createToken.server";
 import { Page } from "./components/Page";

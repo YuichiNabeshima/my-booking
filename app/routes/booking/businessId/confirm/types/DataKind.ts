@@ -12,4 +12,4 @@ export interface IsFailed {
   status: typeof STATUS.FAILED;
 }
 
-export type DataKind = IsSuccess | IsTokenExpired | IsTokenInvalid | IsFailed;
+export type DataKind = IsSuccess | IsTokenExpired | IsFailed;

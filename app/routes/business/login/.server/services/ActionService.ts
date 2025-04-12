@@ -1,17 +1,17 @@
 import { compare } from "@node-rs/bcrypt";
-import type { ActionServiceArgsDTO, ActionServiceResultDTO } from "../dtos/ActionServiceDTO";
-import type { IActionService } from "../interfaces/IActionService";
 import { inject } from "inversify";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
+import { BusinessNotFoundError } from "~/.server/core/custom_error/errors/repositories/BusinessNotFoundError";
 import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
-import { BusinessNotFoundError } from "~/.server/custom_errors/repositories/BusinessNotFoundError";
+import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
 import { PasswordInvalidError } from "../custom_errors/PasswordInvalidError";
-import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
+import type { ActionServiceArgsDTO, ActionServiceResultDTO } from "../dtos/ActionServiceDTO";
+import type { IActionService } from "../interfaces/IActionService";
 
 export class ActionService implements IActionService {
   constructor(
     @inject(GLOBAL_DI_TYPES.BusinessRepository) private businessRepository: IBusinessRepository,
-    @inject(GLOBAL_DI_TYPES.SessionStorageService) private sessionStorageService: ISessionStorageService,
+    @inject(GLOBAL_DI_TYPES.SessionStorageManager) private SessionStorageManager: ISessionStorageManager,
   ) {}
 
   async execute(args: ActionServiceArgsDTO): Promise<ActionServiceResultDTO> {
@@ -29,9 +29,9 @@ export class ActionService implements IActionService {
       throw new PasswordInvalidError('Invalid credentials.')
     }
 
-    const session = await this.sessionStorageService.getSession();
+    const session = await this.SessionStorageManager.getSession();
     session.set('id', business.id);
-    const setCookieHeader = await this.sessionStorageService.commitSession(session);
+    const setCookieHeader = await this.SessionStorageManager.commitSession(session);
 
     return {
       cookie: setCookieHeader,

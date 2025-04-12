@@ -30,7 +30,7 @@ export function Page() {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="flex items-center justify-center py-20 px-4">
         <Card className="w-full max-w-2xl">
           <CardHeader>
             <CardTitle className="text-2xl">Would you like to confirm your booking?</CardTitle>

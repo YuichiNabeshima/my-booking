@@ -2,9 +2,9 @@ import { BaseRepository } from "~/.server/repositories/base/BaseRepository";
 import type { BookingRepositoryDTO } from "~/.server/repositories/dtos/BookingRepositoryDTO";
 import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
-import type { CustomerKind } from "~/types/CustomerKind";
+import type { CustomerKind } from "~/types/enums/CustomerKind";
 
-export class BookingRepositoryMock extends BaseRepository<Partial<BookingRepositoryDTO>> implements IBookingRepository<Partial<BookingRepositoryDTO>> {
+export class BookingRepositoryMock extends BaseRepository<{ TModel: Partial<BookingRepositoryDTO> }> implements IBookingRepository<Partial<BookingRepositoryDTO>> {
   async fetchAll(args: { customer_kind: CustomerKind }): Promise<BookingRepositoryDTO[]> {
     if (args.customer_kind === CUSTOMER_KIND.SINGLE) {
       return [

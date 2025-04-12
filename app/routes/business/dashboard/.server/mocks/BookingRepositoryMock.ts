@@ -5,7 +5,7 @@ import type { IBookingRepository } from "~/.server/repositories/interfaces/IBook
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
 
 @injectable()
-export class BookingRepositoryMock extends BaseRepository<Partial<BookingRepositoryDTO>> implements IBookingRepository<Partial<BookingRepositoryDTO>> {
+export class BookingRepositoryMock extends BaseRepository<{ TModel: Partial<BookingRepositoryDTO> }> implements Partial<IBookingRepository<Partial<BookingRepositoryDTO>>> {
   async fetchAll(args?: unknown): Promise<Partial<BookingRepositoryDTO>[]> {
     void args;
 

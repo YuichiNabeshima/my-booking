@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import type { IBaseRepository } from '../base/IBaseRepository';
-import type { BusinessPictureRepositoryDTO } from '../dtos/BusinessPictureRepositoryDTO';
+import type { BusinessPictureRepositoryDTO } from '../dtos/BusinessPictureRepositoryDTO'; 
 
 export interface IBusinessPictureRepository<
   DTO = BusinessPictureRepositoryDTO,

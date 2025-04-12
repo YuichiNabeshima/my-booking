@@ -6,11 +6,11 @@ import type { ICourseRepository } from "~/.server/repositories/interfaces/ICours
 import { BookingTrackerService } from "./BookingTrackerService";
 import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from "../dtos/LoaderServiceDTO";
 import type { ILoaderService } from "../interfaces/ILoaderService";
-import { CourseNotFoundError } from "../../../../../../.server/custom_errors/repositories/CourseNotFoundError";
+import { CourseNotFoundError } from "~/.server/core/custom_error/errors/repositories/CourseNotFoundError";
 import { DAY_OF_WEEK_ARRAY } from "~/constants/DAY_OF_WEEK";
 import { isDayOfWeek } from "~/utils/guards/isDayOfWeek";
-import { InvalidDayOfWeekError } from "~/.server/custom_errors/InvalidDayOfWeekError";
-import { BookingCapacityNotFoundError } from "~/.server/custom_errors/repositories/BookingCapacityNotFoundError";
+import { InvalidDayOfWeekError } from "~/.server/core/custom_error/errors/InvalidDayOfWeekError";
+import { BookingCapacityNotFoundError } from "~/.server/core/custom_error/errors/repositories/BookingCapacityNotFoundError";
 import { BookingCapacityManagerService } from "./BookingCapacityManagerService";
 import { BookingAvailabilityCheckerService } from "./BookingAvailabilityCheckerService";
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";

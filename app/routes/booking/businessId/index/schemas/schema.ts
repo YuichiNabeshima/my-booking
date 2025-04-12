@@ -3,7 +3,7 @@ import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
 import { INTENT_KIND } from "../constants/INTENT_KIND";
 import { FORM_NAME } from "../constants/FORM_NAME";
 
-export const scheduleSchema = z
+export const schema = z
   .object({
     [FORM_NAME.NUMBER_OF_GUESTS]: z
       .number()
@@ -24,4 +24,4 @@ export const scheduleSchema = z
       .enum([INTENT_KIND.CONFIRM, INTENT_KIND.FINISH])
       ,
   })
-  ;
+;

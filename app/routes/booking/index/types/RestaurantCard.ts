@@ -3,9 +3,8 @@ export interface RestaurantCard {
   thumbnail?: string;
   name: string;
   cuisine: string;
-  price: number;
   neighborhood: string;
   description?: string;
   tags: string[];
-  priceRange?: number;
+  priceLevel?: number;
 }

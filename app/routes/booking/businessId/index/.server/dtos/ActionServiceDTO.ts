@@ -1,4 +1,4 @@
-import type { CustomerKind } from "~/types/CustomerKind";
+import type { CustomerKind } from "~/types/enums/CustomerKind";
 
 export interface HandleActionArgsDTO {
   numberOfGuests: number;

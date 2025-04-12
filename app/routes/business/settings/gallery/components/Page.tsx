@@ -9,7 +9,6 @@ import { parseWithZod } from "@conform-to/zod"
 import { Form, useLoaderData } from "react-router"
 import { schema } from "../schemas/schema"
 import type { loader } from "../route"
-import type { GalleryImageFieldData } from "../types/GalleryImage"
 
 export function Page() {
   // State for managing images and UI
@@ -18,13 +17,13 @@ export function Page() {
   const [editingImageId, setEditingImageId] = useState<number | null>(null)
 
   // Setup form with conform
-  const [form, fields] = useForm<{ images: Partial<GalleryImageFieldData>[]}>({
+  const [form, fields] = useForm({
     id: "images-form",
     onValidate({ formData }) {
       return parseWithZod(formData, { schema })
     },
     defaultValue: {
-      images: data?.images,
+      images: data?.images.map(image => ({ id: image.id, url: image.url, caption: image.caption, is_mv: image.isMv ? 'true' : 'false', is_gallery: image.isGallery ? 'true' : 'false' })),
     },
     shouldRevalidate: "onBlur",
   });
@@ -90,6 +89,8 @@ export function Page() {
                   const { key: urlKey, ...imageUrl } = getInputProps(field.getFieldset().url, { type: 'hidden' });
                   const { key: captionKey, ...caption } = getTextareaProps(field.getFieldset().caption);
                   const { key: fileKey, ...imageFile } = getInputProps(field.getFieldset().file, { type: 'file' });
+                  const { key: isMvKey, ...isMv } = getInputProps(field.getFieldset().is_mv, { type: 'checkbox', value: 'true' });
+                  const { key: isGalleryKey, ...isGallery } = getInputProps(field.getFieldset().is_gallery, { type: 'checkbox', value: 'true' });
 
                   return (
                   <Card key={index} className="overflow-hidden py-0 gap-0">
@@ -118,6 +119,29 @@ export function Page() {
                       )}
                     </div>
                     <CardContent className="p-4">
+                      <div className="flex flex-col gap-2 mt-2 mb-2">
+                        <div className="flex items-center space-x-2">
+                          <input
+                            // defaultChecked={isMv.defaultValue === "true"}
+                            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                            {...isMv}
+                          />
+                          <label htmlFor={isMv.id} className="text-sm font-medium text-gray-700">
+                            Display as Main Visual
+                          </label>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <input
+                            // defaultChecked={isGallery?.value === "true"}
+                            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                            {...isGallery}
+                          />
+                          <label htmlFor={isGallery.id} className="text-sm font-medium text-gray-700">
+                            Display in Gallery
+                          </label>
+                        </div>
+                      </div>
                       {editingImageId === index ? (
                         <div className="space-y-2">
                           <Textarea
@@ -178,6 +202,8 @@ export function Page() {
                         <>
                           <input type="hidden" name={`images[${index}].id`} value={imageId.defaultValue} />
                           <input type="hidden" name={`images[${index}].caption`} value={caption.defaultValue} />
+                          {/* <input type="hidden" name={`images[${index}].is_mv`} value={isMv.defaultValue} />
+                          <input type="hidden" name={`images[${index}].is_gallery`} value={isGallery.defaultValue} /> */}
                         </>
                       )}
                     </CardContent>

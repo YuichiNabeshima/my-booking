@@ -7,18 +7,18 @@ import { diContainer } from "./.server/di_container/DIContainer";
 import { DI_TYPES } from "./.server/di_container/ID_TYPES";
 import type { IActionService } from "./.server/interfaces/IActionService";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { IAuthRedirectService } from "~/.server/services/auth/auth_redirect_service/IAuthRedirectService";
-import { STATUS as AUTH_STATUS } from "~/.server/services/auth/auth_redirect_service/constants/STATUS";
+import { STATUS as AUTH_STATUS } from "~/.server/core/auth/constants/STATUS";
 import { STATUS } from "./constants/STATUS";
+import type { IAuthStateChecker } from "~/.server/core/auth/IAuthStateChecker";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookie = request.headers.get('cookie');
 
   const container = diContainer.getContainer();
-  const authRedirectService = container.get<IAuthRedirectService>(GLOBAL_DI_TYPES.AuthRedirectService);
+  const authStateChecker = container.get<IAuthStateChecker>(GLOBAL_DI_TYPES.AuthStateChecker);
 
   try {
-    const { status } = await authRedirectService.execute({ cookie });
+    const { status } = await authStateChecker.execute({ cookie });
 
     if (status === AUTH_STATUS.AUTHENTICATED) {
       return redirect('/business/dashboard');

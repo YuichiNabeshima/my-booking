@@ -1,4 +1,18 @@
 export const FORM_NAME = {
   NAME: 'name',
   EMAIL: 'email',
+  // SUPPORT_SINGLE: 'support_single',
+  // SUPPORT_GROUP: 'support_group',
+  // CAPACITY_OF_GROUP: 'capacity_of_group',
+  CUISINE_KIND: 'cuisine_kind',
+  PRICE_LEVEL: 'price-level',
+  NEIGHBORHOOD: 'neighborhood',
+  ZIP_CODE: 'zip-code',
+  ADDRESS: 'address',
+  TEL: 'tel',
+  TOTAL_SEATS: 'total-seats',
+  PAYMENT_METHOD: 'payment-method',
+  PARKING: 'parking',
+  DESCRIPTION: 'description',
+  BUSINESS_HOURS_NOTE: 'business-hours-note',
 } as const;

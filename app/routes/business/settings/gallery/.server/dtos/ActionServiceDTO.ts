@@ -3,6 +3,8 @@ export interface ActionServiceArgsDTO {
   images: {
     id?: number;
     caption?: string;
+    isMv?: boolean;
+    isGallery?: boolean;
     file?: File;
   }[];
 }

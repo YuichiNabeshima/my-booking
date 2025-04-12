@@ -15,7 +15,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<LoaderDTO> 
   const cookie = request.headers.get('cookie');
 
   if (!cookie) {
-    return redirect('/business/login');
+    throw redirect('/business/login');
   }
 
   const container = diContainer.getContainer();
@@ -23,26 +23,17 @@ export async function loader({ request }: Route.LoaderArgs): Promise<LoaderDTO> 
 
   try {
     const data = await loaderService.execute({ cookie });
-
-    return {
-      status: STATUS.SUCCESS,
-      ...data
-    };
+    return data;
   } catch (error) {
-    return {
-      status: STATUS.FAILED,
-    };
+    return null;
   }
 }
 
-/**
- * Action function
- */
 export async function action({ request }: Route.ActionArgs) {
   const cookie = request.headers.get('cookie');
 
   if (!cookie) {
-    return redirect('/business/login');
+    throw redirect('/business/login');
   }
 
   const formData = await request.formData();
@@ -58,16 +49,42 @@ export async function action({ request }: Route.ActionArgs) {
 
   const name = formData.get(FORM_NAME.NAME) as string;
   const email = formData.get(FORM_NAME.EMAIL) as string;
+  const cuisine_kind = formData.get(FORM_NAME.CUISINE_KIND) as string;
+  const price_level = formData.get(FORM_NAME.PRICE_LEVEL) as string;
+  const neighborhood = formData.get(FORM_NAME.NEIGHBORHOOD) as string;
+  const zip_code = formData.get(FORM_NAME.ZIP_CODE) as string;
+  const address = formData.get(FORM_NAME.ADDRESS) as string;
+  const tel = formData.get(FORM_NAME.TEL) as string;
+  const total_seats = formData.get(FORM_NAME.TOTAL_SEATS) as string;
+  const payment_method = formData.get(FORM_NAME.PAYMENT_METHOD) as string;
+  const parking = formData.get(FORM_NAME.PARKING) as string;
+  const description = formData.get(FORM_NAME.DESCRIPTION) as string;
+  const business_hours_note = formData.get(FORM_NAME.BUSINESS_HOURS_NOTE) as string;
 
   const container = diContainer.getContainer();
   const actionService = container.get<IActionService>(DI_TYPES.ActionService);
 
   try {
-    const result = await actionService.execute({ cookie, name, email});
+    const result = await actionService.execute({
+      cookie,
+      name,
+      email,
+      cuisine_kind,
+      price_level,
+      neighborhood,
+      zip_code,
+      address,
+      tel,
+      total_seats,
+      payment_method,
+      parking,
+      description,
+      business_hours_note,
+    });
 
     if (!result) {
       return {
-        status: STATUS.NO_DIFERRENCE,
+        status: STATUS.NO_DIFFERENCE,
         lastResult: submission.reply(),
       };
     }

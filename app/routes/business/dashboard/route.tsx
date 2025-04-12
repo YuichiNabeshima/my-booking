@@ -1,12 +1,12 @@
 import { redirect } from "react-router";
 import type { Route } from "./+types/route";
-import type { LoaderResultDTO } from "./.server/dtos/LoaderResultDTO";
 import { Page } from "./components/Page";
 import { diContainer } from "./.server/di_container/DIContainer";
 import { STATUS } from "./constants/STATUS";
 import { DI_TYPES } from "./.server/di_container/DI_TYPES";
-import type { ILoaderService } from "./.server/interfaces/ILoaderService";
 import { isValidDatesArray } from "./utils/guards/isValidDatesArray";
+import type { ILoaderService } from "./.server/interfaces/ILoaderService";
+import type { LoaderResultDTO } from "./.server/dtos/LoaderResultDTO";
 
 export async function loader({ request }: Route.LoaderArgs): Promise<LoaderResultDTO> {
   const url = new URL(request.url);

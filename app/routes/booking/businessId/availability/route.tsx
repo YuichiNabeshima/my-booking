@@ -5,7 +5,7 @@ import { diContainer } from "./.server/di_container/DIContainer";
 import type { ILoaderService } from "./.server/interfaces/ILoaderService";
 import { DI_TYPES } from "./.server/di_container/DI_TYPES";
 import { isCustomerKind } from "~/utils/guards/isCustomerKind";
-import { CustomBaseError } from "~/.server/core/errors/custom_base_error";
+import { CustomBaseError } from "~/.server/core/custom_error/custom_base_error";
 import type { LoaderServiceResultDTO } from "./.server/dtos/LoaderServiceDTO";
 
 const IS_FAILED = {

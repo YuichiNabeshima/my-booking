@@ -1,5 +1,5 @@
 import type { Time, Hour, Minute } from "~/types/Time";
-import { InvalidTimeFormatError } from "~/.server/custom_errors/InvalidTimeFormatError";
+import { InvalidTimeFormatError } from "~/.server/core/custom_error/errors/InvalidTimeFormatError";
 
 export class BookingTrackerService {
   private timeSlots: Record<Time, number> = Object.fromEntries(

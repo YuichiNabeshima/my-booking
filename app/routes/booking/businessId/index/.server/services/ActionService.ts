@@ -10,7 +10,7 @@ export class ActionService implements IActionService {
   constructor(
     @inject(GLOBAL_DI_TYPES.MailQueRepository) private mailQueRepository: IMailQueRepository,
   ){}
-  async handleAction({
+  async execute({
     numberOfGuests,
     customerKind,
     courseId,
@@ -30,11 +30,8 @@ export class ActionService implements IActionService {
       email,
     }, 3600);
 
-    const mail = await this.mailQueRepository.create({
-      to: email,
-      from: process.env.EMAIL_FROM as string,
-      subject: 'Confirm Your Email to Complete Your Reservation',
-      body: `
+    const subject = 'Confirm Your Email to Complete Your Reservation';
+    const body = `
 Dear ${fullName},
 
 Thank you for starting your reservation. Before you proceed, please confirm your email address by clicking the link below:
@@ -44,15 +41,21 @@ Thank you for starting your reservation. Before you proceed, please confirm your
 This link will expire in 1 hours. If you did not request this, please ignore this email.
 
 Best regards,
-My Booking Team
-`,
+My Reservation Team
+`;
+
+    await this.mailQueRepository.create({
+      to: email,
+      from: process.env.EMAIL_FROM as string,
+      subject,
+      body,
     });
 
     return {
       mail: {
-        to: mail.to,
-        subject: mail.subject,
-        body: mail.body,
+        to: email,
+        subject,
+        body,
       },
     };
   }

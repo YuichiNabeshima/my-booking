@@ -76,35 +76,43 @@ export function FilterBar() {
   }
 
   return (
-    <div className="flex flex-wrap gap-3 mb-8 items-center">
-      <div className="flex items-center mr-2">
-        <span className="text-sm font-medium mr-2">Filters:</span>
+    <div className="flex flex-col gap-3 mb-8">
+      <div className="flex items-center justify-between md:hidden">
+        <span className="text-sm font-medium">Filters:</span>
+        <Button variant="outline" className="rounded-full" onClick={handleReset}>
+          Reset
+        </Button>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button 
-            variant={cuisine !== "all" ? "default" : "outline"} 
-            className="rounded-full"
-          >
-            {cuisine === "all" ? "Cuisine" : cuisine.charAt(0).toUpperCase() + cuisine.slice(1)}
-            <ChevronDown className="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Cuisine</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={cuisine} onValueChange={handleCuisineChange}>
-            <DropdownMenuRadioItem value="all">All Cuisines</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="canadian">Canadian</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="italian">Italian</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="asian">Asian Fusion</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="seafood">Seafood</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="mexican">Mexican</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="vegan">Vegan</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="flex flex-wrap gap-3">
+        <div className="hidden md:flex items-center gap-3">
+          <span className="text-sm font-medium">Filters:</span>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant={cuisine !== "all" ? "default" : "outline"} 
+              className="rounded-full"
+            >
+              {cuisine === "all" ? "Cuisine" : cuisine.charAt(0).toUpperCase() + cuisine.slice(1)}
+              <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Cuisine</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup value={cuisine} onValueChange={handleCuisineChange}>
+              <DropdownMenuRadioItem value="all">All Cuisines</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="canadian">Canadian</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="italian">Italian</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="asian">Asian Fusion</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="seafood">Seafood</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="mexican">Mexican</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="vegan">Vegan</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -133,36 +141,39 @@ export function FilterBar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button 
-            variant={neighborhood !== "all" ? "default" : "outline"} 
-            className="rounded-full"
-          >
-            {neighborhood === "all" ? "Neighborhood" : 
-              neighborhood.charAt(0).toUpperCase() + neighborhood.slice(1)}
-            <ChevronDown className="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Neighborhood</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={neighborhood} onValueChange={handleNeighborhoodChange}>
-            <DropdownMenuRadioItem value="all">All Areas</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="downtown">Downtown</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="gastown">Gastown</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="yaletown">Yaletown</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="westend">West End</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="kitsilano">Kitsilano</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="mainst">Main Street</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="chinatown">Chinatown</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant={neighborhood !== "all" ? "default" : "outline"} 
+              className="rounded-full"
+            >
+              {neighborhood === "all" ? "Neighborhood" : 
+                neighborhood.charAt(0).toUpperCase() + neighborhood.slice(1)}
+              <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Neighborhood</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup value={neighborhood} onValueChange={handleNeighborhoodChange}>
+              <DropdownMenuRadioItem value="all">All Areas</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="downtown">Downtown</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="gastown">Gastown</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="yaletown">Yaletown</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="westend">West End</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="kitsilano">Kitsilano</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="mainst">Main Street</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="chinatown">Chinatown</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
-      <Button variant="outline" className="rounded-full ml-auto" onClick={handleReset}>
-        Reset
-      </Button>
+        <div className="hidden md:block ml-auto">
+          <Button variant="outline" className="rounded-full" onClick={handleReset}>
+            Reset
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,29 +1,29 @@
 import { redirect } from "react-router";
 import { Page } from "./components/Page";
 import { diContainer } from "./.server/di_container/DIContainer";
-import type { IAuthRedirectService } from "~/.server/services/auth/auth_redirect_service/IAuthRedirectService";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import type { Route } from "./+types/auth";
-import { STATUS } from "~/.server/services/auth/auth_redirect_service/constants/STATUS";
+import { STATUS } from "~/.server/core/auth/constants/STATUS";
+import type { IAuthStateChecker } from "~/.server/core/auth/IAuthStateChecker";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookie = request.headers.get('cookie');
 
   if (!cookie) {
-    return redirect('/business/login');
+    throw redirect('/business/login');
   }
 
   const container = diContainer.getContainer();
-  const authRedirectService = container.get<IAuthRedirectService>(GLOBAL_DI_TYPES.AuthRedirectService);
+  const authStateChecker = container.get<IAuthStateChecker>(GLOBAL_DI_TYPES.AuthStateChecker);
 
   try {
-    const { status } = await authRedirectService.execute({ cookie });
+    const { status } = await authStateChecker.execute({ cookie });
 
     if (status === STATUS.UNAUTHENTICATED) {
-      return redirect('/business/login');
+      throw redirect('/business/login');
     }
   } catch (error) {
-    return redirect('/business/login');
+    throw redirect('/business/login');
   }
 }
 

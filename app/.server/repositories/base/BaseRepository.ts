@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { injectable } from "inversify";
-import type { ITransactionManager } from "~/.server/interfaces/i_transaction_manager";
+import type { ITransactionManager } from "~/.server/core/transaction/ITransactionManager";
 import type { IBaseRepository } from "./IBaseRepository";
 
 export type PascalToCamelCase<T extends string> =

@@ -4,16 +4,17 @@ import type { ActionServiceArgsDTO, ActionServiceResultDTO } from "../dtos/Actio
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
 import type { ICustomerRepository } from "~/.server/repositories/interfaces/ICustomerRepository";
-import type { ITransactionManager } from "~/.server/interfaces/i_transaction_manager";
+import type { ITransactionManager } from "~/.server/core/transaction/ITransactionManager";
 import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
-import { BusinessNotFoundError } from "~/.server/custom_errors/repositories/BusinessNotFoundError";
+import { BusinessNotFoundError } from "~/.server/core/custom_error/errors/repositories/BusinessNotFoundError";
 import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
-import { CourseNotFoundError } from "~/.server/custom_errors/repositories/CourseNotFoundError";
+import { CourseNotFoundError } from "~/.server/core/custom_error/errors/repositories/CourseNotFoundError";
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
 import type { IMailQueRepository } from "~/.server/repositories/interfaces/IMailQueRepository";
 import { MY_BOOKING } from "~/constants/MY_BOOKING";
 import { STATUS } from "../../constants/STATUS";
 import type { CustomerRepositoryDTO } from "~/.server/repositories/dtos/CustomerRepositoryDTO";
+import { CustomerNotFoundError } from "~/.server/core/custom_error/errors/repositories/CustomerNotFoundError";
 
 @injectable()
 export class ActionService implements IActionService {
@@ -74,7 +75,12 @@ The My Booking Team
       if (customerExists) {
         customer = await this.customerRepository.update({ where: { id: customerExists.id }, data: { name: fullName } });
       } else {
-        customer = await this.customerRepository.create({ name: fullName, email });
+        await this.customerRepository.create({ name: fullName, email });
+        customer = await this.customerRepository.fetch({ email });
+      }
+
+      if (!customer) {
+        throw new CustomerNotFoundError('Customer not found.');
       }
 
       await this.bookingRepository.create({
@@ -87,13 +93,13 @@ The My Booking Team
         customer_id: customer.id
       });
 
-      const mail = await this.mailQueRepository.create({ to: email, from: MY_BOOKING.EMAIL, subject, body, });
+      await this.mailQueRepository.create({ to: email, from: MY_BOOKING.EMAIL, subject, body, });
 
       return {
         status: STATUS.SUCCESS,
         mail: {
-          subject: mail.subject,
-          body: mail.body,
+          subject: subject,
+          body: body,
         },
       };
     });

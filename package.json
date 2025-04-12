@@ -35,6 +35,7 @@
     "date-fns": "^4.1.0",
     "inversify": "^6.2.2",
     "isbot": "^5.1.17",
+    "jotai": "^2.12.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.475.0",
     "memcached": "^2.2.2",
@@ -43,6 +44,7 @@
     "react-dom": "^19.0.0",
     "react-router": "^7.1.5",
     "redis": "^4.7.0",
+    "reflect-metadata": "^0.2.2",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",
@@ -60,8 +62,11 @@
     "prisma": "^6.4.1",
     "react-router-devtools": "^1.1.0",
     "tailwindcss": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.1"
   }
 }

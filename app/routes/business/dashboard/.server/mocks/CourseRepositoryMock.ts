@@ -3,8 +3,9 @@ import type { CourseRepositoryDTO } from "~/.server/repositories/dtos/CourseRepo
 import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
 
 export class CourseRepositoryMock
-  extends BaseRepository<Partial<CourseRepositoryDTO>>
+  extends BaseRepository<{ TModel: Partial<CourseRepositoryDTO> }>
   implements ICourseRepository<Partial<CourseRepositoryDTO>> {
+
     async fetch(args: unknown): Promise<Partial<CourseRepositoryDTO> | null> {
       void args;
 

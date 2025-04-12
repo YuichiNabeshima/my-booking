@@ -1,11 +1,9 @@
 export const GLOBAL_DI_TYPES = {
   Logger: Symbol.for('Logger'),
   TransactionManager: Symbol.for('TransactionManager'),
-  SessionStorageService: Symbol.for('SessionStorageService'),
-  AuthRedirectService: Symbol.for('AuthRedirectService'),
-  ImageUploaderService: Symbol.for('ImageUploaderService'),
-  ImageGetService: Symbol.for('ImageGetService'),
-  ImageDeleteService: Symbol.for('ImageDeleteService'),
+  SessionStorageManager: Symbol.for('SessionStorageManager'),
+  AuthStateChecker: Symbol.for('AuthStateChecker'),
+  ImageStorage: Symbol.for('ImageStorage'),
 
   // Repositories
   BookingRepository: Symbol.for('BookingRepository'),
@@ -16,4 +14,6 @@ export const GLOBAL_DI_TYPES = {
   MailLogRepository: Symbol.for('MailLogRepository'),
   MailQueRepository: Symbol.for('MailQueRepository'),
   BusinessPictureRepository: Symbol.for('BusinessPictureRepository'),
+  BusinessTagRepository: Symbol.for('BusinessTagRepository'),
+  BusinessHoursRepostory: Symbol.for('BusinessHoursRepository'),
 }

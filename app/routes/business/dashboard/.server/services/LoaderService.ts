@@ -1,17 +1,17 @@
 import { inject, injectable } from "inversify";
 import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
 import { isTime } from "~/utils/guards/isTime";
-import { CustomerNotFoundError } from "~/.server/custom_errors/repositories/CustomerNotFoundError";
-import { CourseNotFoundError } from "~/.server/custom_errors/repositories/CourseNotFoundError";
+import { CustomerNotFoundError } from "~/.server/core/custom_error/errors/repositories/CustomerNotFoundError";
+import { CourseNotFoundError } from "~/.server/core/custom_error/errors/repositories/CourseNotFoundError";
 import { minutesToTimeFormat } from "~/utils/minutesToTimeFormat";
-import { InvalidTimeFormatError } from "~/.server/custom_errors/InvalidTimeFormatError";
+import { InvalidTimeFormatError } from "~/.server/core/custom_error/errors/InvalidTimeFormatError";
 import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
-import { BusinessNotFoundError } from "~/.server/custom_errors/repositories/BusinessNotFoundError";
-import { InvalidAuthError } from "~/.server/custom_errors/InvalidAuthError";
+import { BusinessNotFoundError } from "~/.server/core/custom_error/errors/repositories/BusinessNotFoundError";
+import { InvalidAuthError } from "~/.server/core/custom_error/errors/InvalidAuthError";
 import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
 import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
 import type { IBusinessRepository } from "~/.server/repositories/interfaces/IBusinessRepository";
-import type { ISessionStorageService } from "~/.server/interfaces/ISessionStorageService";
+import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
 import type { ICustomerRepository } from "~/.server/repositories/interfaces/ICustomerRepository";
 import { getDatesBetween } from "../../utils/getDatesBetween";
 import type { Booking } from "../../types/Booking";
@@ -25,11 +25,11 @@ export class LoaderService implements ILoaderService {
     @inject(GLOBAL_DI_TYPES.BookingRepository) private bookingRepository: IBookingRepository,
     @inject(GLOBAL_DI_TYPES.CustomerRepository) private customerRepository: ICustomerRepository,
     @inject(GLOBAL_DI_TYPES.CourseRepository) private courseRepository: ICourseRepository,
-    @inject(GLOBAL_DI_TYPES.SessionStorageService) private sessionStorageService: ISessionStorageService,
+    @inject(GLOBAL_DI_TYPES.SessionStorageManager) private SessionStorageManager: ISessionStorageManager,
   ) {}
 
   async execute({ cookie, dates }: LoaderServiceArgsDTO): Promise<LoaderServiceResultDTO> {
-    const session = await this.sessionStorageService.getSession(cookie);
+    const session = await this.SessionStorageManager.getSession(cookie);
 
     if (!session?.data || !session.data.id) {
       throw new InvalidAuthError('Authenticated failed.');
