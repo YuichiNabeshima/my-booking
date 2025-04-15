@@ -1,21 +1,26 @@
-import { redirect } from "react-router";
-import { parseWithZod } from "@conform-to/zod";
-import type { Route } from "./+types/route";
-import { CustomBaseError } from "~/.server/core/custom_error/custom_base_error";
-import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import { Page } from "./components/Page";
-import { diContainer } from "./.server/di_container/DIContainer";
-import { schema } from "./schemas/schema";
-import { STATUS } from "./constants/STATUS";
-import { DI_TYPES } from "./.server/di_container/DI_TYPES";
-import type { IActionService } from "./.server/interfaces/IActionService";
-import type { IAuthStateChecker } from "~/.server/core/auth/IAuthStateChecker";
+import { parseWithZod } from '@conform-to/zod';
+import { redirect } from 'react-router';
+
+import type { IAuthStateChecker } from '~/.server/core/auth/IAuthStateChecker';
+import { CustomBaseError } from '~/.server/core/custom_error/custom_base_error';
+import type { ILogger } from '~/.server/core/logger/ILogger';
+import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
+
+import { DI_TYPES } from './.server/di_container/DI_TYPES';
+import { DIContainer } from './.server/di_container/DIContainer';
+import type { IActionService } from './.server/interfaces/IActionService';
+import type { Route } from './+types/route';
+import { Page } from './components/Page';
+import { STATUS } from './constants/STATUS';
+import { schema } from './schemas/schema';
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookie = request.headers.get('cookie');
 
+  const diContainer = new DIContainer();
   const container = diContainer.getContainer();
   const authStateChecker = container.get<IAuthStateChecker>(GLOBAL_DI_TYPES.AuthStateChecker);
+  const logger = container.get<ILogger>(GLOBAL_DI_TYPES.Logger);
 
   try {
     const { status } = await authStateChecker.execute({ cookie });
@@ -24,9 +29,10 @@ export async function loader({ request }: Route.LoaderArgs) {
       return redirect('/business/dashboard/');
     }
   } catch (error) {
+    logger.error(error as Error);
     return {
       status: STATUS.FAILED,
-    }
+    };
   }
 }
 
@@ -41,10 +47,12 @@ export async function action({ request }: Route.ActionArgs) {
     };
   }
 
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
+  const diContainer = new DIContainer();
   const container = diContainer.getContainer();
+
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
   const actionService = container.get<IActionService>(DI_TYPES.ActionService);
 
   try {
@@ -55,7 +63,6 @@ export async function action({ request }: Route.ActionArgs) {
         'Set-Cookie': cookie,
       },
     });
-
   } catch (error) {
     if (error instanceof CustomBaseError) {
       return {
@@ -64,7 +71,7 @@ export async function action({ request }: Route.ActionArgs) {
       };
     }
 
-    throw new Response("Internal Server Error", { status: 500 });
+    throw new Response('Internal Server Error', { status: 500 });
   }
 }
 

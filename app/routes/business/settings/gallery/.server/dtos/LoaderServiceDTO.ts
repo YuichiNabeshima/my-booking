@@ -1,4 +1,4 @@
-import type { GalleryImage } from "../../types/GalleryImage";
+import type { GalleryImage } from '../../types/GalleryImage';
 
 export interface LoaderServiceArgsDTO {
   cookie: string;

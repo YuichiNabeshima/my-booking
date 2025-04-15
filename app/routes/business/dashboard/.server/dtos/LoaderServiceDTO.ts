@@ -1,13 +1,13 @@
-import type { Booking } from "../../types/Booking";
-import type { Stats } from "../../types/Stats";
+import type { Booking } from '../../types/Booking';
+import type { Stats } from '../../types/Stats';
 
 export interface LoaderServiceArgsDTO {
-  cookie: string,
+  cookie: string;
   dates: [Date] | [Date, Date] | [];
 }
 
 export interface LoaderServiceResultDTO {
   businessName: string;
-  stats: Stats,
+  stats: Stats;
   bookings: Booking[];
 }

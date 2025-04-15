@@ -1,20 +1,28 @@
-import { useEffect } from "react"
-import { Plus, Trash2 } from "lucide-react"
+import { getFormProps, getInputProps, useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod';
+import { useSetAtom } from 'jotai';
+import { Plus, Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
+import { Form, useActionData, useLoaderData } from 'react-router';
 
-import { Button } from "~/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card"
-import { Input } from "~/components/ui/input"
-import { Table, TableBody, TableCaption, TableCell, TableRow } from "~/components/ui/table"
-import { Form, useActionData, useLoaderData } from "react-router"
-import type { LoaderDTO } from "../.server/dtos/LoaderDTO"
-import { isLoaderSuccess } from "../utils/guards/isLoaderSuccess"
-import { getFormProps, getInputProps, useForm } from "@conform-to/react"
-import { parseWithZod } from "@conform-to/zod"
-import { schema } from "../schemas/schema"
-import type { ActionDTO } from "../.server/dtos/ActionDTO"
-import { useSetAtom } from "jotai"
-import { showToastAtom } from "../../_layout/stores/toast"
-import { STATUS } from "../constants/STATUS"
+import { Button } from '~/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
+import { Input } from '~/components/ui/input';
+import { Table, TableBody, TableCaption, TableCell, TableRow } from '~/components/ui/table';
+
+import { showToastAtom } from '../../_layout/stores/toast';
+import type { ActionDTO } from '../.server/dtos/ActionDTO';
+import type { LoaderDTO } from '../.server/dtos/LoaderDTO';
+import { STATUS } from '../constants/STATUS';
+import { schema } from '../schemas/schema';
+import { isLoaderSuccess } from '../utils/guards/isLoaderSuccess';
 
 export function Page() {
   const data = useLoaderData<LoaderDTO>();
@@ -26,13 +34,19 @@ export function Page() {
 
   useEffect(() => {
     if (result) {
-      const status = result.status === STATUS.SUCCESS ? 'success'
-                    : result.status === STATUS.NO_DIFFERENCE ? 'info'
-                    : 'error';
+      const status =
+        result.status === STATUS.SUCCESS
+          ? 'success'
+          : result.status === STATUS.NO_DIFFERENCE
+          ? 'info'
+          : 'error';
 
-      const message = result.status === STATUS.SUCCESS ? 'tags updated successfully.'
-                    : result.status === STATUS.NO_DIFFERENCE ? 'No changes detected.'
-                    : 'Failed to update tags.';
+      const message =
+        result.status === STATUS.SUCCESS
+          ? 'tags updated successfully.'
+          : result.status === STATUS.NO_DIFFERENCE
+          ? 'No changes detected.'
+          : 'Failed to update tags.';
 
       showToast(status, message);
     }
@@ -48,7 +62,7 @@ export function Page() {
   });
 
   useEffect(() => {
-    form.reset()
+    form.reset();
   }, [data]);
 
   const fieldList = tags.getFieldList();
@@ -67,14 +81,20 @@ export function Page() {
               <TableBody>
                 {fieldList.map((field, index) => {
                   const fieldItem = field.getFieldset();
-                  const { key: keyId, ...idField } = getInputProps(fieldItem.id, { type: 'hidden' });
-                  const { key: keyLabel, ...labelField } = getInputProps(fieldItem.label, { type: 'text' });
+                  const { key: keyId, ...idField } = getInputProps(fieldItem.id, {
+                    type: 'hidden',
+                  });
+                  const { key: keyLabel, ...labelField } = getInputProps(fieldItem.label, {
+                    type: 'text',
+                  });
                   return (
                     <TableRow key={field.key}>
                       <TableCell>
                         <input key={keyId} {...idField} />
                         <Input key={keyLabel} {...labelField} />
-                        {fieldItem.label.errors && <p className="text-sm text-red-500">{fieldItem.label.errors}</p>}
+                        {fieldItem.label.errors && (
+                          <p className="text-sm text-red-500">{fieldItem.label.errors}</p>
+                        )}
                       </TableCell>
                       <TableCell className="flex space-x-2">
                         <Button
@@ -94,11 +114,19 @@ export function Page() {
           </CardContent>
           <CardFooter>
             <div className="w-full">
-              <Button className="w-full" {...form.insert.getButtonProps({ name: tags.name, defaultValue: { id: null, label: 'default' } })}>
+              <Button
+                className="w-full"
+                {...form.insert.getButtonProps({
+                  name: tags.name,
+                  defaultValue: { id: null, label: 'default' },
+                })}
+              >
                 <Plus className="mr-2 h-4 w-4" />
                 Add course
               </Button>
-              <Button className="w-full mt-4" size="lg" type="submit">Save</Button>
+              <Button className="w-full mt-4" size="lg" type="submit">
+                Save
+              </Button>
             </div>
           </CardFooter>
         </Card>

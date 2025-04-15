@@ -1,16 +1,17 @@
-import type { Route } from "./+types/route";
-import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { ILogger } from "~/.server/core/logger/ILogger";
-import { Page } from "./components/Page";
-import { QUERY_PARAMS } from "./constants/QUERY_PARAMS";
-import { DIContainer } from "./.server/di_container/DIContainer";
-import { DI_TYPES } from "./.server/di_container/DI_TYPES";
-import type { ILoaderService } from "./.server/interfaces/ILoaderService";
+import type { ILogger } from '~/.server/core/logger/ILogger';
+import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
+
+import { DI_TYPES } from './.server/di_container/DI_TYPES';
+import { DIContainer } from './.server/di_container/DIContainer';
+import type { ILoaderService } from './.server/interfaces/ILoaderService';
+import type { Route } from './+types/route';
+import { Page } from './components/Page';
+import { QUERY_PARAMS } from './constants/QUERY_PARAMS';
 
 export function meta() {
   return [
     { title: `Vancouver Dining - My Reservation` },
-    { name: "description", content: `Vancouver Dining - My Reservation` },
+    { name: 'description', content: `Vancouver Dining - My Reservation` },
   ];
 }
 
@@ -35,7 +36,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     neighborhood?: string;
   } = {
     page: page ? Number(page) : 1,
-  }
+  };
 
   if (cuisine) {
     params.cuisine = cuisine;
@@ -59,5 +60,5 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Route() {
-  return <Page />
+  return <Page />;
 }

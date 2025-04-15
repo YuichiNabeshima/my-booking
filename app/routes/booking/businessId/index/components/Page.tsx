@@ -1,5 +1,5 @@
-import { BusinessInfo } from "./business_info/BusinessInfo";
-import { ReservationForm } from "./reservation_form/ReservationForm";
+import { BusinessInfo } from './business_info/BusinessInfo';
+import { ReservationForm } from './reservation_form/ReservationForm';
 
 export function Page() {
   return (
@@ -7,6 +7,5 @@ export function Page() {
       <BusinessInfo />
       <ReservationForm />
     </div>
-  )
+  );
 }
-

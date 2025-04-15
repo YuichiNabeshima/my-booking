@@ -1,5 +1,5 @@
-import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
-import type { CustomerKind } from "~/types/enums/CustomerKind";
+import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
+import type { CustomerKind } from '~/types/enums/CustomerKind';
 
 export function isCustomerKind(arg: string): arg is CustomerKind {
   if (arg === CUSTOMER_KIND.SINGLE || arg === CUSTOMER_KIND.GROUP) {
@@ -17,5 +17,5 @@ export function isCustomerKindSingle(arg: string): arg is Extract<CustomerKind, 
 export function isCustomerKindGroup(arg: string): arg is Extract<CustomerKind, 'GROUP'> {
   if (arg === CUSTOMER_KIND.GROUP) return true;
 
-  return false
+  return false;
 }

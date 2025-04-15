@@ -1,4 +1,4 @@
-import type { STATUS } from "../constants/STATUS";
+import type { STATUS } from '../constants/STATUS';
 
 export type Success = typeof STATUS.SUCCESS;
 

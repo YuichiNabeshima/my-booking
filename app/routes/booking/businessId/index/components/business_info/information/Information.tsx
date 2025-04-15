@@ -1,6 +1,7 @@
-import { Info, MapPin, Utensils } from "lucide-react"
-import { useLoaderData } from "react-router"
-import type { loader } from "../../../route"
+import { Info, MapPin, Utensils } from 'lucide-react';
+import { useLoaderData } from 'react-router';
+
+import type { loader } from '../../../route';
 
 export function Information() {
   const data = useLoaderData<typeof loader>();
@@ -15,9 +16,7 @@ export function Information() {
             Address
           </h2>
           <p className="text-muted-foreground mb-2 text-sm md:text-base">{business?.zip_code}</p>
-          <p className="text-muted-foreground mb-4 text-sm md:text-base">
-            {business?.address}
-          </p>
+          <p className="text-muted-foreground mb-4 text-sm md:text-base">{business?.address}</p>
         </div>
 
         <div className="md:mt-0">
@@ -46,9 +45,7 @@ export function Information() {
           <Utensils className="h-5 w-5 mr-2 text-primary" />
           About Us
         </h2>
-        <p className="text-muted-foreground text-sm md:text-base">
-          {business?.description}
-        </p>
+        <p className="text-muted-foreground text-sm md:text-base">{business?.description}</p>
       </div>
     </>
   );

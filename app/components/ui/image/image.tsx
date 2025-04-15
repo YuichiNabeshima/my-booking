@@ -1,6 +1,7 @@
-import { Suspense, useState, useEffect } from "react";
-import { Loading } from "~/components/ui/loading";
-import { Await } from "react-router";
+import { Suspense, useEffect, useState } from 'react';
+import { Await } from 'react-router';
+
+import { Loading } from '~/components/ui/loading';
 
 interface ImageProps {
   src: string | Promise<{ url: string; alt: string }>;
@@ -9,13 +10,13 @@ interface ImageProps {
   loadingClassName?: string;
 }
 
-function ImageContent({ src, alt, className, loadingClassName = "w-full h-full" }: ImageProps) {
+function ImageContent({ src, alt, className, loadingClassName = 'w-full h-full' }: ImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (typeof src === "string") {
-      const img = document.createElement("img");
+    if (typeof src === 'string') {
+      const img = document.createElement('img');
       img.src = src;
 
       img.onload = () => {
@@ -23,7 +24,7 @@ function ImageContent({ src, alt, className, loadingClassName = "w-full h-full" 
       };
 
       img.onerror = () => {
-        setError(new Error("Failed to load image"));
+        setError(new Error('Failed to load image'));
         setIsLoading(false);
       };
 
@@ -34,9 +35,11 @@ function ImageContent({ src, alt, className, loadingClassName = "w-full h-full" 
     }
   }, [src]);
 
-  if (typeof src === "string") {
+  if (typeof src === 'string') {
     if (error) {
-      return <div className="flex items-center justify-center bg-gray-100">Failed to load image</div>;
+      return (
+        <div className="flex items-center justify-center bg-gray-100">Failed to load image</div>
+      );
     }
 
     if (isLoading) {
@@ -49,29 +52,22 @@ function ImageContent({ src, alt, className, loadingClassName = "w-full h-full" 
   return (
     <Await resolve={src}>
       {(resolvedData) => (
-        <img 
-          src={resolvedData.url}
-          alt={resolvedData.alt}
-          className={className}
-        />
+        <img src={resolvedData.url} alt={resolvedData.alt} className={className} />
       )}
     </Await>
   );
 }
 
 export function Image({ src, alt, className, loadingClassName }: ImageProps) {
-  if (typeof src === "string") {
-    return <ImageContent src={src} alt={alt} className={className} loadingClassName={loadingClassName} />;
+  if (typeof src === 'string') {
+    return (
+      <ImageContent src={src} alt={alt} className={className} loadingClassName={loadingClassName} />
+    );
   }
 
   return (
     <Suspense fallback={<Loading className={loadingClassName} />}>
-      <ImageContent
-        src={src}
-        alt={alt}
-        className={className}
-        loadingClassName={loadingClassName}
-      />
+      <ImageContent src={src} alt={alt} className={className} loadingClassName={loadingClassName} />
     </Suspense>
   );
-} 
+}

@@ -1,56 +1,63 @@
-import { useState, useEffect } from "react"
-import { AlertCircle, X } from "lucide-react"
-import { Button } from "~/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "~/components/ui/dialog"
-import { cn } from "~/lib/utils"
+import { AlertCircle, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+import { Button } from '~/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '~/components/ui/dialog';
+import { cn } from '~/lib/utils';
 
 interface ErrorModalProps {
-  title?: string
-  description?: string
-  isOpen?: boolean
-  onClose?: () => void
-  onRetry?: () => void
+  title?: string;
+  description?: string;
+  isOpen?: boolean;
+  onClose?: () => void;
+  onRetry?: () => void;
 }
 
 export function ErrorModal({
-  title = "An Error Occurred",
-  description = "Sorry, an unexpected error has occurred. Please try again later.",
+  title = 'An Error Occurred',
+  description = 'Sorry, an unexpected error has occurred. Please try again later.',
   isOpen = false,
   onClose = () => {},
   onRetry = () => window.location.reload(),
 }: ErrorModalProps) {
-  const [open, setOpen] = useState(isOpen)
-  const [animation, setAnimation] = useState(false)
+  const [open, setOpen] = useState(isOpen);
+  const [animation, setAnimation] = useState(false);
 
   useEffect(() => {
-    setOpen(isOpen)
+    setOpen(isOpen);
     if (isOpen) {
-      setTimeout(() => setAnimation(true), 100)
+      setTimeout(() => setAnimation(true), 100);
     } else {
-      setAnimation(false)
+      setAnimation(false);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   const handleClose = () => {
-    setAnimation(false)
+    setAnimation(false);
     setTimeout(() => {
-      setOpen(false)
-      onClose()
-    }, 300)
-  }
+      setOpen(false);
+      onClose();
+    }, 300);
+  };
 
   return (
     <Dialog
       open={open}
       onOpenChange={(open) => {
-        if (!open) handleClose()
+        if (!open) handleClose();
       }}
     >
       <DialogContent className="sm:max-w-md">
         <div
           className={cn(
-            "absolute -top-12 left-1/2 -translate-x-1/2 flex items-center justify-center w-24 h-24 bg-white dark:bg-gray-800 rounded-full shadow-lg transition-all duration-300 border-4 border-background",
-            animation ? "transform-none opacity-100" : "translate-y-8 opacity-0",
+            'absolute -top-12 left-1/2 -translate-x-1/2 flex items-center justify-center w-24 h-24 bg-white dark:bg-gray-800 rounded-full shadow-lg transition-all duration-300 border-4 border-background',
+            animation ? 'transform-none opacity-100' : 'translate-y-8 opacity-0',
           )}
         >
           <div className="relative flex items-center justify-center w-full h-full">
@@ -78,6 +85,5 @@ export function ErrorModal({
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

@@ -1,4 +1,4 @@
-import type { Tag } from "../../types/Tag";
+import type { Tag } from '../../types/Tag';
 
 export type IncludeNewCourse = Omit<Tag, 'id'> & Partial<Pick<Tag, 'id'>>;
 

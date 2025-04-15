@@ -1,9 +1,10 @@
-import { createCookie, createSessionStorage } from "react-router";
-import { injectable } from "inversify";
-import { createClient } from "redis";
-import type { Session } from "react-router";
-import type { RedisClientType } from "redis";
-import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
+import { injectable } from 'inversify';
+import type { Session } from 'react-router';
+import { createCookie, createSessionStorage } from 'react-router';
+import type { RedisClientType } from 'redis';
+import { createClient } from 'redis';
+
+import type { ISessionStorageManager } from '~/.server/core/session/ISessionStorageManager';
 
 @injectable()
 export class SessionStorageManager implements ISessionStorageManager {
@@ -11,21 +12,23 @@ export class SessionStorageManager implements ISessionStorageManager {
   private sessionStorage;
 
   constructor() {
-    const redisClient = createClient({ url: "redis://localhost:6379" }) as unknown as RedisClientType;
+    const redisClient = createClient({
+      url: 'redis://localhost:6379',
+    }) as unknown as RedisClientType;
     redisClient.connect();
     this.redis = redisClient;
 
-    const sessionCookie = createCookie("session", {
+    const sessionCookie = createCookie('session', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
       secrets: [process.env.SESSION_SECRET as string],
     });
 
     this.sessionStorage = createSessionStorage({
       cookie: sessionCookie,
-      createData: async (data: any, expires?: Date) => {
+      createData: async (data: Record<string, unknown>, expires?: Date) => {
         const sessionId = crypto.randomUUID();
         await this.redis.set(sessionId, JSON.stringify(data), {
           PX: expires ? expires.getTime() - Date.now() : 1000 * 60 * 60 * 24, // 24hours
@@ -36,7 +39,7 @@ export class SessionStorageManager implements ISessionStorageManager {
         const data = await this.redis.get(id);
         return data ? JSON.parse(data) : null;
       },
-      updateData: async (id: string, data: any) => {
+      updateData: async (id: string, data: Record<string, unknown>) => {
         await this.redis.set(id, JSON.stringify(data));
       },
       deleteData: async (id: string) => {

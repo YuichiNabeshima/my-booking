@@ -1,27 +1,29 @@
-import { useEffect } from "react"
-import { Form, useActionData, useLoaderData } from "react-router"
-import { useSetAtom } from "jotai"
-import { getFormProps, useForm } from "@conform-to/react"
-import { parseWithZod } from "@conform-to/zod"
-import { Settings, Coffee, Utensils, Save } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
-import { SeatTable } from "./seat_table/SeatTable"
-import { Badge } from "~/components/ui/badge"
-import { Button } from "~/components/ui/button"
-import { ErrorContent } from "~/components/ui/error-content"
-import { schema } from "../schemas/schema"
-import { Accordion } from "./accordion/Accordion"
-import { isActionSuccess } from "../utils/guards/isActionSuccess"
-import { isActionNoDifference } from "../utils/guards/isActionNoDifference"
-import { isLoaderSuccess } from "../utils/guards/isLoaderSuccess"
-import { showToastAtom } from "../../_layout/stores/toast"
-import type { ActionDTO } from "../.server/dtos/ActionDTO"
-import type { LoaderDTO } from "../.server/dtos/LoaderDTO"
+import { getFormProps, useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod';
+import { useSetAtom } from 'jotai';
+import { Coffee, Save, Settings, Utensils } from 'lucide-react';
+import { useEffect } from 'react';
+import { Form, useActionData, useLoaderData } from 'react-router';
+
+import { Badge } from '~/components/ui/badge';
+import { Button } from '~/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import { ErrorContent } from '~/components/ui/error-content';
+
+import { showToastAtom } from '../../_layout/stores/toast';
+import type { ActionDTO } from '../.server/dtos/ActionDTO';
+import type { LoaderDTO } from '../.server/dtos/LoaderDTO';
+import { schema } from '../schemas/schema';
+import { isActionNoDifference } from '../utils/guards/isActionNoDifference';
+import { isActionSuccess } from '../utils/guards/isActionSuccess';
+import { isLoaderSuccess } from '../utils/guards/isLoaderSuccess';
+import { Accordion } from './accordion/Accordion';
+import { SeatTable } from './seat_table/SeatTable';
 
 export function Page() {
   const result = useActionData<ActionDTO>();
   const data = useLoaderData<LoaderDTO>();
-  const showToast = useSetAtom(showToastAtom)
+  const showToast = useSetAtom(showToastAtom);
 
   if (!isLoaderSuccess(data)) {
     return <ErrorContent />;
@@ -41,14 +43,19 @@ export function Page() {
 
   useEffect(() => {
     if (result) {
-      const status = isActionSuccess(result) ? 'success' : 
-                      isActionNoDifference(result) ? 'info' : 'error'
-      const message = isActionSuccess(result) ? 'Updated successfully' :
-                      isActionNoDifference(result) ? 'No changes' :
-                      'Failed to update'
-      showToast(status, message)
+      const status = isActionSuccess(result)
+        ? 'success'
+        : isActionNoDifference(result)
+        ? 'info'
+        : 'error';
+      const message = isActionSuccess(result)
+        ? 'Updated successfully'
+        : isActionNoDifference(result)
+        ? 'No changes'
+        : 'Failed to update';
+      showToast(status, message);
     }
-  }, [result, showToast])
+  }, [result, showToast]);
 
   return (
     <>
@@ -78,7 +85,7 @@ export function Page() {
                 }
               >
                 <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
-                  <SeatTable key={"bar"} type="barSeats" field={fields.barSeats} />
+                  <SeatTable key={'bar'} type="barSeats" field={fields.barSeats} />
                 </div>
               </Accordion>
 
@@ -92,13 +99,13 @@ export function Page() {
                 }
               >
                 <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
-                  <SeatTable key={"table"} type="tableSeats" field={fields.tableSeats} />
+                  <SeatTable key={'table'} type="tableSeats" field={fields.tableSeats} />
                 </div>
               </Accordion>
             </div>
             <div className="bg-muted/10 border-t flex justify-between mt-4">
               <Button size="lg" type="submit" className="gap-2 w-full cursor-pointer">
-                <Save className="h-4"/>
+                <Save className="h-4" />
                 Save Changes
               </Button>
             </div>

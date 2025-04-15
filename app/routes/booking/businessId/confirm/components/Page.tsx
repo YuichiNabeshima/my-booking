@@ -1,6 +1,15 @@
-import { CalendarDays, Mail, Store, Users, AlertTriangle, X } from "lucide-react"
-import { Button } from "~/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card"
+import { AlertTriangle, CalendarDays, Mail, Store, Users } from 'lucide-react';
+import { Form, Link, useLoaderData } from 'react-router';
+
+import { Button } from '~/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -8,15 +17,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog"
-import { Form, Link, useLoaderData } from "react-router"
-import { usePage } from "./usePage"
-import type { LoaderResultDTO } from "../.server/dtos/LoaderResultDTO"
-import { isSuceess } from "../utils/guards/isSuccess"
+} from '~/components/ui/dialog';
+
+import type { LoaderResultDTO } from '../.server/dtos/LoaderResultDTO';
+import { isSuceess } from '../utils/guards/isSuccess';
+import { usePage } from './usePage';
 
 export function Page() {
-  const loaderData = useLoaderData<LoaderResultDTO>()
-  const data = isSuceess(loaderData) ? loaderData.data : null
+  const loaderData = useLoaderData<LoaderResultDTO>();
+  const data = isSuceess(loaderData) ? loaderData.data : null;
 
   const {
     error,
@@ -26,7 +35,7 @@ export function Page() {
     handleCloseEmailContent,
     emailSubject,
     emailBody,
-  } = usePage()
+  } = usePage();
 
   return (
     <>
@@ -98,19 +107,26 @@ export function Page() {
 
       {/* Error Modal - Cannot be closed */}
       <Dialog open={!!error}>
-        <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()} hideCloseButton={true}>
+        <DialogContent
+          className="sm:max-w-md"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          hideCloseButton={true}
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-5 w-5" />
               Booking Failed
             </DialogTitle>
-            <DialogDescription>We encountered a problem while processing your booking.</DialogDescription>
+            <DialogDescription>
+              We encountered a problem while processing your booking.
+            </DialogDescription>
           </DialogHeader>
           <div className="bg-destructive/10 p-4 rounded-md border border-destructive/20 my-2">
             <p className="text-sm font-medium text-destructive">{error}</p>
           </div>
           <p className="text-sm text-muted-foreground">
-            Please return to the home page and try again. If the problem persists, contact our support team.
+            Please return to the home page and try again. If the problem persists, contact our
+            support team.
           </p>
           <DialogFooter className="mt-4">
             <Button className="w-full">
@@ -155,16 +171,20 @@ export function Page() {
           </DialogDescription>
           <div className="bg-green-50 p-4 rounded-md border border-green-200 my-4">
             <p className="text-sm font-medium text-green-700">
-              {`Thank you for your booking at Fat Burger. We look forward to serving you on ${data?.dateTime ?? '***'}.`}
+              {`Thank you for your booking at ${
+                data?.businessName ?? '***'
+              }. We look forward to serving you on ${data?.dateTime ?? '***'}.`}
             </p>
           </div>
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              {`A confirmation email has been sent to ${data?.email ?? '***'} with your booking details.`}
+              {`A confirmation email has been sent to ${
+                data?.email ?? '***'
+              } with your booking details.`}
             </p>
             <p className="text-sm text-muted-foreground">
-              Please check your inbox (and spam folder) for the email. If you don't receive it within a few minutes,
-              please contact our support team.
+              Please check your inbox (and spam folder) for the email. If you don't receive it
+              within a few minutes, please contact our support team.
             </p>
           </div>
           <DialogFooter className="mt-6 space-y-2">
@@ -195,12 +215,13 @@ export function Page() {
             </div>
             <div className="space-y-2">
               <h3 className="font-semibold text-lg">Body:</h3>
-              <pre className="whitespace-pre-wrap bg-muted p-4 rounded-md text-base leading-relaxed">{emailBody}</pre>
+              <pre className="whitespace-pre-wrap bg-muted p-4 rounded-md text-base leading-relaxed">
+                {emailBody}
+              </pre>
             </div>
           </div>
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
-

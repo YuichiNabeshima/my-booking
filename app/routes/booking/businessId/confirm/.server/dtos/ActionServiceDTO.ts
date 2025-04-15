@@ -1,6 +1,7 @@
-import type { CustomerKind } from "~/types/enums/CustomerKind";
-import type { Time } from "~/types/Time";
-import type { Success } from "../../types/Status";
+import type { CustomerKind } from '~/types/enums/CustomerKind';
+import type { Time } from '~/types/Time';
+
+import type { Success } from '../../types/Status';
 
 export interface ActionServiceArgsDTO {
   fullName: string;
@@ -18,5 +19,5 @@ export interface ActionServiceResultDTO {
   mail?: {
     subject: string;
     body: string;
-  },
+  };
 }

@@ -1,4 +1,4 @@
-import { STATUS } from "~/constants/STATUS";
+import { STATUS } from '~/constants/STATUS';
 
 export interface HandleActionArgsDTO {
   name: string;

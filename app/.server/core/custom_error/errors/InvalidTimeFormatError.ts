@@ -1,4 +1,4 @@
-import { CustomBaseError } from "../custom_base_error";
+import { CustomBaseError } from '../custom_base_error';
 
 export class InvalidTimeFormatError extends CustomBaseError {
   constructor(message: string, details: unknown = null) {

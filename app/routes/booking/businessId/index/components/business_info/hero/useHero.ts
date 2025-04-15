@@ -1,21 +1,22 @@
-import { useState } from "react"
-import { useLoaderData } from "react-router"
-import type { loader } from "../../../route"
+import { useState } from 'react';
+import { useLoaderData } from 'react-router';
+
+import type { loader } from '../../../route';
 
 export function useHero() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const data = useLoaderData<typeof loader>();
   const images = data?.images ?? [];
   const business = data?.business ?? null;
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-  }
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-  }
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
 
   return {
     currentImageIndex,
@@ -23,6 +24,6 @@ export function useHero() {
     business,
     nextImage,
     prevImage,
-    setCurrentImageIndex
+    setCurrentImageIndex,
   };
 }

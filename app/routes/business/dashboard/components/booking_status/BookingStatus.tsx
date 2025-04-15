@@ -1,7 +1,9 @@
-import { useLoaderData } from "react-router";
-import { Card, CardContent } from "~/components/ui/card"
-import type { LoaderResultDTO } from "../../.server/dtos/LoaderResultDTO";
-import { isSuccess } from "../../utils/guards/isSuccess";
+import { useLoaderData } from 'react-router';
+
+import { Card, CardContent } from '~/components/ui/card';
+
+import type { LoaderResultDTO } from '../../.server/dtos/LoaderResultDTO';
+import { isSuccess } from '../../utils/guards/isSuccess';
 
 export function BookingStatus() {
   const data = useLoaderData<LoaderResultDTO>();

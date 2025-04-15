@@ -4,4 +4,4 @@ export const STATUS = {
   REDIRECT: 'REDIRECT',
 } as const;
 
-export type Status = typeof STATUS[keyof typeof STATUS];
+export type Status = (typeof STATUS)[keyof typeof STATUS];

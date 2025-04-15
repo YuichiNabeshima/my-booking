@@ -1,4 +1,4 @@
-import type { IncludeNewCourse } from "../.server/dtos/ActionServiceDTO";
+import type { IncludeNewCourse } from '../.server/dtos/ActionServiceDTO';
 
 export function mapValueToDbKey(course: IncludeNewCourse) {
   return {

@@ -3,7 +3,12 @@ export class CustomBaseError extends Error {
   public errorCode: string;
   public details: unknown;
 
-  constructor(message: string, statusCode: number = 500, errorCode: string = 'UNKNOWN_ERROR', details: unknown = null) {
+  constructor(
+    message: string,
+    statusCode: number = 500,
+    errorCode: string = 'UNKNOWN_ERROR',
+    details: unknown = null,
+  ) {
     super(message);
 
     this.name = this.constructor.name;

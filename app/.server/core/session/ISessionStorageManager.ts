@@ -1,4 +1,4 @@
-import type { Session } from "react-router";
+import type { Session } from 'react-router';
 
 export interface ISessionStorageManager {
   getSession(cookieHeader?: string): Promise<Session>;

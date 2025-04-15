@@ -1,5 +1,5 @@
-import type { CuisineKind } from "~/types/enums/CuisineKind";
-import type { Neighborhood } from "~/types/enums/Neighborhood";
+import type { CuisineKind } from '~/types/enums/CuisineKind';
+import type { Neighborhood } from '~/types/enums/Neighborhood';
 
 export interface LoaderServiceArgsDTO {
   cookie: string;

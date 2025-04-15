@@ -8,12 +8,4 @@ export const DAY_OF_WEEK = {
   SUN: 'SUN',
 } as const;
 
-export const DAY_OF_WEEK_ARRAY = [
-  'SUN',
-  'MON',
-  'TUE',
-  'WED',
-  'THU',
-  'FRI',
-  'SAT',
-];
+export const DAY_OF_WEEK_ARRAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];

@@ -1,5 +1,5 @@
-import type { DayOfWeek } from "~/types/enums/DayOfWeek";
-import type { BusinessHoursKind } from "~/types/enums/BusinessHoursKind";
+import type { BusinessHoursKind } from '~/types/enums/BusinessHoursKind';
+import type { DayOfWeek } from '~/types/enums/DayOfWeek';
 
 export interface BusinessHoursRepositoryDTO {
   id: number;

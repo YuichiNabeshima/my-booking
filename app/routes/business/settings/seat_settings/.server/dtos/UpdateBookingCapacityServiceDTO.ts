@@ -1,4 +1,4 @@
-import type { BookingLimit } from "../../types/BookingLimit";
+import type { BookingLimit } from '../../types/BookingLimit';
 
 export interface UpdateBookingCapacityServiceArgsDTO {
   businessId: number;

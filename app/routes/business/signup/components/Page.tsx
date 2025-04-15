@@ -1,36 +1,44 @@
-import { Form, Link, useActionData, useNavigation } from "react-router"
-import { Utensils, Loader2 } from "lucide-react"
+import { getFormProps, getInputProps, useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod';
+import { Loader2, Utensils } from 'lucide-react';
+import { Form, Link, useActionData, useNavigation } from 'react-router';
 
-import { Button } from "~/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
-import { getFormProps, getInputProps, useForm } from "@conform-to/react"
-import type { action } from "../route"
-import { parseWithZod } from "@conform-to/zod"
-import { schema } from "../schemas/schema"
-import { FORM_NAME } from "../constants/FORM_NAME"
-import { STATUS } from "~/constants/STATUS"
+import { Button } from '~/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
+import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
+import { STATUS } from '~/constants/STATUS';
+
+import { FORM_NAME } from '../constants/FORM_NAME';
+import type { action } from '../route';
+import { schema } from '../schemas/schema';
 
 export function Page() {
   const actionResult = useActionData<typeof action>();
-  
+
   const navigation = useNavigation();
   const isLoading = navigation.formAction === '/business/signup/';
 
   const [form, field] = useForm({
     lastResult: actionResult?.lastResult,
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema })
+      return parseWithZod(formData, { schema });
     },
-  })
+  });
 
-  const submitFailed = actionResult?.status === STATUS.FAILED 
+  const submitFailed = actionResult?.status === STATUS.FAILED;
 
-  const emailErrors = field[FORM_NAME.EMAIL].errors
-  const passwordErrors = field[FORM_NAME.PASSWORD].errors
-  const passwordConfirmErrors = field[FORM_NAME.PASSWORD_CONFIRM].errors
-  const nameErrors = field[FORM_NAME.NAME].errors
+  const emailErrors = field[FORM_NAME.EMAIL].errors;
+  const passwordErrors = field[FORM_NAME.PASSWORD].errors;
+  const passwordConfirmErrors = field[FORM_NAME.PASSWORD_CONFIRM].errors;
+  const nameErrors = field[FORM_NAME.NAME].errors;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
@@ -46,7 +54,9 @@ export function Page() {
         </CardHeader>
         <Form method="post" {...getFormProps(form)}>
           <CardContent className="mb-2">
-            {submitFailed && <p className="text-sm text-red-500">The email address or password is incorrect.</p>}
+            {submitFailed && (
+              <p className="text-sm text-red-500">The email address or password is incorrect.</p>
+            )}
           </CardContent>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -54,7 +64,7 @@ export function Page() {
               <Input
                 placeholder="your@email.com"
                 required
-                {...getInputProps(field[FORM_NAME.EMAIL], { type: "email" })}
+                {...getInputProps(field[FORM_NAME.EMAIL], { type: 'email' })}
               />
               {emailErrors && <p className="text-sm text-red-500">{emailErrors}</p>}
             </div>
@@ -63,7 +73,7 @@ export function Page() {
               <Input
                 placeholder="Create a password"
                 required
-                {...getInputProps(field[FORM_NAME.PASSWORD], { type: "password" })}
+                {...getInputProps(field[FORM_NAME.PASSWORD], { type: 'password' })}
               />
               {passwordErrors && <p className="text-sm text-red-500">{passwordErrors}</p>}
             </div>
@@ -72,7 +82,7 @@ export function Page() {
               <Input
                 placeholder="Confirm your password"
                 required
-                {...getInputProps(field[FORM_NAME.PASSWORD_CONFIRM], { type: "password" })}
+                {...getInputProps(field[FORM_NAME.PASSWORD_CONFIRM], { type: 'password' })}
               />
               {passwordConfirmErrors && (
                 <p className="text-sm text-red-500">{passwordConfirmErrors}</p>
@@ -83,9 +93,9 @@ export function Page() {
               <Input
                 placeholder="Enter your restaurant name"
                 required
-                {...getInputProps(field[FORM_NAME.NAME], { type: "text" })}
+                {...getInputProps(field[FORM_NAME.NAME], { type: 'text' })}
               />
-            {nameErrors && <p className="text-sm text-red-500">{nameErrors}</p>}
+              {nameErrors && <p className="text-sm text-red-500">{nameErrors}</p>}
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
@@ -96,11 +106,11 @@ export function Page() {
                   Creating account...
                 </>
               ) : (
-                "Create account"
+                'Create account'
               )}
             </Button>
             <p className="text-sm text-center text-gray-500">
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Link to="/business/login/" className="text-primary hover:underline">
                 Sign in
               </Link>
@@ -109,6 +119,5 @@ export function Page() {
         </Form>
       </Card>
     </div>
-  )
+  );
 }
-

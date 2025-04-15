@@ -1,5 +1,6 @@
-import type { z } from "zod";
-import type { schema } from "../../schemas/schema";
+import type { z } from 'zod';
+
+import type { schema } from '../../schemas/schema';
 
 export interface ActionServiceArgsDTO {
   cookie: string;

@@ -9,11 +9,11 @@ export const NEIGHBORHOOD = {
 } as const;
 
 export const NEIGHBORHOOD_LABEL = {
-  DOWNTOWN: "Downtown",
-  GASTOWN: "Gastown",
-  YALETOWN: "Yaletown",
-  WEST_END: "West End",
-  KITSILANO: "Kitsilano",
-  MAIN_STREET: "Main Street",
-  CHINATOWN: "Chinatown",
+  DOWNTOWN: 'Downtown',
+  GASTOWN: 'Gastown',
+  YALETOWN: 'Yaletown',
+  WEST_END: 'West End',
+  KITSILANO: 'Kitsilano',
+  MAIN_STREET: 'Main Street',
+  CHINATOWN: 'Chinatown',
 } as const;

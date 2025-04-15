@@ -1,8 +1,10 @@
-import { v4 as uuid } from "uuid";
-import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import type { PutObjectCommandInput, DeleteObjectCommandInput } from "@aws-sdk/client-s3";
-import { bucketName, s3Client } from "~/lib/s3/s3Client";
-import type { IImageStorage } from "./IImageStorage";
+import type { DeleteObjectCommandInput, PutObjectCommandInput } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { v4 as uuid } from 'uuid';
+
+import { bucketName, s3Client } from '~/lib/s3/s3Client';
+
+import type { IImageStorage } from './IImageStorage';
 
 export class ImageStorage implements IImageStorage {
   getImageUrl(key: string) {
@@ -32,5 +34,4 @@ export class ImageStorage implements IImageStorage {
     await s3Client.send(new DeleteObjectCommand(deleteParams));
     return true;
   }
-
 }

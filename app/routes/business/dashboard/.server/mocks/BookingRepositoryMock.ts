@@ -1,11 +1,15 @@
-import { injectable } from "inversify";
-import { BaseRepository } from "~/.server/repositories/base/BaseRepository";
-import type { BookingRepositoryDTO } from "~/.server/repositories/dtos/BookingRepositoryDTO";
-import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
-import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
+import { injectable } from 'inversify';
+
+import { BaseRepository } from '~/.server/repositories/base/BaseRepository';
+import type { BookingRepositoryDTO } from '~/.server/repositories/dtos/BookingRepositoryDTO';
+import type { IBookingRepository } from '~/.server/repositories/interfaces/IBookingRepository';
+import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
 
 @injectable()
-export class BookingRepositoryMock extends BaseRepository<{ TModel: Partial<BookingRepositoryDTO> }> implements Partial<IBookingRepository<Partial<BookingRepositoryDTO>>> {
+export class BookingRepositoryMock
+  extends BaseRepository<{ TModel: Partial<BookingRepositoryDTO> }>
+  implements Partial<IBookingRepository<Partial<BookingRepositoryDTO>>>
+{
   async fetchAll(args?: unknown): Promise<Partial<BookingRepositoryDTO>[]> {
     void args;
 
@@ -31,6 +35,6 @@ export class BookingRepositoryMock extends BaseRepository<{ TModel: Partial<Book
         number_of_guests: 1,
         customer_kind: CUSTOMER_KIND.SINGLE,
       },
-    ]; 
+    ];
   }
 }

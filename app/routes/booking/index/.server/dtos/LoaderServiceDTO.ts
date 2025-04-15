@@ -1,4 +1,4 @@
-import type { RestaurantCard } from "../../types/RestaurantCard";
+import type { RestaurantCard } from '../../types/RestaurantCard';
 
 export interface LoaderServiceArgsDTO {
   page?: number;

@@ -1,12 +1,16 @@
-import type { Time } from "~/types/Time";
-import { BookingTrackerService } from "./BookingTrackerService";
-import { BookingCapacityManagerService } from "./BookingCapacityManagerService";
+import type { Time } from '~/types/Time';
+
+import { BookingCapacityManagerService } from './BookingCapacityManagerService';
+import { BookingTrackerService } from './BookingTrackerService';
 
 export class BookingAvailabilityCheckerService {
   private bookingTracker: BookingTrackerService;
   private bookingCapacityManager: BookingCapacityManagerService;
 
-  constructor(bookingTracker: BookingTrackerService, bookingCapacityManager: BookingCapacityManagerService) {
+  constructor(
+    bookingTracker: BookingTrackerService,
+    bookingCapacityManager: BookingCapacityManagerService,
+  ) {
     this.bookingTracker = bookingTracker;
     this.bookingCapacityManager = bookingCapacityManager;
   }
@@ -25,10 +29,10 @@ export class BookingAvailabilityCheckerService {
    */
   getAllAvailabilities(): Record<Time, number> {
     const availabilities: Record<Time, number> = Object.fromEntries(
-      Object.keys(this.bookingCapacityManager["timeSlots"]).map(time => {
+      Object.keys(this.bookingCapacityManager['timeSlots']).map((time) => {
         const t = time as Time;
         return [t, this.getAvailabilityByTime(t)];
-      })
+      }),
     ) as Record<Time, number>;
 
     return availabilities;

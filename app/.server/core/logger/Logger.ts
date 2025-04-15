@@ -1,7 +1,8 @@
-import { injectable } from "inversify";
-import winston from "winston";
-import type { ILogger } from "~/.server/core/logger/ILogger";
-import { CustomBaseError } from "~/.server/core/custom_error/custom_base_error";
+import { injectable } from 'inversify';
+import winston from 'winston';
+
+import { CustomBaseError } from '~/.server/core/custom_error/custom_base_error';
+import type { ILogger } from '~/.server/core/logger/ILogger';
 
 @injectable()
 export class Logger implements ILogger {
@@ -14,7 +15,7 @@ export class Logger implements ILogger {
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         winston.format.printf(({ timestamp, level, message }) => {
           return `[${timestamp}] ${level.toUpperCase()}: ${message}`;
-        })
+        }),
       ),
       transports: [
         new winston.transports.Console(),
@@ -41,7 +42,7 @@ export class Logger implements ILogger {
           errorCode: message.errorCode,
           details: message.details,
           stack: message.stack,
-        })
+        }),
       );
     } else if (message instanceof Error) {
       this.logger.error(
@@ -49,7 +50,7 @@ export class Logger implements ILogger {
           name: message.name,
           message: message.message,
           stack: message.stack,
-        })
+        }),
       );
     } else {
       this.logger.error(message);

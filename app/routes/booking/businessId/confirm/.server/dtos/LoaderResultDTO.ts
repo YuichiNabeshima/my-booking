@@ -1,5 +1,5 @@
-import type { STATUS } from "../../constants/STATUS";
-import type { LoaderServiceResultDTO } from "./LoaderServiceDTO";
+import type { STATUS } from '../../constants/STATUS';
+import type { LoaderServiceResultDTO } from './LoaderServiceDTO';
 
 interface IsSuccess {
   status: typeof STATUS.SUCCESS;

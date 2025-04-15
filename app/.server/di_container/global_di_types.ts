@@ -16,4 +16,4 @@ export const GLOBAL_DI_TYPES = {
   BusinessPictureRepository: Symbol.for('BusinessPictureRepository'),
   BusinessTagRepository: Symbol.for('BusinessTagRepository'),
   BusinessHoursRepostory: Symbol.for('BusinessHoursRepository'),
-}
+};

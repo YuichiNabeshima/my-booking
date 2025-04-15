@@ -1,4 +1,4 @@
-import type { DayOfWeek } from "~/types/enums/DayOfWeek";
+import type { DayOfWeek } from '~/types/enums/DayOfWeek';
 
 export interface TimeSegments {
   time_0_1: number;
@@ -29,7 +29,7 @@ export interface TimeSegments {
 
 export type Week = {
   [K in DayOfWeek]: TimeSegments;
-}
+};
 
 export interface BookingLimit {
   barSheet: Week;

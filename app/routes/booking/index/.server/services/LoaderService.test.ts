@@ -1,6 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { DIContainer } from '../di_container/DIContainer'
+import { beforeEach, describe, expect, it } from 'vitest';
+
 import { DI_TYPES } from '../di_container/DI_TYPES';
+import { DIContainer } from '../di_container/DIContainer';
 import type { ILoaderService } from '../interfaces/ILoaderService';
 
 describe('LoaderService', () => {
@@ -26,24 +27,24 @@ describe('LoaderService', () => {
       const sushiMaster = result.cards[0];
       expect(sushiMaster).toMatchObject({
         id: 1,
-        name: "Sushi Master",
-        cuisine: "ASIAN",
-        description: "Authentic Japanese sushi restaurant with fresh ingredients",
-        neighborhood: "DOWNTOWN",
+        name: 'Sushi Master',
+        cuisine: 'ASIAN',
+        description: 'Authentic Japanese sushi restaurant with fresh ingredients',
+        neighborhood: 'DOWNTOWN',
         priceLevel: 3,
-        tags: ["Sushi", "Japanese", "Fine Dining"],
+        tags: ['Sushi', 'Japanese', 'Fine Dining'],
       });
 
       // Test second restaurant (Pasta Paradise)
       const pastaParadise = result.cards[1];
       expect(pastaParadise).toMatchObject({
         id: 2,
-        name: "Pasta Paradise",
-        cuisine: "ITALIAN",
-        description: "Italian restaurant serving homemade pasta and wine",
-        neighborhood: "YALETOWN",
+        name: 'Pasta Paradise',
+        cuisine: 'ITALIAN',
+        description: 'Italian restaurant serving homemade pasta and wine',
+        neighborhood: 'YALETOWN',
         priceLevel: 2,
-        tags: ["Italian", "Pasta", "Wine"],
+        tags: ['Italian', 'Pasta', 'Wine'],
       });
     });
 
@@ -52,7 +53,7 @@ describe('LoaderService', () => {
       if (!result) throw new Error('Result is null');
 
       expect(result.cards).toHaveLength(1);
-      expect(result.cards[0].name).toBe("Sushi Master");
+      expect(result.cards[0].name).toBe('Sushi Master');
       expect(result.cards[0].cuisine).toBe('ASIAN');
     });
 
@@ -61,8 +62,8 @@ describe('LoaderService', () => {
       if (!result) throw new Error('Result is null');
 
       expect(result.cards).toHaveLength(1);
-      expect(result.cards[0].name).toBe("Pasta Paradise");
-      expect(result.cards[0].neighborhood).toBe("YALETOWN");
+      expect(result.cards[0].name).toBe('Pasta Paradise');
+      expect(result.cards[0].neighborhood).toBe('YALETOWN');
     });
 
     it('should filter restaurants by price level', async () => {
@@ -70,7 +71,7 @@ describe('LoaderService', () => {
       if (!result) throw new Error('Result is null');
 
       expect(result.cards).toHaveLength(1);
-      expect(result.cards[0].name).toBe("Sushi Master");
+      expect(result.cards[0].name).toBe('Sushi Master');
       expect(result.cards[0].priceLevel).toBe(3);
     });
 
@@ -78,14 +79,14 @@ describe('LoaderService', () => {
       const result = await loaderService.execute({
         cuisine: 'ITALIAN',
         neighborhood: 'YALETOWN',
-        price: 2
+        price: 2,
       });
       if (!result) throw new Error('Result is null');
 
       expect(result.cards).toHaveLength(1);
-      expect(result.cards[0].name).toBe("Pasta Paradise");
-      expect(result.cards[0].cuisine).toBe("ITALIAN");
-      expect(result.cards[0].neighborhood).toBe("YALETOWN");
+      expect(result.cards[0].name).toBe('Pasta Paradise');
+      expect(result.cards[0].cuisine).toBe('ITALIAN');
+      expect(result.cards[0].neighborhood).toBe('YALETOWN');
       expect(result.cards[0].priceLevel).toBe(2);
     });
   });

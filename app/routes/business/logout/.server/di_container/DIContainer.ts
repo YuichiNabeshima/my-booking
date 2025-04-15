@@ -1,4 +1,4 @@
-import { BaseDIContainer } from "~/.server/di_container/BaseDIContainer";
+import { BaseDIContainer } from '~/.server/di_container/BaseDIContainer';
 
 class DIContainer extends BaseDIContainer {
   constructor() {

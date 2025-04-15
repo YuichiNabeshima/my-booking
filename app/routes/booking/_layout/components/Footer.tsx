@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Code } from "lucide-react"
+import { Code, Github, Linkedin, Mail } from 'lucide-react';
 
 const USER_INFO = {
   name: 'Yuichi Nabeshima',
@@ -15,8 +15,8 @@ export function Footer() {
         <div className="flex flex-col items-center text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-2">Let's Connect</h2>
           <p className="text-slate-300 max-w-md mb-8">
-            I'm currently looking for new opportunities in Vancouver. Feel free to reach out if you'd like to
-            collaborate!
+            I'm currently looking for new opportunities in Vancouver. Feel free to reach out if
+            you'd like to collaborate!
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-2xl mb-10">
@@ -27,7 +27,9 @@ export function Footer() {
               <div className="p-3 rounded-full bg-slate-700 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <Mail className="h-5 w-5" />
               </div>
-              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">Email</span>
+              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">
+                Email
+              </span>
             </a>
 
             <a
@@ -39,7 +41,9 @@ export function Footer() {
               <div className="p-3 rounded-full bg-slate-700 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <Github className="h-5 w-5" />
               </div>
-              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">GitHub</span>
+              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">
+                GitHub
+              </span>
             </a>
 
             <a
@@ -51,7 +55,9 @@ export function Footer() {
               <div className="p-3 rounded-full bg-slate-700 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <Linkedin className="h-5 w-5" />
               </div>
-              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">LinkedIn</span>
+              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">
+                LinkedIn
+              </span>
             </a>
 
             <a
@@ -63,14 +69,18 @@ export function Footer() {
               <div className="p-3 rounded-full bg-slate-700 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <Code className="h-5 w-5" />
               </div>
-              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">Dev.to</span>
+              <span className="text-sm text-slate-300 group-hover:text-white transition-colors">
+                Dev.to
+              </span>
             </a>
           </div>
         </div>
 
         <div className="border-t border-slate-700 pt-8 mt-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-slate-400">&copy; {new Date().getFullYear()} {USER_INFO.name}. All rights reserved.</p>
+            <p className="text-sm text-slate-400">
+              &copy; {new Date().getFullYear()} {USER_INFO.name}. All rights reserved.
+            </p>
             <div className="flex items-center gap-2 text-sm text-slate-400">
               <span>Built with</span>
               <span className="text-primary">❤</span>
@@ -80,5 +90,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

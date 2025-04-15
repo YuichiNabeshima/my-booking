@@ -1,4 +1,4 @@
-import type { BusinessHoursRepositoryDTO } from "~/.server/repositories/dtos/BusinessHoursRepositoryDTO";
+import type { BusinessHoursRepositoryDTO } from '~/.server/repositories/dtos/BusinessHoursRepositoryDTO';
 
 export interface LoaderServiceArgsDTO {
   cookie: string;

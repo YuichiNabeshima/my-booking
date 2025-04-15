@@ -1,31 +1,38 @@
-import { inject, injectable } from "inversify";
-import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { IBookingRepository } from "~/.server/repositories/interfaces/IBookingRepository";
-import type { IBookingCapacityRepository } from "~/.server/repositories/interfaces/IBookingCapacityRepository";
-import type { ICourseRepository } from "~/.server/repositories/interfaces/ICourseRepository";
-import { BookingTrackerService } from "./BookingTrackerService";
-import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from "../dtos/LoaderServiceDTO";
-import type { ILoaderService } from "../interfaces/ILoaderService";
-import { CourseNotFoundError } from "~/.server/core/custom_error/errors/repositories/CourseNotFoundError";
-import { DAY_OF_WEEK_ARRAY } from "~/constants/DAY_OF_WEEK";
-import { isDayOfWeek } from "~/utils/guards/isDayOfWeek";
-import { InvalidDayOfWeekError } from "~/.server/core/custom_error/errors/InvalidDayOfWeekError";
-import { BookingCapacityNotFoundError } from "~/.server/core/custom_error/errors/repositories/BookingCapacityNotFoundError";
-import { BookingCapacityManagerService } from "./BookingCapacityManagerService";
-import { BookingAvailabilityCheckerService } from "./BookingAvailabilityCheckerService";
-import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
+import { inject, injectable } from 'inversify';
+
+import { InvalidDayOfWeekError } from '~/.server/core/custom_error/errors/InvalidDayOfWeekError';
+import { BookingCapacityNotFoundError } from '~/.server/core/custom_error/errors/repositories/BookingCapacityNotFoundError';
+import { CourseNotFoundError } from '~/.server/core/custom_error/errors/repositories/CourseNotFoundError';
+import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
+import type { IBookingCapacityRepository } from '~/.server/repositories/interfaces/IBookingCapacityRepository';
+import type { IBookingRepository } from '~/.server/repositories/interfaces/IBookingRepository';
+import type { ICourseRepository } from '~/.server/repositories/interfaces/ICourseRepository';
+import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
+import { DAY_OF_WEEK_ARRAY } from '~/constants/DAY_OF_WEEK';
+import { isDayOfWeek } from '~/utils/guards/isDayOfWeek';
+
+import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from '../dtos/LoaderServiceDTO';
+import type { ILoaderService } from '../interfaces/ILoaderService';
+import { BookingAvailabilityCheckerService } from './BookingAvailabilityCheckerService';
+import { BookingCapacityManagerService } from './BookingCapacityManagerService';
+import { BookingTrackerService } from './BookingTrackerService';
 
 @injectable()
 export class LoaderService implements ILoaderService {
   constructor(
     @inject(GLOBAL_DI_TYPES.BookingRepository) private bookingRepository: IBookingRepository,
-    @inject(GLOBAL_DI_TYPES.BookingCapacityRepository) private bookingCapacityRepository: IBookingCapacityRepository,
+    @inject(GLOBAL_DI_TYPES.BookingCapacityRepository)
+    private bookingCapacityRepository: IBookingCapacityRepository,
     @inject(GLOBAL_DI_TYPES.CourseRepository) private courseRepository: ICourseRepository,
-  ){}
+  ) {}
   async execute(args: LoaderServiceArgsDTO): Promise<LoaderServiceResultDTO> {
     const { businessId, customerKind, courseId, date } = args;
 
-    const bookings = await this.bookingRepository.fetchAll({ business_id: businessId, date, customer_kind: customerKind });
+    const bookings = await this.bookingRepository.fetchAll({
+      business_id: businessId,
+      date,
+      customer_kind: customerKind,
+    });
 
     const bookingTracker = new BookingTrackerService();
 
@@ -35,7 +42,11 @@ export class LoaderService implements ILoaderService {
       if (!course) {
         throw new CourseNotFoundError('Course not found.');
       }
-      bookingTracker.addBooking(bookings[i].start, course.time_duration, bookings[i].customer_kind === CUSTOMER_KIND.SINGLE ? bookings[i].number_of_guests : null);
+      bookingTracker.addBooking(
+        bookings[i].start,
+        course.time_duration,
+        bookings[i].customer_kind === CUSTOMER_KIND.SINGLE ? bookings[i].number_of_guests : null,
+      );
     }
 
     const dayOfWeek = DAY_OF_WEEK_ARRAY[date.getDay()];
@@ -45,11 +56,11 @@ export class LoaderService implements ILoaderService {
     }
 
     const bookingCapacity = await this.bookingCapacityRepository.fetch({
-        business_id_day_customer_kind: {
+      business_id_day_customer_kind: {
         business_id: businessId,
         customer_kind: customerKind,
         day: dayOfWeek,
-      }
+      },
     });
 
     if (!bookingCapacity) {
@@ -58,7 +69,10 @@ export class LoaderService implements ILoaderService {
 
     const bookingCapacityManager = new BookingCapacityManagerService(bookingCapacity);
 
-    const bookingAvailabilityChecker = new BookingAvailabilityCheckerService(bookingTracker, bookingCapacityManager);
+    const bookingAvailabilityChecker = new BookingAvailabilityCheckerService(
+      bookingTracker,
+      bookingCapacityManager,
+    );
 
     return { avaliability: bookingAvailabilityChecker.getAllAvailabilities() };
   }

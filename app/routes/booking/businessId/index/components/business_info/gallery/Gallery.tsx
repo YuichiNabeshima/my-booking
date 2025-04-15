@@ -1,8 +1,10 @@
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import { Image } from "~/components/ui/image/image";
-import { Dialog, DialogClose, DialogContent, DialogTitle } from "~/components/ui/dialog";
-import { useGallery } from "./useGallery";
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+
+import { Button } from '~/components/ui/button';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '~/components/ui/dialog';
+import { Image } from '~/components/ui/image/image';
+
+import { useGallery } from './useGallery';
 
 export function Gallery() {
   const {
@@ -28,8 +30,8 @@ export function Gallery() {
             onClick={() => openImageModal(image)}
           >
             <Image
-              src={image.url || "/img/booking/placeholder.png"}
-              alt={image.caption || "Gallery Image"}
+              src={image.url || '/img/booking/placeholder.png'}
+              alt={image.caption || 'Gallery Image'}
               className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
@@ -62,7 +64,7 @@ export function Gallery() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <Button
                 key={page}
-                variant={currentGalleryPage === page ? "default" : "outline"}
+                variant={currentGalleryPage === page ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => goToGalleryPage(page)}
                 className="h-8 w-8 p-0"
@@ -98,7 +100,7 @@ export function Gallery() {
             <div className="relative flex flex-col items-center">
               <div className="w-full h-[80vh] relative">
                 <img
-                  src={selectedImage.url || "/img/booking/placeholder.png"}
+                  src={selectedImage.url || '/img/booking/placeholder.png'}
                   alt={selectedImage.caption}
                   className="w-full h-full object-contain"
                 />

@@ -1,3 +1,6 @@
+import { Mail } from 'lucide-react';
+
+import { Button } from '~/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -5,16 +8,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "~/components/ui/dialog"
-import { Mail, } from "lucide-react"
-import { Button } from "~/components/ui/button"
-import { useFinishModal } from "./useFinishModal";
+} from '~/components/ui/dialog';
+
+import { useFinishModal } from './useFinishModal';
 
 interface FinishModalProps {
-  isOpen: boolean,
-  onClose: () => void,
-  isOpenEmail: boolean,
-  onHandleEmail: () => void,
+  isOpen: boolean;
+  onClose: () => void;
+  isOpenEmail: boolean;
+  onHandleEmail: () => void;
 }
 
 export function FinishModal({ isOpen, onClose, isOpenEmail, onHandleEmail }: FinishModalProps) {
@@ -23,9 +25,7 @@ export function FinishModal({ isOpen, onClose, isOpenEmail, onHandleEmail }: Fin
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent
-          className="sm:max-w-md"
-        >
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-blue-600">
               <Mail className="h-6 w-6" />
@@ -42,8 +42,8 @@ export function FinishModal({ isOpen, onClose, isOpenEmail, onHandleEmail }: Fin
           </div>
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              Please note that this is not a final confirmation. We will process your request and send a confirmation
-              email shortly.
+              Please note that this is not a final confirmation. We will process your request and
+              send a confirmation email shortly.
             </p>
           </div>
           <DialogFooter className="mt-6 space-y-2">
@@ -69,7 +69,10 @@ export function FinishModal({ isOpen, onClose, isOpenEmail, onHandleEmail }: Fin
             </div>
             <div className="space-y-2">
               <h3 className="font-semibold text-lg">Body:</h3>
-              <pre className="whitespace-pre-wrap bg-muted p-4 rounded-md text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: convertToAnchor(email ? email.body : '') }}></pre>
+              <pre
+                className="whitespace-pre-wrap bg-muted p-4 rounded-md text-base leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: convertToAnchor(email ? email.body : '') }}
+              ></pre>
             </div>
           </div>
         </DialogContent>
@@ -77,4 +80,3 @@ export function FinishModal({ isOpen, onClose, isOpenEmail, onHandleEmail }: Fin
     </>
   );
 }
-

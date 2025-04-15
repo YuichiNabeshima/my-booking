@@ -1,4 +1,4 @@
-import type { BusinessRepositoryDTO } from "~/.server/repositories/dtos/BusinessRepositoryDTO";
+import type { BusinessRepositoryDTO } from '~/.server/repositories/dtos/BusinessRepositoryDTO';
 
 export interface ActionServiceArgsDTO {
   cookie: string;

@@ -1,15 +1,17 @@
-import { inject, injectable } from "inversify";
-import type { IActionService } from "../interfaces/IActionService";
-import type { HandleActionArgsDTO, HandleActionResultDTO } from "../dtos/ActionServiceDTO";
-import { createToken } from "../../utils/createToken.server";
-import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import type { IMailQueRepository } from "~/.server/repositories/interfaces/IMailQueRepository";
+import { inject, injectable } from 'inversify';
+
+import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
+import type { IMailQueRepository } from '~/.server/repositories/interfaces/IMailQueRepository';
+
+import { createToken } from '../../utils/createToken.server';
+import type { HandleActionArgsDTO, HandleActionResultDTO } from '../dtos/ActionServiceDTO';
+import type { IActionService } from '../interfaces/IActionService';
 
 @injectable()
 export class ActionService implements IActionService {
   constructor(
     @inject(GLOBAL_DI_TYPES.MailQueRepository) private mailQueRepository: IMailQueRepository,
-  ){}
+  ) {}
   async execute({
     numberOfGuests,
     customerKind,
@@ -20,15 +22,18 @@ export class ActionService implements IActionService {
     email,
     url,
   }: HandleActionArgsDTO): Promise<HandleActionResultDTO> {
-    const token = createToken({
-      numberOfGuests,
-      customerKind,
-      courseId,
-      date,
-      time,
-      fullName,
-      email,
-    }, 3600);
+    const token = createToken(
+      {
+        numberOfGuests,
+        customerKind,
+        courseId,
+        date,
+        time,
+        fullName,
+        email,
+      },
+      3600,
+    );
 
     const subject = 'Confirm Your Email to Complete Your Reservation';
     const body = `

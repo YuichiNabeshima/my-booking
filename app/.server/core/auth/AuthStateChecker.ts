@@ -1,14 +1,17 @@
-import { inject, injectable } from "inversify";
-import type { IAuthStateChecker } from "./IAuthStateChecker";
-import type { AuthStateCheckerArgsDTO, AuthStateCheckerResultDTO } from "./AuthStateCheckerDTO";
-import { GLOBAL_DI_TYPES } from "~/.server/di_container/GLOBAL_DI_TYPES";
-import { STATUS } from "./constants/STATUS";
-import type { ISessionStorageManager } from "~/.server/core/session/ISessionStorageManager";
+import { inject, injectable } from 'inversify';
+
+import type { ISessionStorageManager } from '~/.server/core/session/ISessionStorageManager';
+import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
+
+import type { AuthStateCheckerArgsDTO, AuthStateCheckerResultDTO } from './AuthStateCheckerDTO';
+import { STATUS } from './constants/STATUS';
+import type { IAuthStateChecker } from './IAuthStateChecker';
 
 @injectable()
 export class AuthStateChecker implements IAuthStateChecker {
   constructor(
-    @inject(GLOBAL_DI_TYPES.SessionStorageManager) private SessionStorageManager: ISessionStorageManager,
+    @inject(GLOBAL_DI_TYPES.SessionStorageManager)
+    private SessionStorageManager: ISessionStorageManager,
   ) {}
 
   async execute({ cookie }: AuthStateCheckerArgsDTO): Promise<AuthStateCheckerResultDTO> {
@@ -30,4 +33,4 @@ export class AuthStateChecker implements IAuthStateChecker {
       status: STATUS.AUTHENTICATED,
     };
   }
-} 
+}

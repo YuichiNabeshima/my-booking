@@ -1,22 +1,16 @@
-import { useAtomValue, useAtom } from 'jotai'
-import { toastAtom, hideToastAtom } from '../stores/toast'
-import { ToastNotification } from '~/components/ui/toast-notification'
-import { useEffect, useState } from 'react'
+import { useAtom, useAtomValue } from 'jotai';
+import { useState } from 'react';
+
+import { ToastNotification } from '~/components/ui/toast-notification';
+
+import { hideToastAtom, toastAtom } from '../stores/toast';
 
 export function ActionToast() {
-  const [toastKey, setToastKey] = useState(0)
-  const { show, status, message } = useAtomValue(toastAtom)
-  const [, hideToast] = useAtom(hideToastAtom)
+  const [toastKey] = useState(0);
+  const { show, status, message } = useAtomValue(toastAtom);
+  const [, hideToast] = useAtom(hideToastAtom);
 
-  // useEffect(() => {
-  //   if (show) {
-  //     setToastKey(prev => prev + 1)
-  //     const timer = setTimeout(hideToast, 3000)
-  //     return () => clearTimeout(timer)
-  //   }
-  // }, [show, hideToast])
+  if (!show || !status) return null;
 
-  if (!show || !status) return null
-
-  return <ToastNotification key={toastKey} type={status} message={message} onClose={hideToast} />
+  return <ToastNotification key={toastKey} type={status} message={message} onClose={hideToast} />;
 }

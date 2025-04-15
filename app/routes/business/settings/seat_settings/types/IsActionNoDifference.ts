@@ -1,4 +1,4 @@
-import type { STATUS } from "../constants/STATUS";
+import type { STATUS } from '../constants/STATUS';
 
 export interface IsActionNoDifference {
   status: typeof STATUS.NO_DIFFERENCE;

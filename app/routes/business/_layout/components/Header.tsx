@@ -1,7 +1,8 @@
-import { Form, Link } from "react-router";
-import { LogOut, Settings, User } from "lucide-react";
-import { Button } from "~/components/ui/button"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "~/components/ui/sheet"
+import { LogOut, Settings, User } from 'lucide-react';
+import { Form, Link } from 'react-router';
+
+import { Button } from '~/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '~/components/ui/sheet';
 
 export function Header() {
   return (
@@ -61,6 +62,5 @@ export function Header() {
         </SheetContent>
       </Sheet>
     </div>
-  )
+  );
 }
-

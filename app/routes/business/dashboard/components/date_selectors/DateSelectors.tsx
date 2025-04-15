@@ -1,7 +1,8 @@
-import { addDays, format } from "date-fns"
-import { Button } from "~/components/ui/button"
-import { Calendar } from "~/components/ui/calendar"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { addDays, format } from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+import { Button } from '~/components/ui/button';
+import { Calendar } from '~/components/ui/calendar';
 
 interface Props {
   date: Date | null;
@@ -21,7 +22,7 @@ export function DateSelectors({ date: d, setDate, today }: Props) {
         <Button variant="outline" size="icon" onClick={() => setDate(addDays(date, 1))}>
           <ChevronRight className="h-4 w-4" />
         </Button>
-        <span className="text-xl font-semibold">{format(date, "MM/dd/yyyy (E)")}</span>
+        <span className="text-xl font-semibold">{format(date, 'MM/dd/yyyy (E)')}</span>
       </div>
       <div className="flex gap-2">
         <Button variant="outline" onClick={() => setDate(today)}>

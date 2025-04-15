@@ -1,8 +1,10 @@
-import { Clock, Calendar } from "lucide-react"
-import { BUSINESS_HOURS_KIND } from "~/constants/enums/BUSINESS_HOURS_KIND"
-import { DAY_OF_WEEK } from "~/constants/DAY_OF_WEEK"
-import type { DayOfWeek } from "~/types/enums/DayOfWeek"
-import { useBusinessHours } from "./useBusinessHours"
+import { Calendar, Clock } from 'lucide-react';
+
+import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
+import { BUSINESS_HOURS_KIND } from '~/constants/enums/BUSINESS_HOURS_KIND';
+import type { DayOfWeek } from '~/types/enums/DayOfWeek';
+
+import { useBusinessHours } from './useBusinessHours';
 
 export function BusinessHours() {
   const { hoursByDay, business } = useBusinessHours();
@@ -22,7 +24,7 @@ export function BusinessHours() {
                 <div
                   key={day}
                   className={`text-center py-2 font-medium ${
-                    day === "SUNDAY" ? "text-red-600" : day === "SATURDAY" ? "text-blue-600" : ""
+                    day === 'SUNDAY' ? 'text-red-600' : day === 'SATURDAY' ? 'text-blue-600' : ''
                   }`}
                 >
                   {DAY_OF_WEEK[day as DayOfWeek]}
@@ -35,10 +37,10 @@ export function BusinessHours() {
                 <div
                   key={`status-${day}`}
                   className={`text-center py-1 text-xs rounded-md ${
-                    !isOpen ? "bg-red-100 text-red-600" : "bg-blue-100 text-blue-600"
+                    !isOpen ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'
                   }`}
                 >
-                  {isOpen ? "Open" : "Closed"}
+                  {isOpen ? 'Open' : 'Closed'}
                 </div>
               ))}
             </div>
@@ -48,9 +50,9 @@ export function BusinessHours() {
                 // Check if any day has this kind of hours
                 const hasKind = hoursByDay.some((day) =>
                   day.hours.some((hour) => hour.hours_kind === kind && hour.is_open),
-                )
+                );
 
-                if (!hasKind) return null
+                if (!hasKind) return null;
 
                 return (
                   <div key={kind} className="grid grid-cols-7 gap-2 items-center">
@@ -60,7 +62,7 @@ export function BusinessHours() {
                     </div>
 
                     {hoursByDay.map(({ day, hours }) => {
-                      const hourForKind = hours.find((h) => h.hours_kind === kind && h.is_open)
+                      const hourForKind = hours.find((h) => h.hours_kind === kind && h.is_open);
 
                       return (
                         <div key={`${day}-${kind}`} className="text-center">
@@ -78,10 +80,10 @@ export function BusinessHours() {
                             <span className="text-muted-foreground/50 text-xs">-</span>
                           )}
                         </div>
-                      )
+                      );
                     })}
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -92,17 +94,17 @@ export function BusinessHours() {
                 <div className="flex justify-between items-center mb-2">
                   <h3
                     className={`font-medium ${
-                      day === "SUNDAY" ? "text-red-600" : day === "SATURDAY" ? "text-blue-600" : ""
+                      day === 'SUNDAY' ? 'text-red-600' : day === 'SATURDAY' ? 'text-blue-600' : ''
                     }`}
                   >
                     {DAY_OF_WEEK[day as DayOfWeek]}
                   </h3>
                   <span
                     className={`text-xs px-2 py-0.5 rounded-full ${
-                      !isOpen ? "bg-red-100 text-red-600" : "bg-blue-100 text-blue-600"
+                      !isOpen ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'
                     }`}
                   >
-                    {isOpen ? "Open" : "Closed"}
+                    {isOpen ? 'Open' : 'Closed'}
                   </span>
                 </div>
 
@@ -111,11 +113,14 @@ export function BusinessHours() {
                     {hours
                       .filter((h) => h.is_open)
                       .map((hour) => (
-                        <div key={hour.id} className="text-xs sm:text-sm border-l-2 border-primary pl-2">
+                        <div
+                          key={hour.id}
+                          className="text-xs sm:text-sm border-l-2 border-primary pl-2"
+                        >
                           {hour.hours_kind && (
                             <div className="flex items-center font-medium">
                               <Clock className="h-3 w-3 mr-1 text-primary" />
-                              {hour.hours_kind === "ALL_DAY" ? "All Day" : hour.hours_kind}
+                              {hour.hours_kind === 'ALL_DAY' ? 'All Day' : hour.hours_kind}
                             </div>
                           )}
                           {hour.open_time && hour.close_time && (

@@ -1,14 +1,12 @@
-import type { Time, Hour, Minute } from "~/types/Time";
-import { InvalidTimeFormatError } from "~/.server/core/custom_error/errors/InvalidTimeFormatError";
+import { InvalidTimeFormatError } from '~/.server/core/custom_error/errors/InvalidTimeFormatError';
+import type { Hour, Minute, Time } from '~/types/Time';
 
 export class BookingTrackerService {
   private timeSlots: Record<Time, number> = Object.fromEntries(
-    [...Array(24)].flatMap((_, h) => 
-      ['00', '15', '30', '45'].map(m => 
-        [`${h.toString().padStart(2, '0')}:${m}`, 0]
-      )
-    )
-  ) as Record<Time, number>; 
+    [...Array(24)].flatMap((_, h) =>
+      ['00', '15', '30', '45'].map((m) => [`${h.toString().padStart(2, '0')}:${m}`, 0]),
+    ),
+  ) as Record<Time, number>;
 
   addBooking(startTime: string, duration: number, numberOfGuests: number | null) {
     const durationCount = duration / 15;
@@ -45,6 +43,6 @@ export class BookingTrackerService {
   }
 
   private isMinute(minute: string): minute is Minute {
-    return minute === '00' || minute === '15' || minute === '30' || minute === '45'
+    return minute === '00' || minute === '15' || minute === '30' || minute === '45';
   }
 }

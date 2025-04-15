@@ -1,5 +1,5 @@
-import { RestaurantList } from "./restaurant_list/RestaurantList";
-import { FilterBar } from "./restaurant_list/filter_bar/FilterBar";
+import { FilterBar } from './restaurant_list/filter_bar/FilterBar';
+import { RestaurantList } from './restaurant_list/RestaurantList';
 
 export function Page() {
   return (
@@ -15,6 +15,5 @@ export function Page() {
         <RestaurantList />
       </div>
     </main>
-  )
+  );
 }
-

@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react"
-import { useActionData, useLoaderData } from "react-router";
-import type { action, loader } from "../route";
-import { STATUS } from "../constants/STATUS";
-import { ERROR_MESSAGES } from "../constants/ERROR_MESSAGES";
+import { useEffect, useState } from 'react';
+import { useActionData, useLoaderData } from 'react-router';
+
+import { ERROR_MESSAGES } from '../constants/ERROR_MESSAGES';
+import { STATUS } from '../constants/STATUS';
+import type { action, loader } from '../route';
 
 export function usePage() {
   const data = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>();
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false)
-  const [showEmailContent, setShowEmailContent] = useState<boolean>(false)
+  const [success, setSuccess] = useState<boolean>(false);
+  const [showEmailContent, setShowEmailContent] = useState<boolean>(false);
   const [emailSubject, setEmailSubject] = useState<string>('');
   const [emailBody, setEmailBody] = useState<string>('');
 
@@ -27,7 +28,7 @@ export function usePage() {
 
   useEffect(() => {
     if (result?.status === STATUS.SUCCESS) {
-      setSuccess(true)
+      setSuccess(true);
       setEmailSubject(result.mail?.subject ?? '');
       setEmailBody(result.mail?.body ?? '');
       return;
@@ -40,15 +41,15 @@ export function usePage() {
     if (result?.status === STATUS.FAILED) {
       setError(ERROR_MESSAGES.FAILED);
     }
-  }, [result])
+  }, [result]);
 
   const handleViewEmailContent = () => {
-    setShowEmailContent(true)
-  }
+    setShowEmailContent(true);
+  };
 
   const handleCloseEmailContent = () => {
-    setShowEmailContent(false)
-  }
+    setShowEmailContent(false);
+  };
 
   return {
     error,

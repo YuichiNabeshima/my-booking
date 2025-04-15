@@ -1,5 +1,5 @@
-import type { CustomerKind } from "~/types/enums/CustomerKind";
-import type { Time } from "~/types/Time";
+import type { CustomerKind } from '~/types/enums/CustomerKind';
+import type { Time } from '~/types/Time';
 
 export interface BookingDetails {
   numberOfGuests: number;

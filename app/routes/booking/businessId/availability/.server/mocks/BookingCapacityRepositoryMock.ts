@@ -1,12 +1,16 @@
-import { injectable } from "inversify";
-import { BaseRepository } from "~/.server/repositories/base/BaseRepository";
-import type { BookingCapacityRepositoryDTO } from "~/.server/repositories/dtos/BookingCapacityRepositoryDTO";
-import type { IBookingCapacityRepository } from "~/.server/repositories/interfaces/IBookingCapacityRepository";
-import { CUSTOMER_KIND } from "~/constants/CUSTOMER_KIND";
-import { DAY_OF_WEEK } from "~/constants/DAY_OF_WEEK";
+import { injectable } from 'inversify';
+
+import { BaseRepository } from '~/.server/repositories/base/BaseRepository';
+import type { BookingCapacityRepositoryDTO } from '~/.server/repositories/dtos/BookingCapacityRepositoryDTO';
+import type { IBookingCapacityRepository } from '~/.server/repositories/interfaces/IBookingCapacityRepository';
+import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
+import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
 
 @injectable()
-export class BookingCapacityRepositoryMock extends BaseRepository<{ TModel: Partial<BookingCapacityRepositoryDTO> }> implements IBookingCapacityRepository<Partial<BookingCapacityRepositoryDTO>> {
+export class BookingCapacityRepositoryMock
+  extends BaseRepository<{ TModel: Partial<BookingCapacityRepositoryDTO> }>
+  implements IBookingCapacityRepository<Partial<BookingCapacityRepositoryDTO>>
+{
   async fetch(args: unknown): Promise<BookingCapacityRepositoryDTO | null> {
     void args;
     return {

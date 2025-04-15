@@ -1,13 +1,17 @@
-import { redirect } from "react-router";
-import type { Route } from "./+types/route";
-import { parseWithZod } from "@conform-to/zod";
-import { Page } from "./components/Page";
-import { DIContainer } from "./.server/di_container/DIContainer";
-import { DI_TYPES } from "./.server/di_container/DI_TYPES";
-import { schema } from "./schemas/schema";
-import { STATUS } from "./constants/STATUS";
-import type { ILoaderService } from "./.server/interfaces/ILoaderService";
-import type { IActionService } from "./.server/interfaces/IActionService";
+import { parseWithZod } from '@conform-to/zod';
+import { redirect } from 'react-router';
+
+import type { ILogger } from '~/.server/core/logger/ILogger';
+import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
+
+import { DI_TYPES } from './.server/di_container/DI_TYPES';
+import { DIContainer } from './.server/di_container/DIContainer';
+import type { IActionService } from './.server/interfaces/IActionService';
+import type { ILoaderService } from './.server/interfaces/ILoaderService';
+import type { Route } from './+types/route';
+import { Page } from './components/Page';
+import { STATUS } from './constants/STATUS';
+import { schema } from './schemas/schema';
 
 export async function loader({ request }: Route.LoaderArgs) {
   const cookie = request.headers.get('cookie');
@@ -19,11 +23,13 @@ export async function loader({ request }: Route.LoaderArgs) {
   const diContainer = new DIContainer();
   const container = diContainer.getContainer();
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
+  const logger = container.get<ILogger>(GLOBAL_DI_TYPES.Logger);
 
   try {
     const { businessHours } = await loaderService.execute({ cookie });
-    return businessHours
+    return businessHours;
   } catch (error) {
+    logger.error(error as Error);
     return null;
   }
 }
@@ -37,7 +43,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   const formData = await request.formData();
 
-  const submission = parseWithZod(formData, { schema, });
+  const submission = parseWithZod(formData, { schema });
 
   if (submission.status !== 'success') {
     return {

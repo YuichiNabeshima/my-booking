@@ -1,5 +1,6 @@
-import type { Submission } from "@conform-to/react";
-import type { STATUS } from "../../constants/STATUS";
+import type { Submission } from '@conform-to/react';
+
+import type { STATUS } from '../../constants/STATUS';
 
 export interface IsActionSuccess {
   status: typeof STATUS.SUCCESS;

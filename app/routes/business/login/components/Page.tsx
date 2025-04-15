@@ -1,16 +1,24 @@
-import { Form, Link, useActionData, useNavigation } from "react-router"
-import { Loader2, Utensils } from "lucide-react"
+import { getFormProps, getInputProps, useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod';
+import { Loader2, Utensils } from 'lucide-react';
+import { Form, Link, useActionData, useNavigation } from 'react-router';
 
-import { Button } from "~/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
-import { getFormProps, getInputProps, useForm } from "@conform-to/react"
-import { parseWithZod } from "@conform-to/zod"
-import type { action } from "../route"
-import { schema } from "../schemas/schema"
-import { FORM_NAME } from "../constants/FORM_NAME"
-import { STATUS } from "~/constants/STATUS"
+import { Button } from '~/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card';
+import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
+import { STATUS } from '~/constants/STATUS';
+
+import { FORM_NAME } from '../constants/FORM_NAME';
+import type { action } from '../route';
+import { schema } from '../schemas/schema';
 
 export function Page() {
   const actionResult = useActionData<typeof action>();
@@ -37,11 +45,15 @@ export function Page() {
             <Utensils className="h-12 w-12 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold text-center">Restaurant Admin</CardTitle>
-          <CardDescription className="text-center">Sign in to manage your reservations</CardDescription>
+          <CardDescription className="text-center">
+            Sign in to manage your reservations
+          </CardDescription>
         </CardHeader>
         <Form method="post" {...getFormProps(form)}>
           <CardContent>
-            {globalError && <p className="text-sm text-red-500">The email address or password is incorrect.</p>}
+            {globalError && (
+              <p className="text-sm text-red-500">The email address or password is incorrect.</p>
+            )}
           </CardContent>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -49,7 +61,7 @@ export function Page() {
               <Input
                 placeholder="your@email.com"
                 required
-                {...getInputProps(field[FORM_NAME.EMAIL], { type: "email" })}
+                {...getInputProps(field[FORM_NAME.EMAIL], { type: 'email' })}
               />
               {emailError && <p className="text-sm text-red-500">{emailError}</p>}
             </div>
@@ -58,7 +70,7 @@ export function Page() {
               <Input
                 placeholder="Enter your password"
                 required
-                {...getInputProps(field[FORM_NAME.PASSWORD], { type: "password" })}
+                {...getInputProps(field[FORM_NAME.PASSWORD], { type: 'password' })}
               />
               {passwordError && <p className="text-sm text-red-500">{passwordError}</p>}
             </div>
@@ -71,11 +83,11 @@ export function Page() {
                   Signing in...
                 </>
               ) : (
-                "Sign in"
+                'Sign in'
               )}
             </Button>
             <p className="text-sm text-center text-gray-500">
-              Don't have an account?{" "}
+              Don't have an account?{' '}
               <Link to="/business/signup/" className="text-primary hover:underline">
                 Sign up
               </Link>
@@ -84,6 +96,5 @@ export function Page() {
         </Form>
       </Card>
     </div>
-  )
+  );
 }
-

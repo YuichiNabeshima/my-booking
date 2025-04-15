@@ -1,6 +1,6 @@
-import type { STATUS } from "../../constants/STATUS";
-import type { Booking } from "../../types/Booking";
-import type { Stats } from "../../types/Stats";
+import type { STATUS } from '../../constants/STATUS';
+import type { Booking } from '../../types/Booking';
+import type { Stats } from '../../types/Stats';
 
 export interface IsSuccess {
   status: typeof STATUS.SUCCESS;

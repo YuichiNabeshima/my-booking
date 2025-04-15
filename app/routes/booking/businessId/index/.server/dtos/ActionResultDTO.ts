@@ -1,7 +1,8 @@
-import type { SubmissionResult } from "@conform-to/react";
-import { STATUS } from "../../constants/STATUS";
-import type { BookingDetails } from "../../types/BookingDetails";
-import type { MailResult } from "../../types/MailResult";
+import type { SubmissionResult } from '@conform-to/react';
+
+import { STATUS } from '../../constants/STATUS';
+import type { BookingDetails } from '../../types/BookingDetails';
+import type { MailResult } from '../../types/MailResult';
 
 interface IsFailed {
   status: typeof STATUS.FAILED;

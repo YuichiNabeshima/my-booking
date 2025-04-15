@@ -4,4 +4,4 @@ export interface AuthStateCheckerArgsDTO {
 
 export interface AuthStateCheckerResultDTO {
   status: string;
-} 
+}

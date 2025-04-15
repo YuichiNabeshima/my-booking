@@ -8,10 +8,10 @@ export const CUISINE_KIND = {
 } as const;
 
 export const CUISINE_KIND_LABEL = {
-  CANADIAN: "Canadian",
-  ITALIAN: "Italian",
-  ASIAN: "Asian Fusion",
-  SEAFOOD: "Seafood",
-  MEXICAN: "Mexican",
-  VEGAN: "Vegan",
+  CANADIAN: 'Canadian',
+  ITALIAN: 'Italian',
+  ASIAN: 'Asian Fusion',
+  SEAFOOD: 'Seafood',
+  MEXICAN: 'Mexican',
+  VEGAN: 'Vegan',
 } as const;

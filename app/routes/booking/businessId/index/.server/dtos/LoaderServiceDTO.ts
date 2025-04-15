@@ -1,7 +1,8 @@
-import type { BusinessRepositoryDTO } from "~/.server/repositories/dtos/BusinessRepositoryDTO";
-import type { BusinessGallery } from "../../types/BusinessGallery";
-import type { BusinessTagRepositoryDTO } from "~/.server/repositories/dtos/BusinessTagRepositoryDTO";
-import type { BusinessHoursRepositoryDTO } from "~/.server/repositories/dtos/BusinessHoursRepositoryDTO";
+import type { BusinessHoursRepositoryDTO } from '~/.server/repositories/dtos/BusinessHoursRepositoryDTO';
+import type { BusinessRepositoryDTO } from '~/.server/repositories/dtos/BusinessRepositoryDTO';
+import type { BusinessTagRepositoryDTO } from '~/.server/repositories/dtos/BusinessTagRepositoryDTO';
+
+import type { BusinessGallery } from '../../types/BusinessGallery';
 
 export interface LoaderServiceArgsDTO {
   businessId: number;
@@ -17,11 +18,11 @@ export interface CourseFromLoader {
     name: string;
     timeDuration: number;
     color: string;
-  },
+  };
 }
 
 export interface LoaderServiceResultDTO {
-  business: BusinessInfo,
+  business: BusinessInfo;
   courses: CourseFromLoader;
   images: BusinessGallery;
 }

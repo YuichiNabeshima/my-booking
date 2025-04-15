@@ -1,22 +1,19 @@
-import { Link } from "react-router"
-import { MapPin } from "lucide-react"
-import { Card, CardContent, CardFooter } from "~/components/ui/card"
-import { Button } from "~/components/ui/button"
-import { Badge } from "~/components/ui/badge"
-import { PRICE_LABEL } from "~/constants/PRICE_LABEL"
-import { NEIGHBORHOOD } from "~/constants/enums/NEIGHBORHOOD"
-import { type PriceLevel } from "~/types/PriceLabel"
-import { Pagination } from "./pagenation/Pagenation"
-import { useRestaurantList } from "./useRestaurantList"
-import { Image } from "~/components/ui/image/image"
+import { MapPin } from 'lucide-react';
+import { Link } from 'react-router';
+
+import { Badge } from '~/components/ui/badge';
+import { Button } from '~/components/ui/button';
+import { Card, CardContent, CardFooter } from '~/components/ui/card';
+import { Image } from '~/components/ui/image/image';
+import { NEIGHBORHOOD } from '~/constants/enums/NEIGHBORHOOD';
+import { PRICE_LABEL } from '~/constants/PRICE_LABEL';
+import { type PriceLevel } from '~/types/PriceLabel';
+
+import { Pagination } from './pagenation/Pagenation';
+import { useRestaurantList } from './useRestaurantList';
 
 export function RestaurantList() {
-  const {
-    filteredRestaurants,
-    currentRestaurants,
-    totalPages,
-    currentPage,
-  } = useRestaurantList();
+  const { filteredRestaurants, currentRestaurants, totalPages, currentPage } = useRestaurantList();
 
   return (
     <>
@@ -29,7 +26,10 @@ export function RestaurantList() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentRestaurants.map((restaurant, idx) => (
-              <Card key={idx} className="overflow-hidden transition-all duration-300 hover:shadow-lg py-0">
+              <Card
+                key={idx}
+                className="overflow-hidden transition-all duration-300 hover:shadow-lg py-0"
+              >
                 <div className="relative h-48 w-full overflow-hidden">
                   <Link to={`/booking/${restaurant.id}`} className="cursor-pointer">
                     {/* <img
@@ -38,7 +38,7 @@ export function RestaurantList() {
                       className="object-cover transition-transform duration-300 hover:scale-105 h-full w-full"
                     /> */}
                     <Image
-                      src={restaurant.thumbnail || "/img/common/no_image_01.png"}
+                      src={restaurant.thumbnail || '/img/common/no_image_01.png'}
                       alt={restaurant.name}
                       className="object-cover transition-transform duration-300 hover:scale-105 h-full w-full"
                     />
@@ -62,7 +62,9 @@ export function RestaurantList() {
                     </span>
                   </div>
 
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{restaurant.description}</p>
+                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                    {restaurant.description}
+                  </p>
 
                   <div className="flex flex-wrap gap-1">
                     {restaurant.tags.map((tag, index) => (
@@ -75,9 +77,7 @@ export function RestaurantList() {
 
                 <CardFooter className="p-4 pt-0">
                   <Link to={`/booking/${restaurant.id}`} className="w-full">
-                    <Button className="w-full cursor-pointer">
-                      Book a Table
-                    </Button>
+                    <Button className="w-full cursor-pointer">Book a Table</Button>
                   </Link>
                 </CardFooter>
               </Card>
@@ -89,6 +89,5 @@ export function RestaurantList() {
         </>
       )}
     </>
-  )
+  );
 }
-

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import type { CustomerKind } from '~/types/enums/CustomerKind';
 
 interface CreateTokenArgs {
@@ -18,22 +19,24 @@ export interface CreateTokenPayload {
   date: Date;
   time: string;
   name: string;
-  email: string
+  email: string;
 }
 
 export function createToken(params: CreateTokenArgs, expiresIn: number = 3600) {
-  return jwt.sign({
-    guests: params.numberOfGuests,
-    kind: params.customerKind,
-    course: params.courseId,
-    date: params.date,
-    time: params.time,
-    name: params.fullName,
-    email: params.email,
-  },
-  process.env.TOKEN_KEY as string,
-  {
-    expiresIn,
-    algorithm: 'HS256',
-  });
+  return jwt.sign(
+    {
+      guests: params.numberOfGuests,
+      kind: params.customerKind,
+      course: params.courseId,
+      date: params.date,
+      time: params.time,
+      name: params.fullName,
+      email: params.email,
+    },
+    process.env.TOKEN_KEY as string,
+    {
+      expiresIn,
+      algorithm: 'HS256',
+    },
+  );
 }

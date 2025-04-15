@@ -1,14 +1,15 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Card, CardContent } from "~/components/ui/card";
-import { ContentsHeader } from "./contents_header/ContentsHeader";
-import { DateSelectors } from "./date_selectors/DateSelectors";
-import { BookingStatus } from "./booking_status/BookingStatus";
-import { BookingList } from "./booking_list/BookingList";
-import { usePage } from "./usePage";
+import { Card, CardContent } from '~/components/ui/card';
+
+import { BookingList } from './booking_list/BookingList';
+import { BookingStatus } from './booking_status/BookingStatus';
+import { ContentsHeader } from './contents_header/ContentsHeader';
+import { DateSelectors } from './date_selectors/DateSelectors';
+import { usePage } from './usePage';
 
 export function Page() {
-  const [view, setView] = React.useState<"day" | "week" | "month">("day");
+  const [view, setView] = React.useState<'day' | 'week' | 'month'>('day');
   const { date, setDate, today } = usePage();
 
   return (
@@ -27,6 +28,5 @@ export function Page() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-
