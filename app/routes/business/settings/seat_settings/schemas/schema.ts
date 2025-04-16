@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
+import type { Week } from '../types/BookingLimit';
 
 import { TIME_SEGMENTS } from '../constants/TIME_SEGMENTS';
 
@@ -23,4 +24,4 @@ const createNestedSchema = () => {
 export const schema = z.object({
   barSeats: createNestedSchema(),
   tableSeats: createNestedSchema(),
-});
+}) as unknown as z.ZodType<{ barSeats: Week; tableSeats: Week }>;

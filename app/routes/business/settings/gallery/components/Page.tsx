@@ -81,7 +81,7 @@ export function Page() {
   const fieldsList = fields.images.getFieldList();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="container mx-auto p-4">
         <Form method="post" encType="multipart/form-data" {...getFormProps(form)}>
           <input type="hidden" name="images[-1].id" defaultValue={''} />

@@ -1,4 +1,4 @@
-import { getFormProps, getSelectProps, useForm } from '@conform-to/react';
+import { getFormProps, getInputProps, getSelectProps, useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { Clock, Users, Utensils } from 'lucide-react';
 import { Form, useActionData, useLoaderData } from 'react-router';
@@ -17,8 +17,14 @@ import {
   SelectValue,
 } from '~/components/ui/select';
 import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
+import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
+import {
+  BUSINESS_HOURS_KIND,
+  BUSINESS_HOURS_KIND_LABEL,
+} from '~/constants/enums/BUSINESS_HOURS_KIND';
 import { TIME_SLOTS } from '~/constants/TIME_SLOT';
 import { cn } from '~/lib/utils';
+import type { BusinessHoursKind } from '~/types/enums/BusinessHoursKind';
 import type { CustomerKind } from '~/types/enums/CustomerKind';
 
 import { FORM_NAME } from '../../constants/FORM_NAME';
@@ -33,6 +39,8 @@ import { useReservationForm } from './useReservationForm';
 export function ReservationForm() {
   const data = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>();
+  const business = data?.business ?? null;
+  const businessHours = business?.business_hours ?? [];
 
   if (!data) {
     return <div>Failed to load data</div>;
@@ -68,6 +76,51 @@ export function ReservationForm() {
       return parseWithZod(formData, { schema });
     },
   });
+
+  const { key: _scheduleKey, ...scheduleField } = getInputProps(field[FORM_NAME.SCHEDULE], {
+    type: 'hidden',
+  });
+
+  const getAvailableTimeSlots = (): Partial<Record<BusinessHoursKind, string[]>> => {
+    if (!businessHours.length) return { [BUSINESS_HOURS_KIND.ALL_DAY]: TIME_SLOTS };
+
+    // const today = new Date();
+    const today = new Date(date || new Date());
+    const dayOfWeek = today.getDay();
+    const dayMap: Record<number, string> = {
+      0: DAY_OF_WEEK.SUN,
+      1: DAY_OF_WEEK.MON,
+      2: DAY_OF_WEEK.TUE,
+      3: DAY_OF_WEEK.WED,
+      4: DAY_OF_WEEK.THU,
+      5: DAY_OF_WEEK.FRI,
+      6: DAY_OF_WEEK.SAT,
+    };
+    const todayHours = businessHours.filter((hour) => hour.day_of_week === dayMap[dayOfWeek]);
+    if (!todayHours.length) return { [BUSINESS_HOURS_KIND.ALL_DAY]: TIME_SLOTS };
+
+    const timeSlotsByKind: Partial<Record<BusinessHoursKind, string[]>> = {};
+
+    Object.values(BUSINESS_HOURS_KIND).forEach((kind) => {
+      const hours = todayHours.find((hour) => hour.hours_kind === kind);
+      if (!hours?.open_time || !hours?.close_time) return;
+
+      const [startHour, startMinute] = hours.open_time.split(':').map(Number);
+      const [endHour, endMinute] = hours.close_time.split(':').map(Number);
+      const startTimeInMinutes = startHour * 60 + startMinute;
+      const endTimeInMinutes = endHour * 60 + endMinute;
+
+      timeSlotsByKind[kind as BusinessHoursKind] = TIME_SLOTS.filter((time) => {
+        const [hour, minute] = time.split(':').map(Number);
+        const timeInMinutes = hour * 60 + minute;
+        return timeInMinutes >= startTimeInMinutes && timeInMinutes <= endTimeInMinutes;
+      });
+    });
+
+    return timeSlotsByKind;
+  };
+
+  const timeSlots = getAvailableTimeSlots();
 
   return (
     <>
@@ -191,37 +244,53 @@ export function ReservationForm() {
               </div>
 
               <div className="space-y-2">
+                <input {...scheduleField} />
                 <Label className="text-base">Select Time</Label>
-                <div className="grid grid-cols-4 gap-2 relative">
-                  <input type="hidden" name={field[FORM_NAME.SCHEDULE].name} value={selectedTime} />
-                  {TIME_SLOTS.map((time) => {
-                    const loadData = fetcher.data?.avaliability;
-                    const availability = loadData?.[time];
-                    const isAvailable = isTimeSlotAvailable(time, availability ?? 0);
-                    const isInRange = isInSelectedTimeRange(time);
-
-                    return (
-                      <Button
-                        key={time}
-                        variant={isInRange ? 'default' : 'outline'}
-                        className={cn(
-                          'text-sm transition-all',
-                          isInRange && courses[selectedCourse].color,
-                          !isAvailable && 'opacity-50 cursor-not-allowed',
+                {Object.entries(timeSlots).map(
+                  ([kind, slots]) =>
+                    slots.length > 0 && (
+                      <div key={kind} className="space-y-2">
+                        {kind !== BUSINESS_HOURS_KIND.ALL_DAY && (
+                          <div className="mt-4 text-sm text-muted-foreground">
+                            {BUSINESS_HOURS_KIND_LABEL[kind as BusinessHoursKind]}
+                          </div>
                         )}
-                        onClick={() => {
-                          if (isAvailable) {
-                            setSelectedTime(time);
-                          }
-                        }}
-                        disabled={!isAvailable}
-                        type="button"
-                      >
-                        {time}
-                      </Button>
-                    );
-                  })}
-                </div>
+                        <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+                          {slots.map((time: string) => {
+                            const loadData = fetcher.data?.avaliability;
+                            const availability = loadData?.[time];
+                            const isAvailable = isTimeSlotAvailable(time, availability ?? 0);
+                            const isInRange = isInSelectedTimeRange(time);
+
+                            return (
+                              <Button
+                                key={time}
+                                variant={isInRange ? 'default' : 'outline'}
+                                className={cn(
+                                  'text-sm transition-all',
+                                  isInRange && courses[selectedCourse].color,
+                                  !isAvailable && 'opacity-50 cursor-not-allowed',
+                                )}
+                                onClick={() => {
+                                  if (isAvailable) {
+                                    setSelectedTime(time);
+                                    form.update({
+                                      name: field[FORM_NAME.SCHEDULE].name,
+                                      value: time,
+                                    });
+                                  }
+                                }}
+                                disabled={!isAvailable}
+                                type="button"
+                              >
+                                {time}
+                              </Button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ),
+                )}
               </div>
             </div>
 

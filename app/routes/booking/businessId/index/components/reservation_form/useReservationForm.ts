@@ -22,7 +22,7 @@ export function useReservationForm() {
   const [date, setDate] = useState<Date>();
   const [customerKind, setCustomerKind] = useState<CustomerKind>(CUSTOMER_KIND.SINGLE);
   const [selectedTime, setSelectedTime] = useState<string>();
-  const [selectedCourse, setSelectedCourse] = useState<string>(Object.keys(courses)[0]);
+  const [selectedCourse, setSelectedCourse] = useState<string>('');
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [isFinishModalOpen, setIsFinishModalOpen] = useState<boolean>(false);
 
@@ -32,6 +32,12 @@ export function useReservationForm() {
   const setAvailability = useSetAtom(availabilityAtom);
   const setCustomerKindAtom = useSetAtom(customerKindAtom);
   const setDateAtom = useSetAtom(dateAtom);
+
+  useEffect(() => {
+    if (Object.keys(courses).length > 0 && !selectedCourse) {
+      setSelectedCourse(Object.keys(courses)[0]);
+    }
+  }, [courses, selectedCourse]);
 
   useEffect(() => {
     setIsConfirmModalOpen(result?.status === STATUS.CONFIRMED);
@@ -104,15 +110,11 @@ export function useReservationForm() {
 
   // Determine if time slot is selectable
   const isTimeSlotAvailable = (time: string, availableSeats: number) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const totalMinutes = hours * 60 + minutes;
-    const endTotalMinutes = totalMinutes + courses[selectedCourse].timeDuration;
+    if (!availableSeats) return false;
     const seatsAvailable = availableSeats - numberOfGuests >= 0;
 
     return (
-      endTotalMinutes <= 23 * 60 &&
-      seatsAvailable &&
-      getIsAvailableTimesUntilEnd(time, courses[selectedCourse].timeDuration)
+      seatsAvailable && getIsAvailableTimesUntilEnd(time, courses[selectedCourse].timeDuration)
     );
   };
 

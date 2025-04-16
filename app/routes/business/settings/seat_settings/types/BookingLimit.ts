@@ -36,4 +36,11 @@ export type Week = {
 export interface BookingLimit {
   barSeats: Week;
   tableSeats: Week;
+  businessHours: {
+    day_of_week: string;
+    hours_kind: string;
+    is_open: boolean;
+    open_time: string;
+    close_time: string;
+  }[];
 }

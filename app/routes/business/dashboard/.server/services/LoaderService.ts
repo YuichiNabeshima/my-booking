@@ -8,6 +8,7 @@ import { CustomerNotFoundError } from '~/.server/core/custom_error/errors/reposi
 import type { ISessionStorageManager } from '~/.server/core/session/ISessionStorageManager';
 import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
 import type { IBookingRepository } from '~/.server/repositories/interfaces/IBookingRepository';
+import type { IBusinessHoursRepository } from '~/.server/repositories/interfaces/IBusinessHoursRepository';
 import type { IBusinessRepository } from '~/.server/repositories/interfaces/IBusinessRepository';
 import type { ICourseRepository } from '~/.server/repositories/interfaces/ICourseRepository';
 import type { ICustomerRepository } from '~/.server/repositories/interfaces/ICustomerRepository';
@@ -27,6 +28,8 @@ export class LoaderService implements ILoaderService {
     @inject(GLOBAL_DI_TYPES.BookingRepository) private bookingRepository: IBookingRepository,
     @inject(GLOBAL_DI_TYPES.CustomerRepository) private customerRepository: ICustomerRepository,
     @inject(GLOBAL_DI_TYPES.CourseRepository) private courseRepository: ICourseRepository,
+    @inject(GLOBAL_DI_TYPES.BusinessHoursRepostory)
+    private businessHoursRepository: IBusinessHoursRepository,
     @inject(GLOBAL_DI_TYPES.SessionStorageManager)
     private SessionStorageManager: ISessionStorageManager,
   ) {}
@@ -54,6 +57,10 @@ export class LoaderService implements ILoaderService {
     const bookingList = await this.bookingRepository.fetchAll({
       business_id: business.id,
       date: { in: dateRange },
+    });
+
+    const businessHours = await this.businessHoursRepository.fetchAll({
+      business_id: business.id,
     });
 
     const bookingsPromise = bookingList.map(async (booking): Promise<Booking> => {
@@ -113,6 +120,7 @@ export class LoaderService implements ILoaderService {
         totalTableSheets,
       },
       bookings: bookings,
+      businessHours,
     };
   }
 }

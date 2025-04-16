@@ -27,13 +27,17 @@ export async function loader({ request }: Route.LoaderArgs): Promise<LoaderResul
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 
   try {
-    const { businessName, bookings, stats } = await loaderService.execute({ cookie, dates });
+    const { businessName, bookings, stats, businessHours } = await loaderService.execute({
+      cookie,
+      dates,
+    });
 
     return {
       status: STATUS.SUCCESS,
       businessName,
       stats,
       bookings,
+      businessHours,
     };
   } catch (error) {
     if (error instanceof Error) {

@@ -10,10 +10,10 @@ export default function Layout() {
 
   const navItems = [
     { label: 'Basic Information', to: 'basic-info' },
-    { label: 'Course Selection', to: 'course-selection' },
+    { label: 'Business Hours', to: 'business-hours' },
     { label: 'Seat Settings', to: 'seat-settings' },
     { label: 'Gallery', to: 'gallery' },
-    { label: 'Business Hours', to: 'business-hours' },
+    { label: 'Course Selection', to: 'course-selection' },
     { label: 'Tag', to: 'tag' },
   ];
 

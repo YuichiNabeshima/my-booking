@@ -15,21 +15,52 @@ import {
 } from '~/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
 import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
+import { BUSINESS_HOURS_KIND } from '~/constants/enums/BUSINESS_HOURS_KIND';
 
 import { TIME_SEGMENTS } from '../../constants/TIME_SEGMENTS';
 import { formatTimeRange } from '../../utils/formatTimeRange';
+import type { Week } from '../../types/BookingLimit';
 import { useSeatTable } from './useSeatTable';
 
-export const SeatTable = ({
+export function SeatTable({
   type,
   field,
+  businessHours,
 }: {
   type: 'barSeats' | 'tableSeats';
-  field: FieldMetadata<{
-    [x: string]: { [x: string]: number };
-  }>;
-}) => {
+  field: FieldMetadata<Week>;
+  businessHours: {
+    day_of_week: string;
+    hours_kind: string;
+    is_open: boolean;
+    open_time: string;
+    close_time: string;
+  }[];
+}) {
   const { toggleDayDisabled, toggleTimeDisabled, disabledDays, disabledTimes } = useSeatTable();
+
+  const getAvailableTimeSlots = (day: string) => {
+    const dayHours = businessHours?.filter((hour) => hour.day_of_week === day);
+    if (!dayHours?.length) return TIME_SEGMENTS;
+
+    const timeSlots: string[] = [];
+    Object.values(BUSINESS_HOURS_KIND).forEach((kind) => {
+      const hours = dayHours.find((hour) => hour.hours_kind === kind);
+      if (!hours?.open_time || !hours?.close_time) return;
+
+      const [startHour, startMinute] = hours.open_time.split(':').map(Number);
+      const [endHour, endMinute] = hours.close_time.split(':').map(Number);
+
+      for (let hour = startHour; hour < endHour; hour++) {
+        const timeSlot = `time_${hour}_${hour + 1}` as keyof typeof TIME_SEGMENTS;
+        if (TIME_SEGMENTS[timeSlot]) {
+          timeSlots.push(TIME_SEGMENTS[timeSlot]);
+        }
+      }
+    });
+
+    return timeSlots;
+  };
 
   return (
     <Card className="shadow-md py-0">
@@ -101,93 +132,110 @@ export const SeatTable = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Object.values(TIME_SEGMENTS).map((time, index) => (
-                  <TableRow
-                    key={time}
-                    className={index % 2 === 0 ? 'bg-background' : 'bg-muted/10'}
-                  >
-                    <TableCell className="font-medium border-r p-0">
-                      <div className="p-2 bg-muted/20 h-full flex flex-col justify-center">
-                        <div className="mb-2 flex items-center gap-1">
-                          <Clock className="h-3 w-3 text-muted-foreground" />
-                          <span className="text-sm">{formatTimeRange(time)}</span>
+                {Object.values(TIME_SEGMENTS).map((time, index) => {
+                  const isVisible = Object.values(DAY_OF_WEEK).some((day) =>
+                    Object.values(getAvailableTimeSlots(day)).includes(time),
+                  );
+                  if (!isVisible) return null;
+
+                  return (
+                    <TableRow
+                      key={time}
+                      className={index % 2 === 0 ? 'bg-background' : 'bg-muted/10'}
+                    >
+                      <TableCell className="font-medium border-r p-0">
+                        <div className="p-2 bg-muted/20 h-full flex flex-col justify-center">
+                          <div className="mb-2 flex items-center gap-1">
+                            <Clock className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-sm">{formatTimeRange(time)}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              min={0}
+                              max={99}
+                              placeholder="Bulk"
+                              className="h-8 text-center bg-background/80 border-muted transition-all hover:border-primary focus:border-primary"
+                              name="bulk"
+                              disabled={disabledTimes[time]}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const targets = document.querySelectorAll<HTMLInputElement>(
+                                  `[data-type=${type}][data-time=${time}]`,
+                                );
+                                targets.forEach((target) => {
+                                  const day = target.getAttribute('data-day');
+                                  if (day && !disabledDays[day]) {
+                                    target.value = value;
+                                  }
+                                });
+                              }}
+                            />
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className={`h-8 w-8 ${
+                                      disabledTimes[time] ? 'text-red-500' : 'text-muted-foreground'
+                                    }`}
+                                    type="button"
+                                    onClick={() => toggleTimeDisabled(time)}
+                                  >
+                                    {disabledTimes[time] ? (
+                                      <Eye className="h-4 w-4" />
+                                    ) : (
+                                      <EyeOff className="h-4 w-4" />
+                                    )}
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  {disabledTimes[time] ? 'Enable' : 'Disable'} all{' '}
+                                  {formatTimeRange(time)} inputs
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Input
-                            type="number"
-                            min={0}
-                            max={99}
-                            placeholder="Bulk"
-                            className="h-8 text-center bg-background/80 border-muted transition-all hover:border-primary focus:border-primary"
-                            name="bulk"
-                            disabled={disabledTimes[time]}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const targets = document.querySelectorAll<HTMLInputElement>(
-                                `[data-type=${type}][data-time=${time}]`,
-                              );
-                              targets.forEach((target) => {
-                                const day = target.getAttribute('data-day');
-                                if (day && !disabledDays[day]) {
-                                  target.value = value;
-                                }
-                              });
-                            }}
-                          />
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className={`h-8 w-8 ${
-                                    disabledTimes[time] ? 'text-red-500' : 'text-muted-foreground'
-                                  }`}
-                                  type="button"
-                                  onClick={() => toggleTimeDisabled(time)}
-                                >
-                                  {disabledTimes[time] ? (
-                                    <Eye className="h-4 w-4" />
-                                  ) : (
-                                    <EyeOff className="h-4 w-4" />
-                                  )}
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                {disabledTimes[time] ? 'Enable' : 'Disable'} all{' '}
-                                {formatTimeRange(time)} inputs
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </div>
-                      </div>
-                    </TableCell>
-                    {Object.values(DAY_OF_WEEK).map((day) => {
-                      const { ...timeField } = getInputProps(
-                        field.getFieldset()[day].getFieldset()[time],
-                        { type: 'number' },
-                      );
-                      return (
-                        <TableCell key={timeField.name} className="p-2 border-r last:border-r-0">
-                          <Input
-                            className={`h-10 text-center font-medium transition-all hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary/20 ${
-                              disabledDays[day] || disabledTimes[time]
-                                ? 'opacity-50 bg-muted/20'
-                                : ''
-                            }`}
-                            data-type={type}
-                            data-day={day}
-                            data-time={time}
-                            min={0}
-                            max={99}
-                            readOnly={disabledDays[day] || disabledTimes[time]}
-                            {...timeField}
-                          />
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      {Object.values(DAY_OF_WEEK).map((day) => {
+                        const availableTimeSlots = getAvailableTimeSlots(day);
+                        if (!Object.values(availableTimeSlots).includes(time)) {
+                          return (
+                            <TableCell
+                              key={`${day}-${time}`}
+                              className="p-2 border-r last:border-r-0"
+                            />
+                          );
+                        }
+
+                        const { ...timeField } = getInputProps(
+                          field.getFieldset()[day].getFieldset()[time],
+                          { type: 'number' },
+                        );
+                        return (
+                          <TableCell key={timeField.name} className="p-2 border-r last:border-r-0">
+                            <Input
+                              className={`h-10 text-center font-medium transition-all hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary/20 ${
+                                disabledDays[day] || disabledTimes[time]
+                                  ? 'opacity-50 bg-muted/20'
+                                  : ''
+                              }`}
+                              data-type={type}
+                              data-day={day}
+                              data-time={time}
+                              min={0}
+                              max={99}
+                              readOnly={disabledDays[day] || disabledTimes[time]}
+                              {...timeField}
+                            />
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
@@ -195,4 +243,4 @@ export const SeatTable = ({
       </CardContent>
     </Card>
   );
-};
+}

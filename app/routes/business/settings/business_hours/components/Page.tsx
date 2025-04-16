@@ -1,29 +1,18 @@
-import { type FieldMetadata, getFormProps, getInputProps } from '@conform-to/react';
+import { getFormProps, getInputProps } from '@conform-to/react';
 import { Form } from 'react-router';
 import { z } from 'zod';
 
-import type { BusinessHoursRepositoryDTO } from '~/.server/repositories/dtos/BusinessHoursRepositoryDTO';
-import { AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion';
-import { Accordion } from '~/components/ui/accordion';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
 import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
+import { BUSINESS_HOURS_KIND } from '~/constants/enums/BUSINESS_HOURS_KIND';
 
 import { schema } from '../schemas/schema';
 import { usePage } from './usePage';
 
 export function Page() {
-  const {
-    form,
-    openDayValues,
-    setOpenDayValues,
-    openHoursKindValues,
-    setOpenHoursKindValues,
-    hoursByDay,
-    fields,
-  } = usePage();
+  const { form, hoursByDay, fields } = usePage();
 
   return (
     <div className="container mx-auto py-6">
@@ -36,114 +25,93 @@ export function Page() {
         </CardHeader>
         <CardContent>
           <Form {...getFormProps(form)} method="post">
-            <Accordion
-              type="multiple"
-              value={openDayValues}
-              onValueChange={setOpenDayValues}
-              className="space-y-2"
-            >
-              {(Object.keys(DAY_OF_WEEK) as Array<keyof typeof DAY_OF_WEEK>).map((day) => (
-                <AccordionItem key={day} value={day} className="border rounded-md overflow-hidden">
-                  <AccordionTrigger className="px-4 py-2 hover:bg-gray-50">
-                    {formatDayOfWeek(day)}
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 pb-4 pt-2">
-                    <Accordion
-                      type="multiple"
-                      value={openHoursKindValues.filter((v) => v.startsWith(day))}
-                      onValueChange={(values) => {
-                        // Filter out values for other days
-                        const otherDayValues = openHoursKindValues.filter(
-                          (v) => !v.startsWith(day),
-                        );
-                        setOpenHoursKindValues([...otherDayValues, ...values]);
-                      }}
-                      className="space-y-2"
+            <div className="overflow-x-auto">
+              <div className="min-w-[800px]">
+                <div className="grid grid-cols-8 gap-2">
+                  <div className="font-medium text-center py-2">Time</div>
+                  {(Object.keys(DAY_OF_WEEK) as Array<keyof typeof DAY_OF_WEEK>).map((day) => (
+                    <div
+                      key={day}
+                      className={`text-center py-2 font-medium ${
+                        day === 'SUN' ? 'text-red-600' : day === 'SAT' ? 'text-blue-600' : ''
+                      }`}
                     >
-                      {hoursByDay[day]?.map((hour) => {
-                        const hourKey = `${day}_${hour.hours_kind}`;
-                        const nameOpen = `${day}-${hour.hours_kind}-open`.toLowerCase();
-                        const nameClose = `${day}-${hour.hours_kind}-close`.toLowerCase();
+                      {formatDayOfWeek(day)}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-8 gap-2 mb-1">
+                  <div className="font-medium text-center py-1"></div>
+                  {(Object.keys(DAY_OF_WEEK) as Array<keyof typeof DAY_OF_WEEK>).map((day) => (
+                    <div key={day} className="grid grid-cols-2 gap-1">
+                      <div className="text-xs text-muted-foreground text-center">Open</div>
+                      <div className="text-xs text-muted-foreground text-center">Close</div>
+                    </div>
+                  ))}
+                </div>
+
+                {Object.keys(BUSINESS_HOURS_KIND).map((kind) => {
+                  const kindLabel = formatHoursKind(kind);
+                  return (
+                    <div key={kind} className="grid grid-cols-8 gap-2 items-center py-2">
+                      <div className="font-medium text-sm">{kindLabel}</div>
+                      {(Object.keys(DAY_OF_WEEK) as Array<keyof typeof DAY_OF_WEEK>).map((day) => {
+                        const hour = hoursByDay[day]?.find((h) => h.hours_kind === kind);
+                        if (!hour)
+                          return (
+                            <div
+                              key={`${day}-${kind}`}
+                              className="text-center text-muted-foreground"
+                            >
+                              -
+                            </div>
+                          );
+
+                        const nameOpen = `${day}-${kind}-open`.toLowerCase();
+                        const nameClose = `${day}-${kind}-close`.toLowerCase();
+                        const fieldOpen = fields[nameOpen as keyof z.infer<typeof schema>];
+                        const fieldClose = fields[nameClose as keyof z.infer<typeof schema>];
 
                         return (
-                          <AccordionItem
-                            key={hourKey}
-                            value={hourKey}
-                            className="border rounded-md overflow-hidden"
-                          >
-                            <AccordionTrigger className="px-4 py-2 text-sm hover:bg-gray-50">
-                              {formatHoursKind(hour.hours_kind || '')}
-                            </AccordionTrigger>
-                            <AccordionContent className="p-4">
-                              <BusinessHourEntry
-                                hour={hour}
-                                fieldOpen={fields[nameOpen as keyof z.infer<typeof schema>]}
-                                fieldClose={fields[nameClose as keyof z.infer<typeof schema>]}
-                              />
-                            </AccordionContent>
-                          </AccordionItem>
+                          <div key={`${day}-${kind}`} className="grid grid-cols-2 gap-1">
+                            <Input
+                              placeholder="09:00"
+                              defaultValue={fieldOpen.value}
+                              {...getInputProps(fieldOpen, { type: 'text' })}
+                              className={`h-8 text-sm ${
+                                fieldOpen.value
+                                  ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                  : 'bg-muted/20 border-muted'
+                              }`}
+                            />
+                            <Input
+                              placeholder="17:00"
+                              defaultValue={fieldClose.value}
+                              {...getInputProps(fieldClose, { type: 'text' })}
+                              className={`h-8 text-sm ${
+                                fieldClose.value
+                                  ? 'bg-rose-50 border-rose-200 text-rose-700'
+                                  : 'bg-muted/20 border-muted'
+                              }`}
+                            />
+                          </div>
                         );
                       })}
-                    </Accordion>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
             <div className="mt-6">
               <Button type="submit" className="w-full cursor-pointer">
-                {/* {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} */}
                 Save Business Hours
               </Button>
             </div>
           </Form>
         </CardContent>
       </Card>
-    </div>
-  );
-}
-
-function BusinessHourEntry({
-  hour,
-  fieldOpen,
-  fieldClose,
-}: {
-  hour: BusinessHoursRepositoryDTO;
-  showError?: boolean;
-  fieldOpen: FieldMetadata<string | undefined, z.infer<typeof schema>, string[]>;
-  fieldClose: FieldMetadata<string | undefined, z.infer<typeof schema>, string[]>;
-}) {
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor={`open-time-${hour.day_of_week}-${hour.hours_kind}`}>
-            Opening Time (HH:MM)
-          </Label>
-          <Input
-            placeholder="09:00"
-            defaultValue={fieldOpen.value}
-            {...getInputProps(fieldOpen, { type: 'text' })}
-          />
-          {fieldOpen.errors && (
-            <p className="text-sm text-red-500">{fieldOpen.errors.join(', ')}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor={`close-time-${hour.day_of_week}-${hour.hours_kind}`}>
-            Closing Time (HH:MM)
-          </Label>
-          <Input
-            placeholder="17:00"
-            defaultValue={fieldClose.value}
-            {...getInputProps(fieldClose, { type: 'text' })}
-          />
-          {fieldClose.errors && (
-            <p className="text-sm text-red-500">{fieldClose.errors.join(', ')}</p>
-          )}
-        </div>
-      </div>
     </div>
   );
 }

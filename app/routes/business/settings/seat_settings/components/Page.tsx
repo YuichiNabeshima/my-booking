@@ -14,6 +14,7 @@ import { showToastAtom } from '../../_layout/stores/toast';
 import type { ActionDTO } from '../.server/dtos/ActionDTO';
 import type { LoaderDTO } from '../.server/dtos/LoaderDTO';
 import { schema } from '../schemas/schema';
+import type { Week } from '../types/BookingLimit';
 import { isActionNoDifference } from '../utils/guards/isActionNoDifference';
 import { isActionSuccess } from '../utils/guards/isActionSuccess';
 import { isLoaderSuccess } from '../utils/guards/isLoaderSuccess';
@@ -29,9 +30,12 @@ export function Page() {
     return <ErrorContent />;
   }
 
-  const { barSeats, tableSeats } = data.bookingLimit;
+  const { barSeats, tableSeats, businessHours } = data.bookingLimit;
 
-  const [form, fields] = useForm({
+  const [form, fields] = useForm<{
+    barSeats: Week;
+    tableSeats: Week;
+  }>({
     onValidate({ formData }) {
       return parseWithZod(formData, { schema });
     },
@@ -85,7 +89,12 @@ export function Page() {
                 }
               >
                 <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
-                  <SeatTable key={'bar'} type="barSeats" field={fields.barSeats} />
+                  <SeatTable
+                    key={'bar'}
+                    type="barSeats"
+                    field={fields.barSeats}
+                    businessHours={businessHours}
+                  />
                 </div>
               </Accordion>
 
@@ -99,7 +108,12 @@ export function Page() {
                 }
               >
                 <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800">
-                  <SeatTable key={'table'} type="tableSeats" field={fields.tableSeats} />
+                  <SeatTable
+                    key={'table'}
+                    type="tableSeats"
+                    field={fields.tableSeats}
+                    businessHours={businessHours}
+                  />
                 </div>
               </Accordion>
             </div>
