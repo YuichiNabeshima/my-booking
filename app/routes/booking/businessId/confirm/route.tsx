@@ -71,7 +71,7 @@ export async function action({ request, params }: Route.ActionArgs) {
       process.env.TOKEN_KEY as string,
     ) as CreateTokenPayload;
 
-    const result = await actionService.handleAction({
+    const result = await actionService.execute({
       fullName: name,
       email,
       businessId,

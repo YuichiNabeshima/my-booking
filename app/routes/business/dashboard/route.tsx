@@ -1,7 +1,7 @@
 import { redirect } from 'react-router';
 
 import { DI_TYPES } from './.server/di_container/DI_TYPES';
-import { diContainer } from './.server/di_container/DIContainer';
+import { DIContainer } from './.server/di_container/DIContainer';
 import type { LoaderResultDTO } from './.server/dtos/LoaderResultDTO';
 import type { ILoaderService } from './.server/interfaces/ILoaderService';
 import type { Route } from './+types/route';
@@ -17,12 +17,12 @@ export async function loader({ request }: Route.LoaderArgs): Promise<LoaderResul
   const cookie = request.headers.get('cookie');
 
   if (!cookie) {
-    return redirect('/business/login');
+    throw redirect('/business/login');
   }
 
   const dates = isValidDatesArray(datesArray) ? datesArray : ([new Date()] as [Date]);
 
-  diContainer.bindMock();
+  const diContainer = new DIContainer();
   const container = diContainer.getContainer();
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 

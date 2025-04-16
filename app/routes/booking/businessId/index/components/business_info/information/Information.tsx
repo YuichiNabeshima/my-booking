@@ -28,6 +28,9 @@ export function Information() {
             <div className="font-medium">Phone</div>
             <div className="text-muted-foreground break-words">{business?.tel}</div>
 
+            <div className="font-medium">Email</div>
+            <div className="text-muted-foreground break-words">{business?.email}</div>
+
             <div className="font-medium">Seating</div>
             <div className="text-muted-foreground">{business?.total_seats} seats</div>
 

@@ -1,5 +1,5 @@
 import type { ActionServiceArgsDTO, ActionServiceResultDTO } from '../dtos/ActionServiceDTO';
 
 export interface IActionService {
-  handleAction(args: ActionServiceArgsDTO): Promise<ActionServiceResultDTO>;
+  execute(args: ActionServiceArgsDTO): Promise<ActionServiceResultDTO>;
 }

@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { Card, CardContent } from '~/components/ui/card';
 
 import { BookingList } from './booking_list/BookingList';
@@ -9,13 +7,12 @@ import { DateSelectors } from './date_selectors/DateSelectors';
 import { usePage } from './usePage';
 
 export function Page() {
-  const [view, setView] = React.useState<'day' | 'week' | 'month'>('day');
   const { date, setDate, today } = usePage();
 
   return (
-    <div className="p-6">
+    <div className="p-6 pb-30">
       <Card className="max-w-[1200px] mx-auto">
-        <ContentsHeader view={view} setView={setView} />
+        <ContentsHeader />
         <CardContent>
           <div className="flex flex-col gap-6">
             <DateSelectors date={date} setDate={setDate} today={today} />

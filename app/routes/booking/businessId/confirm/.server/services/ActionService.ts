@@ -29,7 +29,7 @@ export class ActionService implements IActionService {
     @inject(GLOBAL_DI_TYPES.MailQueRepository) private mailQueRepository: IMailQueRepository,
   ) {}
 
-  async handleAction({
+  async execute({
     fullName,
     email,
     businessId,

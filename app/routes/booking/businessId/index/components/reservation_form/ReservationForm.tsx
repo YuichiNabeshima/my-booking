@@ -195,7 +195,8 @@ export function ReservationForm() {
                 <div className="grid grid-cols-4 gap-2 relative">
                   <input type="hidden" name={field[FORM_NAME.SCHEDULE].name} value={selectedTime} />
                   {TIME_SLOTS.map((time) => {
-                    const availability = fetcher.data?.avaliability[time];
+                    const loadData = fetcher.data?.avaliability;
+                    const availability = loadData?.[time];
                     const isAvailable = isTimeSlotAvailable(time, availability ?? 0);
                     const isInRange = isInSelectedTimeRange(time);
 

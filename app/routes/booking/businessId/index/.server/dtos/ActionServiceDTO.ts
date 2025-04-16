@@ -1,6 +1,6 @@
 import type { CustomerKind } from '~/types/enums/CustomerKind';
 
-export interface HandleActionArgsDTO {
+export interface ActionServiceArgsDTO {
   numberOfGuests: number;
   customerKind: CustomerKind;
   courseId: number;
@@ -12,7 +12,7 @@ export interface HandleActionArgsDTO {
   url: string;
 }
 
-export interface HandleActionResultDTO {
+export interface ActionServiceResultDTO {
   mail: {
     to: string;
     subject: string;

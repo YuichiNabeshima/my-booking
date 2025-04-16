@@ -7,7 +7,7 @@ import type { IBusinessRepository } from '~/.server/repositories/interfaces/IBus
 import { STATUS } from '~/constants/STATUS';
 
 import { BusinessAlreadyExists } from '../custom_errors/BusinessAlreadyExists';
-import type { HandleActionArgsDTO, HandleActionResultDTO } from '../dtos/ActionServiceDTO';
+import type { ActionServiceArgsDTO, ActionServiceResultDTO } from '../dtos/ActionServiceDTO';
 import type { IActionService } from '../interfaces/IActionService';
 
 @injectable()
@@ -18,7 +18,7 @@ export class ActionService implements IActionService {
     private SessionStorageManager: ISessionStorageManager,
   ) {}
 
-  async handleAction(args: HandleActionArgsDTO): Promise<HandleActionResultDTO> {
+  async execute(args: ActionServiceArgsDTO): Promise<ActionServiceResultDTO> {
     const { name, email, password } = args;
 
     const existingBusiness = await this.businessRepository.fetch({ email });

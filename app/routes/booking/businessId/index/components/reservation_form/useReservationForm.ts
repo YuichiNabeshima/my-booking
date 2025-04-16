@@ -1,3 +1,4 @@
+import { useSetAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { useActionData, useFetcher, useLoaderData } from 'react-router';
 
@@ -9,6 +10,7 @@ import type { Availability } from '../../../availability/route';
 import type { LoaderServiceResultDTO } from '../../.server/dtos/LoaderServiceDTO';
 import { STATUS } from '../../constants/STATUS';
 import type { action } from '../../route';
+import { availabilityAtom, customerKindAtom, dateAtom } from './availabilityAtom';
 
 export function useReservationForm() {
   const data = useLoaderData<LoaderServiceResultDTO>();
@@ -27,6 +29,9 @@ export function useReservationForm() {
   const [showEmailContent, setShowEmailContent] = useState<boolean>(false);
 
   const fetcher = useFetcher<Availability>();
+  const setAvailability = useSetAtom(availabilityAtom);
+  const setCustomerKindAtom = useSetAtom(customerKindAtom);
+  const setDateAtom = useSetAtom(dateAtom);
 
   useEffect(() => {
     setIsConfirmModalOpen(result?.status === STATUS.CONFIRMED);
@@ -43,6 +48,20 @@ export function useReservationForm() {
   useEffect(() => {
     setSelectedTime(undefined);
   }, [numberOfGuests, date, customerKind, selectedCourse]);
+
+  useEffect(() => {
+    if (fetcher.data?.avaliability) {
+      setAvailability(fetcher.data.avaliability);
+    }
+  }, [fetcher.data?.avaliability, setAvailability]);
+
+  useEffect(() => {
+    setCustomerKindAtom(customerKind);
+  }, [customerKind, setCustomerKindAtom]);
+
+  useEffect(() => {
+    setDateAtom(date);
+  }, [date, setDateAtom]);
 
   const handleConfirmModalOpen = () => {
     setIsConfirmModalOpen((prev) => !prev);

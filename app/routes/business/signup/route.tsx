@@ -54,7 +54,7 @@ export async function action({ request }: Route.ActionArgs) {
   const logger = container.get<ILogger>(GLOBAL_DI_TYPES.Logger);
 
   try {
-    const result = await actionService.handleAction({ name, email, password });
+    const result = await actionService.execute({ name, email, password });
 
     return redirect('/business/dashboard', {
       headers: {

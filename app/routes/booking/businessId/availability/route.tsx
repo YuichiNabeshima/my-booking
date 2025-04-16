@@ -5,7 +5,7 @@ import { isCustomerKind } from '~/utils/guards/isCustomerKind';
 
 import type { Route } from '../index/+types/route';
 import { DI_TYPES } from './.server/di_container/DI_TYPES';
-import { diContainer } from './.server/di_container/DIContainer';
+import { DIContainer } from './.server/di_container/DIContainer';
 import type { LoaderServiceResultDTO } from './.server/dtos/LoaderServiceDTO';
 import type { ILoaderService } from './.server/interfaces/ILoaderService';
 
@@ -36,7 +36,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 
   if (isNaN(courseIdNum)) return IS_FAILED;
 
-  diContainer.bindMockRepository();
+  const diContainer = new DIContainer();
   const container = diContainer.getContainer();
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 

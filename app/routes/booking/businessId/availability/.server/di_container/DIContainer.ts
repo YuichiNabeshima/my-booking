@@ -14,7 +14,7 @@ import { CourseRepositoryMock } from '../mocks/CourseRepositoryMock';
 import { LoaderService } from '../services/LoaderService';
 import { DI_TYPES } from './DI_TYPES';
 
-class DIContainer extends BaseDIContainer {
+export class DIContainer extends BaseDIContainer {
   constructor() {
     super();
     this.container.bind<ILoaderService>(DI_TYPES.LoaderService).to(LoaderService);
@@ -34,5 +34,3 @@ class DIContainer extends BaseDIContainer {
       .to(CourseRepositoryMock);
   }
 }
-
-export const diContainer = new DIContainer();

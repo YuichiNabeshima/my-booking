@@ -4,7 +4,7 @@ import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
 import type { IMailQueRepository } from '~/.server/repositories/interfaces/IMailQueRepository';
 
 import { createToken } from '../../utils/createToken.server';
-import type { HandleActionArgsDTO, HandleActionResultDTO } from '../dtos/ActionServiceDTO';
+import type { ActionServiceArgsDTO, ActionServiceResultDTO } from '../dtos/ActionServiceDTO';
 import type { IActionService } from '../interfaces/IActionService';
 
 @injectable()
@@ -21,7 +21,7 @@ export class ActionService implements IActionService {
     fullName,
     email,
     url,
-  }: HandleActionArgsDTO): Promise<HandleActionResultDTO> {
+  }: ActionServiceArgsDTO): Promise<ActionServiceResultDTO> {
     const token = createToken(
       {
         numberOfGuests,

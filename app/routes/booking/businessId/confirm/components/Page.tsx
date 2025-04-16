@@ -130,7 +130,7 @@ export function Page() {
           </p>
           <DialogFooter className="mt-4">
             <Button className="w-full">
-              <Link to="/" className="w-full">
+              <Link to="/booking/" className="w-full">
                 Return to Home
               </Link>
             </Button>
