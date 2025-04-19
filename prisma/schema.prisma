@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,6 +5,173 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Business {
+  id                  Int               @id @default(autoincrement())
+  uuid                String            @unique @default(uuid())
+  name                String            @db.VarChar(255)
+  email               String            @unique @db.VarChar(255)
+  password            String            @db.VarChar(255)
+  support_single      Boolean           @default(true)
+  support_group       Boolean           @default(true)
+  capacity_of_group   Int               @default(4)
+  cuisine_kind        Cuisine?
+  price_level         Int?
+  neighborhood        Neighborhood?
+  zip_code            String?           @db.VarChar(7)
+  address             String?           @db.VarChar(255)
+  tel                 String?           @db.VarChar(20)
+  total_seats         Int?
+  payment_method      String?           @db.VarChar(255)
+  parking             String?           @db.VarChar(255)
+  description         String?
+  business_hours_note String?
+  updated_at          DateTime          @updatedAt
+  created_at          DateTime          @default(now())
+  business_hours      BusinessHours[]
+  business_picture    BusinessPicture[]
+  business_tag        BusinessTag[]
+
+  @@map("business")
+}
+
+model Booking {
+  id               Int           @id @default(autoincrement())
+  date             DateTime      @db.Date
+  start            String        @db.VarChar(10)
+  customer_id      Int
+  business_id      Int
+  course_id        Int
+  number_of_guests Int
+  customer_kind    CustomerKind  @default(SINGLE)
+  status           BookingStatus @default(CONFIRMED)
+  updated_at       DateTime      @updatedAt
+  created_at       DateTime      @default(now())
+
+  @@map("booking")
+}
+
+model BookingCapacity {
+  id            Int          @id @default(autoincrement())
+  business_id   Int
+  day           DayOfWeek
+  customer_kind CustomerKind
+  time_0_1      Int          @default(0)
+  time_1_2      Int          @default(0)
+  time_2_3      Int          @default(0)
+  time_3_4      Int          @default(0)
+  time_4_5      Int          @default(0)
+  time_5_6      Int          @default(0)
+  time_6_7      Int          @default(0)
+  time_7_8      Int          @default(0)
+  time_8_9      Int          @default(0)
+  time_9_10     Int          @default(0)
+  time_10_11    Int          @default(0)
+  time_11_12    Int          @default(2)
+  time_12_13    Int          @default(2)
+  time_13_14    Int          @default(2)
+  time_14_15    Int          @default(2)
+  time_15_16    Int          @default(0)
+  time_16_17    Int          @default(0)
+  time_17_18    Int          @default(2)
+  time_18_19    Int          @default(2)
+  time_19_20    Int          @default(2)
+  time_20_21    Int          @default(2)
+  time_21_22    Int          @default(0)
+  time_22_23    Int          @default(0)
+  time_23_24    Int          @default(0)
+  updated_at    DateTime     @updatedAt
+  created_at    DateTime     @default(now())
+
+  @@unique([business_id, day, customer_kind])
+  @@map("booking_capacity")
+}
+
+model Course {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  time_duration Int
+  business_id   Int
+  updated_at    DateTime @updatedAt
+  created_at    DateTime @default(now())
+
+  @@map("course")
+}
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  email      String   @unique @db.VarChar(255)
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("customer")
+}
+
+model BusinessPicture {
+  id           Int      @id @default(autoincrement())
+  business_id  Int
+  key          String   @db.VarChar(255)
+  caption      String   @db.VarChar(255)
+  is_top_slide Boolean  @default(false)
+  is_gallery   Boolean  @default(true)
+  updated_at   DateTime @updatedAt
+  created_at   DateTime @default(now())
+  business     Business @relation(fields: [business_id], references: [id])
+
+  @@map("business_picture")
+}
+
+model BusinessTag {
+  id          Int      @id @default(autoincrement())
+  business_id Int
+  name        String   @db.VarChar(255)
+  updated_at  DateTime @updatedAt
+  created_at  DateTime @default(now())
+  business    Business @relation(fields: [business_id], references: [id])
+
+  @@map("business_tag")
+}
+
+model EmailQueue {
+  id         Int      @id @default(autoincrement())
+  to         String   @db.VarChar(255)
+  from       String   @db.VarChar(255)
+  subject    String   @db.VarChar(255)
+  body       String
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("email_queue")
+}
+
+model EmailLog {
+  id         Int      @id @default(autoincrement())
+  to         String   @db.VarChar(255)
+  from       String   @db.VarChar(255)
+  subject    String   @db.VarChar(255)
+  body       String
+  updated_at DateTime @updatedAt
+  created_at DateTime @default(now())
+
+  @@map("email_log")
+}
+
+model BusinessHours {
+  id          Int                @id @default(autoincrement())
+  business_id Int
+  day_of_week DayOfWeek
+  hours_kind  BusinessHoursKind?
+  is_open     Boolean
+  open_time   String?            @db.VarChar(10)
+  close_time  String?            @db.VarChar(10)
+  updated_at  DateTime           @updatedAt
+  created_at  DateTime           @default(now())
+  business    Business           @relation(fields: [business_id], references: [id])
+
+  @@unique([business_id, day_of_week, hours_kind])
+  @@map("business_hours")
 }
 
 enum CustomerKind {
@@ -59,170 +220,4 @@ enum BusinessHoursKind {
   LUNCH
   DINNER
   BAR
-}
-
-model Business {
-  id                   Int @id @default(autoincrement())
-  name                 String @db.VarChar(255)
-  email                String @unique @db.VarChar(255)
-  password             String @db.VarChar(255)
-  support_single       Boolean @default(true)
-  support_group        Boolean @default(true)
-  capacity_of_group    Int @default(4)
-  cuisine_kind         Cuisine?
-  price_level          Int?
-  neighborhood         Neighborhood?
-  business_tag         BusinessTag[]
-  zip_code             String? @db.VarChar(7)
-  address              String? @db.VarChar(255)
-  tel                  String? @db.VarChar(20)
-  total_seats          Int?
-  payment_method       String? @db.VarChar(255)
-  parking              String? @db.VarChar(255)
-  description          String? @db.Text
-  business_hours       BusinessHours[]
-  business_hours_note  String? @db.Text
-  business_picture     BusinessPicture[]
-  updated_at           DateTime @updatedAt
-  created_at           DateTime @default(now())
-
-  @@map("business")
-}
-
-model Booking {
-  id                 Int @id @default(autoincrement())
-  date               DateTime @db.Date
-  start              String @db.VarChar(10)
-  customer_id        Int
-  business_id        Int
-  course_id          Int
-  number_of_guests   Int
-  customer_kind      CustomerKind @default(SINGLE)
-  status             BookingStatus @default(CONFIRMED)
-  updated_at         DateTime @updatedAt
-  created_at         DateTime @default(now())
-
-  @@map("booking")
-}
-
-model BookingCapacity {
-  id            Int @id @default(autoincrement())
-  business_id   Int
-  day           DayOfWeek
-  customer_kind CustomerKind
-  time_0_1      Int @default(0)
-  time_1_2      Int @default(0)
-  time_2_3      Int @default(0)
-  time_3_4      Int @default(0)
-  time_4_5      Int @default(0)
-  time_5_6      Int @default(0)
-  time_6_7      Int @default(0)
-  time_7_8      Int @default(0)
-  time_8_9      Int @default(0)
-  time_9_10     Int @default(0)
-  time_10_11    Int @default(0)
-  time_11_12    Int @default(2)
-  time_12_13    Int @default(2)
-  time_13_14    Int @default(2)
-  time_14_15    Int @default(2)
-  time_15_16    Int @default(0)
-  time_16_17    Int @default(0)
-  time_17_18    Int @default(2)
-  time_18_19    Int @default(2)
-  time_19_20    Int @default(2)
-  time_20_21    Int @default(2)
-  time_21_22    Int @default(0)
-  time_22_23    Int @default(0)
-  time_23_24    Int @default(0)
-  updated_at    DateTime @updatedAt
-  created_at    DateTime @default(now())
-
-  @@unique(fields: [business_id, day, customer_kind])
-  @@map("booking_capacity")
-}
-
-model Course {
-  id            Int @id @default(autoincrement())
-  name          String @db.VarChar(255)
-  time_duration Int
-  business_id   Int
-  updated_at    DateTime @updatedAt
-  created_at    DateTime @default(now())
-
-  @@map("course")
-}
-
-model Customer {
-  id         Int @id @default(autoincrement())
-  name       String @db.VarChar(255)
-  email      String @unique @db.VarChar(255)
-  updated_at DateTime @updatedAt
-  created_at DateTime @default(now())
-
-  @@map("customer")
-}
-
-model BusinessPicture {
-  id           Int @id @default(autoincrement())
-  business_id  Int
-  key          String @db.VarChar(255)
-  caption      String @db.VarChar(255)
-  is_top_slide Boolean @default(false)
-  is_gallery   Boolean @default(true)
-  business     Business @relation(fields: [business_id], references: [id])
-  updated_at   DateTime @updatedAt
-  created_at   DateTime @default(now())
-
-  @@map("business_picture")
-}
-
-model BusinessTag {
-  id          Int @id @default(autoincrement())
-  business_id Int
-  business    Business @relation(fields: [business_id], references: [id])
-  name        String @db.VarChar(255)
-  updated_at  DateTime @updatedAt
-  created_at  DateTime @default(now())
-
-  @@map("business_tag")
-}
-
-model MailQue {
-  id         Int @id @default(autoincrement())
-  to         String @db.VarChar(255)
-  from       String @db.VarChar(255)
-  subject    String @db.VarChar(255)
-  body       String @db.Text
-  updated_at DateTime @updatedAt
-  created_at DateTime @default(now())
-
-  @@map("mail_que")
-}
-
-model MailLog {
-  id         Int @id @default(autoincrement())
-  to         String @db.VarChar(255)
-  from       String @db.VarChar(255)
-  subject    String @db.VarChar(255)
-  body       String @db.Text
-  updated_at DateTime @updatedAt
-  created_at DateTime @default(now())
-
-  @@map("mail_log")
-}
-
-model BusinessHours {
-  id          Int      @id @default(autoincrement())
-  business_id Int
-  business    Business @relation(fields: [business_id], references: [id])
-  day_of_week DayOfWeek
-  hours_kind  BusinessHoursKind?
-  is_open     Boolean
-  open_time   String? @db.VarChar(10)
-  close_time  String? @db.VarChar(10)
-  updated_at  DateTime @updatedAt
-  created_at  DateTime @default(now())
-
-  @@unique(fields: [business_id, day_of_week, hours_kind])
-  @@map("business_hours")
 }

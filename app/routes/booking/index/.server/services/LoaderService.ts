@@ -47,7 +47,7 @@ export class LoaderService implements ILoaderService {
     const totalPages = Math.ceil(totalCount / ITEMS_IN_PAGE);
 
     const cards: RestaurantCard[] = businesses.map((b) => ({
-      id: b.id,
+      uuid: b.uuid,
       thumbnail: this.getThumbnail(b.business_picture),
       name: b.name,
       description: b.description ?? undefined,

@@ -8,6 +8,7 @@ export interface LoaderServiceArgsDTO {
 export interface LoaderServiceResultDTO {
   name: string;
   email: string;
+  capacity_of_group: number;
   cuisine_kind: CuisineKind | null;
   price_level: number | null;
   neighborhood: Neighborhood | null;

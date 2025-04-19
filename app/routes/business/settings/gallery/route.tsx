@@ -1,7 +1,6 @@
 import { parseWithZod } from '@conform-to/zod';
 import { redirect } from 'react-router';
 
-import { InvalidAuthError } from '~/.server/core/custom_error/errors/InvalidAuthError';
 import type { ILogger } from '~/.server/core/logger/ILogger';
 import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
 
@@ -46,7 +45,7 @@ export async function action({ request }: Route.ActionArgs) {
   const cookie = request.headers.get('cookie');
 
   if (!cookie) {
-    return redirect('/business/login');
+    throw redirect('/business/login');
   }
 
   const formData = await request.clone().formData();
@@ -74,14 +73,15 @@ export async function action({ request }: Route.ActionArgs) {
 
   try {
     await actionService.execute({ cookie, images });
+    return {
+      status: STATUS.SUCCESS,
+      lastResult: submission.reply(),
+    };
   } catch (error) {
     logger.error(error as Error);
-    if (error instanceof InvalidAuthError) {
-      throw redirect('/business/login');
-    }
-
     return {
       status: STATUS.FAILED,
+      lastResult: submission.reply(),
     };
   }
 }

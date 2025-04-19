@@ -3,7 +3,7 @@ export const FORM_NAME = {
   EMAIL: 'email',
   // SUPPORT_SINGLE: 'support_single',
   // SUPPORT_GROUP: 'support_group',
-  // CAPACITY_OF_GROUP: 'capacity_of_group',
+  CAPACITY_OF_GROUP: 'capacity_of_group',
   CUISINE_KIND: 'cuisine_kind',
   PRICE_LEVEL: 'price-level',
   NEIGHBORHOOD: 'neighborhood',

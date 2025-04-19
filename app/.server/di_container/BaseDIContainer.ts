@@ -22,8 +22,8 @@ import { BusinessRepository } from '../repositories/entities/BusinessRepository'
 import { BusinessTagRepository } from '../repositories/entities/BusinessTagRepository';
 import { CourseRepository } from '../repositories/entities/CourseRepository';
 import { CustomerRepository } from '../repositories/entities/CustomerRepository';
-import { MailLogRepository } from '../repositories/entities/MailLogRepository';
-import { MailQueRepository } from '../repositories/entities/MailQueRepository';
+import { EmailLogRepository } from '../repositories/entities/EmailLogRepository';
+import { EmailQueueRepository } from '../repositories/entities/EmailQueueRepository';
 // Repository interfaces
 import type { IBookingCapacityRepository } from '../repositories/interfaces/IBookingCapacityRepository';
 import type { IBookingRepository } from '../repositories/interfaces/IBookingRepository';
@@ -33,8 +33,8 @@ import type { IBusinessRepository } from '../repositories/interfaces/IBusinessRe
 import type { IBusinessTagRepository } from '../repositories/interfaces/IBusinessTagRepository';
 import type { ICourseRepository } from '../repositories/interfaces/ICourseRepository';
 import type { ICustomerRepository } from '../repositories/interfaces/ICustomerRepository';
-import type { IMailLogRepository } from '../repositories/interfaces/IMailLogRepository';
-import type { IMailQueRepository } from '../repositories/interfaces/IMailQueRepository';
+import type { IEmailLogRepository } from '../repositories/interfaces/IEmailLogRepository';
+import type { IEmailQueueRepository } from '../repositories/interfaces/IEmailQueueRepository';
 // Local type definitions and implementations
 import { GLOBAL_DI_TYPES } from './GLOBAL_DI_TYPES';
 
@@ -65,11 +65,11 @@ export class BaseDIContainer {
       .bind<ICustomerRepository>(GLOBAL_DI_TYPES.CustomerRepository)
       .to(CustomerRepository);
     this.container
-      .bind<IMailQueRepository>(GLOBAL_DI_TYPES.MailQueRepository)
-      .to(MailQueRepository);
+      .bind<IEmailQueueRepository>(GLOBAL_DI_TYPES.EmailQueueRepository)
+      .to(EmailQueueRepository);
     this.container
-      .bind<IMailLogRepository>(GLOBAL_DI_TYPES.MailLogRepository)
-      .to(MailLogRepository);
+      .bind<IEmailLogRepository>(GLOBAL_DI_TYPES.EmailLogRepository)
+      .to(EmailLogRepository);
     this.container
       .bind<IBusinessPictureRepository>(GLOBAL_DI_TYPES.BusinessPictureRepository)
       .to(BusinessPictureRepository);
@@ -83,5 +83,9 @@ export class BaseDIContainer {
 
   public getContainer() {
     return this.container;
+  }
+
+  public resolve<T>(constructor: new (...args: unknown[]) => T): T {
+    return this.getContainer().resolve(constructor);
   }
 }

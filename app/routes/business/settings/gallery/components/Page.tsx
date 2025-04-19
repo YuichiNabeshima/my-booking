@@ -1,20 +1,24 @@
 import { getFormProps, getInputProps, getTextareaProps, useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
+import { useSetAtom } from 'jotai';
 import { Check, Edit, ImageIcon, Plus, Save, Trash2, X } from 'lucide-react';
 import type React from 'react';
-import { useState } from 'react';
-import { Form, useLoaderData } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Form, useActionData, useLoaderData } from 'react-router';
 
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
 import { Textarea } from '~/components/ui/textarea';
 
-import type { loader } from '../route';
+import { showToastAtom } from '../../_layout/stores/toast';
+import { STATUS } from '../constants/STATUS';
+import type { action, loader } from '../route';
 import { schema } from '../schemas/schema';
 
 export function Page() {
   // State for managing images and UI
   const data = useLoaderData<typeof loader>();
+  const result = useActionData<typeof action>();
 
   const [editingImageId, setEditingImageId] = useState<number | null>(null);
 
@@ -77,6 +81,18 @@ export function Page() {
   const cancelEditing = () => {
     setEditingImageId(null);
   };
+
+  const showToast = useSetAtom(showToastAtom);
+
+  useEffect(() => {
+    console.log(result);
+    if (result) {
+      const status = result.status === STATUS.FAILED ? 'error' : 'success';
+      const message = result.status === STATUS.FAILED ? 'Failed to update' : 'Updated successfully';
+      console.log(status, message);
+      showToast(status, message);
+    }
+  }, [result]);
 
   const fieldsList = fields.images.getFieldList();
 
@@ -191,7 +207,7 @@ export function Page() {
                                 className="flex-1 cursor-pointer"
                               >
                                 <Check size={16} className="mr-1" />
-                                Save
+                                OK
                               </Button>
                               <Button
                                 type="button"

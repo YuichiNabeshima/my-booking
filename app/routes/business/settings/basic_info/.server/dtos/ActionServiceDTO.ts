@@ -3,6 +3,7 @@ import type { BusinessRepositoryDTO } from '~/.server/repositories/dtos/Business
 export interface ActionServiceArgsDTO {
   cookie: string;
   name: string;
+  capacity_of_group: string;
   email: string;
   cuisine_kind: string | null;
   price_level: string | null;

@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify';
 import { BusinessNotFoundError } from '~/.server/core/custom_error/errors/repositories/BusinessNotFoundError';
 import type { ITransactionManager } from '~/.server/core/transaction/ITransactionManager';
 import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
-import type { BusinessInfo } from '~/routes/booking/businessId/index/.server/dtos/LoaderServiceDTO';
+import type { BusinessInfo } from '~/routes/booking/businessUuid/index/.server/dtos/LoaderServiceDTO';
 
 import type { PascalToCamelCase } from '../base/BaseRepository';
 import { BaseRepository } from '../base/BaseRepository';
@@ -90,7 +90,7 @@ export class BusinessRepository
       throw new BusinessNotFoundError('Business not found.');
     }
 
-    const { id: _, password: __, ...businessInfo } = result;
+    const { password: __, ...businessInfo } = result;
     return businessInfo;
   }
 }

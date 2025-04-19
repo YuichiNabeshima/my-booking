@@ -45,6 +45,7 @@ export class ActionService implements IActionService {
     if (updateData.email) {
       await this.validateEmail(updateData.email);
     }
+    console.log('update', updateData);
 
     return await this.transactionManager.execute(async () => {
       return await this.businessRepository.update({
@@ -63,6 +64,10 @@ export class ActionService implements IActionService {
     const fieldsToCompare = [
       { key: 'name', value: formData.name },
       { key: 'email', value: formData.email },
+      {
+        key: 'capacity_of_group',
+        value: formData.capacity_of_group ? Number(formData.capacity_of_group) : null,
+      },
       { key: 'cuisine_kind', value: formData.cuisine_kind as CuisineKind },
       { key: 'price_level', value: formData.price_level ? Number(formData.price_level) : null },
       { key: 'neighborhood', value: formData.neighborhood as Neighborhood },

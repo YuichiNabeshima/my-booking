@@ -1,0 +1,8 @@
+app = 'my-booking-batch'
+primary_region = 'nrt'
+
+[build]
+  dockerfile = "Dockerfile.batch"
+
+[[vm]]
+  size = 'shared-cpu-1x'

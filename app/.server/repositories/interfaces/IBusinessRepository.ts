@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-import type { BusinessInfo } from '~/routes/booking/businessId/index/.server/dtos/LoaderServiceDTO';
+import type { BusinessInfo } from '~/routes/booking/businessUuid/index/.server/dtos/LoaderServiceDTO';
 
 import type { IBaseRepository } from '../base/IBaseRepository';
 import type { BusinessPictureRepositoryDTO } from '../dtos/BusinessPictureRepositoryDTO';

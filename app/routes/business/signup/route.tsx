@@ -54,14 +54,18 @@ export async function action({ request }: Route.ActionArgs) {
   const logger = container.get<ILogger>(GLOBAL_DI_TYPES.Logger);
 
   try {
-    const result = await actionService.execute({ name, email, password });
+    const { cookie } = await actionService.execute({ name, email, password });
 
     return redirect('/business/dashboard', {
       headers: {
-        'Set-Cookie': result.cookie,
+        'Set-Cookie': cookie,
       },
     });
   } catch (error) {
+    if (error instanceof Response && error.status === 302) {
+      throw error;
+    }
+
     logger.error(error as Error);
     return {
       status: STATUS.FAILED,

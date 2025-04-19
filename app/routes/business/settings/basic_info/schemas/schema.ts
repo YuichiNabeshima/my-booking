@@ -14,6 +14,11 @@ export const schema = z.object({
     .nullable()
     .optional()
     .transform((val) => val || null),
+  [FORM_NAME.CAPACITY_OF_GROUP]: z
+    .number()
+    .nullable()
+    .optional()
+    .transform((val) => val || null),
   [FORM_NAME.CUISINE_KIND]: z
     .string()
     .nullable()

@@ -3,6 +3,7 @@ import type { Neighborhood } from '~/types/enums/Neighborhood';
 
 export interface BusinessRepositoryDTO {
   id: number;
+  uuid: string;
   name: string;
   email: string;
   password: string;

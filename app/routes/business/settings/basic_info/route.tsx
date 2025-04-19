@@ -55,6 +55,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   const name = formData.get(FORM_NAME.NAME) as string;
   const email = formData.get(FORM_NAME.EMAIL) as string;
+  const capacity_of_group = formData.get(FORM_NAME.CAPACITY_OF_GROUP) as string;
   const cuisine_kind = formData.get(FORM_NAME.CUISINE_KIND) as string;
   const price_level = formData.get(FORM_NAME.PRICE_LEVEL) as string;
   const neighborhood = formData.get(FORM_NAME.NEIGHBORHOOD) as string;
@@ -76,6 +77,7 @@ export async function action({ request }: Route.ActionArgs) {
       cookie,
       name,
       email,
+      capacity_of_group,
       cuisine_kind,
       price_level,
       neighborhood,

@@ -1,5 +1,5 @@
 export interface RestaurantCard {
-  id: number;
+  uuid: string;
   thumbnail?: string;
   name: string;
   cuisine: string;

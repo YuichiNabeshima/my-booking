@@ -38,6 +38,7 @@ export class LoaderService implements ILoaderService {
     return {
       name: business.name,
       email: business.email,
+      capacity_of_group: business.capacity_of_group,
       cuisine_kind: business.cuisine_kind,
       price_level: business.price_level,
       neighborhood: business.neighborhood,

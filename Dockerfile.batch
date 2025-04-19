@@ -1,0 +1,17 @@
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY . .
+RUN npm ci
+
+FROM node:20-alpine
+RUN apk add --no-cache curl \
+  && curl -L -o /usr/local/bin/supercronic https://github.com/aptible/supercronic/releases/latest/download/supercronic-linux-amd64 \
+  && chmod +x /usr/local/bin/supercronic
+WORKDIR /app
+
+COPY --from=deps /app /app
+
+RUN chmod 0644 app/.server/batch/schedule.cron
+
+RUN  npx prisma generate
+CMD ["supercronic", "app/.server/batch/schedule.cron"]

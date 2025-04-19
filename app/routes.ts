@@ -2,14 +2,14 @@ import { index, layout, prefix, route, type RouteConfig } from '@react-router/de
 
 export default [
   layout('routes/booking/_layout/layout.tsx', [
-    index('routes/home.tsx'),
+    index('routes/index/route.tsx'),
 
     route('booking', 'routes/booking/index/route.tsx'),
 
-    ...prefix('booking/:businessId', [
-      index('routes/booking/businessId/index/route.tsx'),
-      route('confirm', 'routes/booking/businessId/confirm/route.tsx'),
-      route('availability', 'routes/booking/businessId/availability/route.tsx'),
+    ...prefix('booking/:businessUuid', [
+      index('routes/booking/businessUuid/index/route.tsx'),
+      route('confirm', 'routes/booking/businessUuid/confirm/route.tsx'),
+      route('availability', 'routes/booking/businessUuid/availability/route.tsx'),
     ]),
   ]),
 
@@ -34,4 +34,7 @@ export default [
   ]),
 
   route('business/logout', 'routes/business/logout/route.tsx'),
+
+  // api
+  ...prefix('api', [route('cron-task', 'routes/api/cron_task/route.tsx')]),
 ] satisfies RouteConfig;

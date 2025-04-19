@@ -6,6 +6,7 @@
 /build/
 
 .env
+.env.production
 
 /logs/
 *.log

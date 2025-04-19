@@ -18,8 +18,8 @@ import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
 import { BUSINESS_HOURS_KIND } from '~/constants/enums/BUSINESS_HOURS_KIND';
 
 import { TIME_SEGMENTS } from '../../constants/TIME_SEGMENTS';
-import { formatTimeRange } from '../../utils/formatTimeRange';
 import type { Week } from '../../types/BookingLimit';
+import { formatTimeRange } from '../../utils/formatTimeRange';
 import { useSeatTable } from './useSeatTable';
 
 export function SeatTable({
@@ -48,8 +48,8 @@ export function SeatTable({
       const hours = dayHours.find((hour) => hour.hours_kind === kind);
       if (!hours?.open_time || !hours?.close_time) return;
 
-      const [startHour, startMinute] = hours.open_time.split(':').map(Number);
-      const [endHour, endMinute] = hours.close_time.split(':').map(Number);
+      const [startHour] = hours.open_time.split(':').map(Number);
+      const [endHour] = hours.close_time.split(':').map(Number);
 
       for (let hour = startHour; hour < endHour; hour++) {
         const timeSlot = `time_${hour}_${hour + 1}` as keyof typeof TIME_SEGMENTS;
@@ -133,15 +133,16 @@ export function SeatTable({
               </TableHeader>
               <TableBody>
                 {Object.values(TIME_SEGMENTS).map((time, index) => {
-                  const isVisible = Object.values(DAY_OF_WEEK).some((day) =>
-                    Object.values(getAvailableTimeSlots(day)).includes(time),
-                  );
-                  if (!isVisible) return null;
+                  const isAnyDayAvailable = Object.values(DAY_OF_WEEK).some((day) => {
+                    const availableTimeSlots = getAvailableTimeSlots(day);
+                    return Object.values(availableTimeSlots).includes(time);
+                  });
 
                   return (
                     <TableRow
                       key={time}
                       className={index % 2 === 0 ? 'bg-background' : 'bg-muted/10'}
+                      style={{ display: isAnyDayAvailable ? 'table-row' : 'none' }}
                     >
                       <TableCell className="font-medium border-r p-0">
                         <div className="p-2 bg-muted/20 h-full flex flex-col justify-center">
@@ -201,19 +202,12 @@ export function SeatTable({
                       </TableCell>
                       {Object.values(DAY_OF_WEEK).map((day) => {
                         const availableTimeSlots = getAvailableTimeSlots(day);
-                        if (!Object.values(availableTimeSlots).includes(time)) {
-                          return (
-                            <TableCell
-                              key={`${day}-${time}`}
-                              className="p-2 border-r last:border-r-0"
-                            />
-                          );
-                        }
-
+                        const isAvailable = Object.values(availableTimeSlots).includes(time);
                         const { ...timeField } = getInputProps(
                           field.getFieldset()[day].getFieldset()[time],
                           { type: 'number' },
                         );
+
                         return (
                           <TableCell key={timeField.name} className="p-2 border-r last:border-r-0">
                             <Input
@@ -228,6 +222,7 @@ export function SeatTable({
                               min={0}
                               max={99}
                               readOnly={disabledDays[day] || disabledTimes[time]}
+                              hidden={!isAvailable}
                               {...timeField}
                             />
                           </TableCell>

@@ -13,7 +13,14 @@ export class SessionStorageManager implements ISessionStorageManager {
 
   constructor() {
     const redisClient = createClient({
-      url: 'redis://localhost:6379',
+      url: process.env.REDIS_ENDPOINT,
+      ...(process.env.NODE_ENV === 'production' && {
+        password: process.env.REDIS_PASSWORD,
+        socket: {
+          tls: true,
+          reconnectStrategy: (retries) => Math.min(retries * 50, 1000),
+        },
+      }),
     }) as unknown as RedisClientType;
     redisClient.connect();
     this.redis = redisClient;

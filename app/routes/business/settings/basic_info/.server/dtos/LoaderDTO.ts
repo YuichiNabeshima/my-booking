@@ -1,6 +1,7 @@
 export interface IsSuccess {
   name: string;
   email: string;
+  capacity_of_group: number;
   cuisine_kind: string | null;
   price_level: number | null;
   neighborhood: string | null;

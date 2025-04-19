@@ -1,11 +1,10 @@
 import { getFormProps, useForm } from '@conform-to/react';
 import { parseWithZod } from '@conform-to/zod';
 import { useSetAtom } from 'jotai';
-import { Coffee, Save, Settings, Utensils } from 'lucide-react';
+import { Coffee, Save, Utensils } from 'lucide-react';
 import { useEffect } from 'react';
 import { Form, useActionData, useLoaderData } from 'react-router';
 
-import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { ErrorContent } from '~/components/ui/error-content';
@@ -64,16 +63,8 @@ export function Page() {
   return (
     <>
       <Card className="shadow-lg border-slate-200 dark:border-slate-800">
-        <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border-b">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Settings className="h-5 w-5 text-primary" />
-              <CardTitle>Seat Settings</CardTitle>
-            </div>
-            <Badge variant="outline" className="px-3 py-1 bg-background">
-              Configuration
-            </Badge>
-          </div>
+        <CardHeader>
+          <CardTitle>Seat Settings</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <Form action="/business/settings/seat-settings" method="post" {...getFormProps(form)}>

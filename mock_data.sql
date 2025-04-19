@@ -1,16 +1,17 @@
-
     -- Reset sequences
     ALTER SEQUENCE business_id_seq RESTART WITH 1;
     ALTER SEQUENCE business_hours_id_seq RESTART WITH 1;
-    ALTER SEQUENCE business_hours_label_id_seq RESTART WITH 1;
     ALTER SEQUENCE business_tag_id_seq RESTART WITH 1;
     ALTER SEQUENCE course_id_seq RESTART WITH 1;
+    ALTER SEQUENCE customer_id_seq RESTART WITH 1;
+    ALTER SEQUENCE booking_id_seq RESTART WITH 1;
 
     -- Truncate tables (considering foreign key constraints)
     TRUNCATE TABLE business_hours CASCADE;
-    TRUNCATE TABLE business_hours_label CASCADE;
     TRUNCATE TABLE business_tag CASCADE;
     TRUNCATE TABLE course CASCADE;
+    TRUNCATE TABLE booking CASCADE;
+    TRUNCATE TABLE customer CASCADE;
     TRUNCATE TABLE business CASCADE;
 
     -- Business table
@@ -1122,4 +1123,52 @@
       NOW(),
       NOW()
     FROM business;
+
+    -- Customer table
+    INSERT INTO customer (name, email, created_at, updated_at)
+    VALUES
+    ('John Smith', 'john.smith@example.com', NOW(), NOW()),
+    ('Emma Wilson', 'emma.wilson@example.com', NOW(), NOW()),
+    ('Michael Brown', 'michael.brown@example.com', NOW(), NOW()),
+    ('Sarah Johnson', 'sarah.johnson@example.com', NOW(), NOW()),
+    ('David Lee', 'david.lee@example.com', NOW(), NOW());
+
+    -- Booking table
+    INSERT INTO booking (
+      date,
+      start,
+      customer_id,
+      business_id,
+      course_id,
+      number_of_guests,
+      customer_kind,
+      status,
+      created_at,
+      updated_at
+    )
+    SELECT 
+      CURRENT_DATE + (random() * 30)::integer,
+      CASE 
+        WHEN random() < 0.5 THEN '11:00'
+        ELSE '17:00'
+      END,
+      c.id,
+      b.id,
+      c2.id,
+      CASE 
+        WHEN random() < 0.5 THEN 1
+        ELSE 2 + (random() * 4)::integer
+      END,
+      CASE 
+        WHEN random() < 0.5 THEN 'SINGLE'::"CustomerKind"
+        ELSE 'GROUP'::"CustomerKind"
+      END,
+      'CONFIRMED'::"BookingStatus",
+      NOW(),
+      NOW()
+    FROM customer c
+    CROSS JOIN business b
+    CROSS JOIN course c2
+    WHERE c2.business_id = b.id
+    LIMIT 100;
   

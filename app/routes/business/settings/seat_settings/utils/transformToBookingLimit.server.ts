@@ -41,6 +41,7 @@ export const transformToBookingLimit = (
     tableSeats: Object.fromEntries(
       Object.values(DAY_OF_WEEK).map((day) => [day, { ...DEFAULT_TIME_SEGMENTS }]),
     ) as Week,
+    businessHours: [],
   };
 
   return capacities.reduce<BookingLimit>((acc, curr) => {
