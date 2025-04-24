@@ -66,6 +66,7 @@ export function ReservationForm() {
     fetcher,
     getNumberOfGuestsOptions,
     getAvailableTimeSlots,
+    isDisableDate,
   } = useReservationForm();
 
   const [form, field] = useForm({
@@ -106,15 +107,17 @@ export function ReservationForm() {
                     {...getSelectProps(field[FORM_NAME.NUMBER_OF_GUESTS])}
                     defaultValue="1"
                   >
-                    <SelectTrigger id="guests" className="w-full sm:w-[180px]">
+                    <SelectTrigger id="guests" className="w-full sm:w-[180px] cursor-pointer">
                       <SelectValue placeholder="Select guests" />
                     </SelectTrigger>
                     <SelectContent>
                       {getNumberOfGuestsOptions().length === 0 ? (
-                        <SelectItem value="1">1 guest</SelectItem>
+                        <SelectItem value="1" className="cursor-pointer">
+                          1 guest
+                        </SelectItem>
                       ) : (
                         getNumberOfGuestsOptions().map((num) => (
-                          <SelectItem key={num} value={num.toString()}>
+                          <SelectItem key={num} value={num.toString()} className="cursor-pointer">
                             {num} {num === 1 ? 'guest' : 'guests'}
                           </SelectItem>
                         ))
@@ -138,12 +141,24 @@ export function ReservationForm() {
                     }}
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value={CUSTOMER_KIND.SINGLE} id="bar" />
-                      <Label htmlFor="bar">Bar Seat</Label>
+                      <RadioGroupItem
+                        value={CUSTOMER_KIND.SINGLE}
+                        id="bar"
+                        className="cursor-pointer"
+                      />
+                      <Label htmlFor="bar" className="cursor-pointer">
+                        Bar Seat
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value={CUSTOMER_KIND.GROUP} id="table" />
-                      <Label htmlFor="table">Table Seat</Label>
+                      <RadioGroupItem
+                        value={CUSTOMER_KIND.GROUP}
+                        id="table"
+                        className="cursor-pointer"
+                      />
+                      <Label htmlFor="table" className="cursor-pointer">
+                        Table Seat
+                      </Label>
                     </div>
                   </RadioGroup>
                 </div>
@@ -163,7 +178,7 @@ export function ReservationForm() {
                       }}
                       name={field[FORM_NAME.COURSE].name}
                     >
-                      <SelectTrigger id="course" className="w-full sm:w-[280px]">
+                      <SelectTrigger id="course" className="w-full sm:w-[280px] cursor-pointer">
                         <SelectValue placeholder="Select course" />
                       </SelectTrigger>
                       <SelectContent>
@@ -200,7 +215,7 @@ export function ReservationForm() {
                     selected={date}
                     onSelect={setDate}
                     className="border rounded-md"
-                    disabled={(date) => date < new Date()}
+                    disabled={(date) => isDisableDate(date)}
                     name={field[FORM_NAME.DATE].name}
                   />
                 </div>
@@ -230,7 +245,7 @@ export function ReservationForm() {
                                 key={time}
                                 variant={isInRange ? 'default' : 'outline'}
                                 className={cn(
-                                  'text-sm transition-all',
+                                  'text-sm transition-all cursor-pointer',
                                   isInRange &&
                                     `${courses[selectedCourse].color} text-black hover:text-white`,
                                   !isAvailable && 'opacity-50 cursor-not-allowed',
@@ -262,7 +277,7 @@ export function ReservationForm() {
               type="submit"
               name={FORM_NAME.INTENT}
               value={INTENT_KIND.CONFIRM}
-              className="w-full text-lg h-12"
+              className="w-full text-lg h-12 cursor-pointer"
               disabled={!selectedTime || !date}
             >
               Complete Reservation

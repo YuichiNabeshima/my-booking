@@ -26,7 +26,7 @@ describe('LoaderService', () => {
       // Test first restaurant (Sushi Master)
       const sushiMaster = result.cards[0];
       expect(sushiMaster).toMatchObject({
-        id: 1,
+        uuid: '1',
         name: 'Sushi Master',
         cuisine: 'ASIAN',
         description: 'Authentic Japanese sushi restaurant with fresh ingredients',
@@ -38,7 +38,7 @@ describe('LoaderService', () => {
       // Test second restaurant (Pasta Paradise)
       const pastaParadise = result.cards[1];
       expect(pastaParadise).toMatchObject({
-        id: 2,
+        uuid: '2',
         name: 'Pasta Paradise',
         cuisine: 'ITALIAN',
         description: 'Italian restaurant serving homemade pasta and wine',

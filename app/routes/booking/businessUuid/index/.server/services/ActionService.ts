@@ -2,8 +2,8 @@ import { inject, injectable } from 'inversify';
 
 import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
 import type { IEmailQueueRepository } from '~/.server/repositories/interfaces/IEmailQueueRepository';
+import { createBookingConfirmationDataToken } from '~/utils/createBookingConfirmationDataToken.server';
 
-import { createToken } from '../../utils/createToken.server';
 import type { ActionServiceArgsDTO, ActionServiceResultDTO } from '../dtos/ActionServiceDTO';
 import type { IActionService } from '../interfaces/IActionService';
 
@@ -23,7 +23,7 @@ export class ActionService implements IActionService {
     email,
     url,
   }: ActionServiceArgsDTO): Promise<ActionServiceResultDTO> {
-    const token = createToken(
+    const token = createBookingConfirmationDataToken(
       {
         numberOfGuests,
         customerKind,
@@ -47,7 +47,7 @@ Thank you for starting your reservation. Before you proceed, please confirm your
 This link will expire in 1 hours. If you did not request this, please ignore this email.
 
 Best regards,
-My Reservation Team
+My Booking Team
 `;
 
     await this.emailQueueRepository.create({

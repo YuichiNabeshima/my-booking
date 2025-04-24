@@ -65,7 +65,7 @@ export const Accordion = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-900 transition-all"
+        className="w-full px-2 sm:px-4 py-2 sm:py-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-900 transition-all"
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-3">
@@ -87,7 +87,7 @@ export const Accordion = ({
         style={{ height: contentHeight !== undefined ? `${contentHeight}px` : 'auto' }}
         aria-hidden={!isOpen}
       >
-        <div className="pt-2 pb-4 px-4" ref={contentRef}>
+        <div className="pt-2 pb-4 px-2 sm:px-4" ref={contentRef}>
           {children}
         </div>
       </div>

@@ -53,20 +53,21 @@ export async function action({ request }: Route.ActionArgs) {
     };
   }
 
-  const name = formData.get(FORM_NAME.NAME) as string;
-  const email = formData.get(FORM_NAME.EMAIL) as string;
-  const capacity_of_group = formData.get(FORM_NAME.CAPACITY_OF_GROUP) as string;
-  const cuisine_kind = formData.get(FORM_NAME.CUISINE_KIND) as string;
-  const price_level = formData.get(FORM_NAME.PRICE_LEVEL) as string;
-  const neighborhood = formData.get(FORM_NAME.NEIGHBORHOOD) as string;
-  const zip_code = formData.get(FORM_NAME.ZIP_CODE) as string;
-  const address = formData.get(FORM_NAME.ADDRESS) as string;
-  const tel = formData.get(FORM_NAME.TEL) as string;
-  const total_seats = formData.get(FORM_NAME.TOTAL_SEATS) as string;
-  const payment_method = formData.get(FORM_NAME.PAYMENT_METHOD) as string;
-  const parking = formData.get(FORM_NAME.PARKING) as string;
-  const description = formData.get(FORM_NAME.DESCRIPTION) as string;
-  const business_hours_note = formData.get(FORM_NAME.BUSINESS_HOURS_NOTE) as string;
+  const name = submission.value[FORM_NAME.NAME];
+  const email = submission.value[FORM_NAME.EMAIL];
+  const capacity_of_group = submission.value[FORM_NAME.CAPACITY_OF_GROUP];
+  const cuisine_kind = submission.value[FORM_NAME.CUISINE_KIND];
+  const price_level = submission.value[FORM_NAME.PRICE_LEVEL];
+  const neighborhood = submission.value[FORM_NAME.NEIGHBORHOOD];
+  const zip_code = submission.value[FORM_NAME.ZIP_CODE];
+  const address = submission.value[FORM_NAME.ADDRESS];
+  const tel = submission.value[FORM_NAME.TEL];
+  const total_seats = submission.value[FORM_NAME.TOTAL_SEATS];
+  const payment_method = submission.value[FORM_NAME.PAYMENT_METHOD];
+  const parking = submission.value[FORM_NAME.PARKING];
+  const description = submission.value[FORM_NAME.DESCRIPTION];
+  const business_hours_note = submission.value[FORM_NAME.BUSINESS_HOURS_NOTE];
+  const is_published = submission.value[FORM_NAME.IS_PUBLISHED];
 
   const container = diContainer.getContainer();
   const actionService = container.get<IActionService>(DI_TYPES.ActionService);
@@ -89,6 +90,7 @@ export async function action({ request }: Route.ActionArgs) {
       parking,
       description,
       business_hours_note,
+      is_published,
     });
 
     if (!result) {

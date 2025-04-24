@@ -19,7 +19,7 @@ export function Footer() {
             you'd like to collaborate!
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-2xl mb-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-2xl mb-10">
             <a
               href={`mailto:${USER_INFO.email}`}
               className="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-all group"

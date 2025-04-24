@@ -86,7 +86,10 @@ export class LoaderService implements ILoaderService {
       const totalMinutesToTime = minutesToTimeFormat(totalMinutes);
 
       return {
+        id: booking.id,
+        status: booking.status,
         name: customer.name,
+        email: customer.email,
         startTime: booking.start,
         endTime: totalMinutesToTime,
         numberOfguests: booking.number_of_guests,

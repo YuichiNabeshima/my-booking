@@ -24,16 +24,17 @@ import { Link } from 'react-router';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
+import { Image } from '~/components/ui/image/image';
 
-export default function LandingPage() {
+export default function Route() {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative w-full">
           <div className="absolute inset-0 z-0 w-full">
-            <img
-              src="/img/booking/placeholder.png"
+            <Image
+              src="/img/top/img_hero.png"
               alt="Restaurant ambiance"
               className="w-full h-full object-cover brightness-[0.4]"
             />
@@ -95,8 +96,8 @@ export default function LandingPage() {
               {/* Feature 1: Restaurant Discovery */}
               <Card className="overflow-hidden py-0">
                 <div className="relative h-84">
-                  <img
-                    src="/img/common/no_image_01.png"
+                  <Image
+                    src="/img/top/img_feature_01.png"
                     alt="Restaurant discovery"
                     className="w-full h-full object-cover object-center"
                   />
@@ -138,8 +139,8 @@ export default function LandingPage() {
               {/* Feature 2: Detailed Restaurant Pages */}
               <Card className="overflow-hidden py-0">
                 <div className="relative h-84">
-                  <img
-                    src="/img/common/no_image_01.png"
+                  <Image
+                    src="/img/top/img_feature_02.png"
                     alt="Restaurant details"
                     className="w-full h-full object-cover object-center"
                   />
@@ -181,8 +182,8 @@ export default function LandingPage() {
               {/* Feature 3: Seamless Booking */}
               <Card className="overflow-hidden py-0">
                 <div className="relative h-84">
-                  <img
-                    src="/img/common/no_image_01.png"
+                  <Image
+                    src="/img/top/img_feature_03.png"
                     alt="Booking process"
                     className="w-full h-full object-cover object-center"
                   />
@@ -230,8 +231,8 @@ export default function LandingPage() {
               {/* Feature 4: Admin Dashboard */}
               <Card className="overflow-hidden py-0">
                 <div className="relative h-84">
-                  <img
-                    src="/img/common/no_image_01.png"
+                  <Image
+                    src="/img/top/img_feature_04.png"
                     alt="Admin dashboard"
                     className="w-full h-full object-cover object-center"
                   />
@@ -291,10 +292,10 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="max-w-4xl mx-auto relative group">
+            <Link to="/booking" className="max-w-4xl mx-auto relative group block">
               <div className="rounded-xl overflow-hidden border shadow-lg">
-                <img
-                  src="/img/common/no_image_01.png"
+                <Image
+                  src="/img/top/img_preview.png"
                   alt="Restaurant detail page screenshot"
                   className="w-full object-cover"
                 />
@@ -304,23 +305,27 @@ export default function LandingPage() {
                 <p className="text-white text-xl font-medium mb-6">
                   Experience the full interactive demo
                 </p>
-                <Button size="lg" className="gap-2">
+                <Button size="lg" className="gap-2 cursor-pointer">
                   Try the Demo <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
-            </div>
+            </Link>
 
             <div className="mt-8 text-center">
               <p className="text-muted-foreground mb-4">
                 Click the screenshot or the buttons to explore the full interactive experience
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="gap-2">
-                  <Search className="h-4 w-4" /> Browse Restaurants
-                </Button>
-                <Button variant="outline" className="gap-2">
-                  <Calendar className="h-4 w-4" /> Make a Reservation
-                </Button>
+                <Link to="/booking">
+                  <Button className="gap-2 cursor-pointer">
+                    <Search className="h-4 w-4" /> Browse Restaurants
+                  </Button>
+                </Link>
+                <Link to="/booking/0037b559-1ef0-464d-8d9a-e5a2114b3387">
+                  <Button variant="outline" className="gap-2 cursor-pointer">
+                    <Calendar className="h-4 w-4" /> Make a Reservation
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -402,7 +407,7 @@ export default function LandingPage() {
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <a href="https://remix.run" target="_blank" rel="noopener noreferrer">
+                <a href="https://reactrouter.com/" target="_blank" rel="noopener noreferrer">
                   <Card className="overflow-hidden border-2 hover:border-primary/50 transition-colors">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-3 mb-3">

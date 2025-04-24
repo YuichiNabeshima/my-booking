@@ -74,7 +74,6 @@ export function BusinessHours() {
                                 <span className="bg-green-100 text-green-800 font-medium px-1.5 py-0.5 rounded text-xs w-full">
                                   {hourForKind.open_time}
                                 </span>
-                                <span className="text-gray-500 text-xs">-</span>
                                 <span className="bg-red-100 text-red-800 font-medium px-1.5 py-0.5 rounded text-xs w-full">
                                   {hourForKind.close_time}
                                 </span>

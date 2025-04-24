@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // relationMode = "prisma"
 }
 
 model Business {
@@ -13,6 +14,7 @@ model Business {
   name                String            @db.VarChar(255)
   email               String            @unique @db.VarChar(255)
   password            String            @db.VarChar(255)
+  is_published        Boolean           @default(false)
   support_single      Boolean           @default(true)
   support_group       Boolean           @default(true)
   capacity_of_group   Int               @default(4)
@@ -191,8 +193,9 @@ enum DayOfWeek {
 
 enum BookingStatus {
   CONFIRMED
-  CANCELLED
+  CANCELED
   COMPLETED
+  NO_SHOW
 }
 
 enum Cuisine {

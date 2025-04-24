@@ -3,22 +3,13 @@ import { z } from 'zod';
 import { FORM_NAME } from '../constants/FORM_NAME';
 
 export const schema = z.object({
-  [FORM_NAME.NAME]: z
+  [FORM_NAME.IS_PUBLISHED]: z
     .string()
-    .nullable()
     .optional()
-    .transform((val) => val || null),
-  [FORM_NAME.EMAIL]: z
-    .string()
-    .email()
-    .nullable()
-    .optional()
-    .transform((val) => val || null),
-  [FORM_NAME.CAPACITY_OF_GROUP]: z
-    .number()
-    .nullable()
-    .optional()
-    .transform((val) => val || null),
+    .transform((val) => val === 'on'),
+  [FORM_NAME.NAME]: z.string(),
+  [FORM_NAME.EMAIL]: z.string().email(),
+  [FORM_NAME.CAPACITY_OF_GROUP]: z.number().min(0),
   [FORM_NAME.CUISINE_KIND]: z
     .string()
     .nullable()

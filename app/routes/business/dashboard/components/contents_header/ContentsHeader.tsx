@@ -10,7 +10,7 @@ export function ContentsHeader() {
   const name = isSuccess(data) ? data.businessName : '***';
 
   return (
-    <CardHeader>
+    <CardHeader className="p-2 sm:p-6">
       <div className="flex items-center justify-between">
         <div>
           <CardTitle className="text-3xl font-bold">{name}</CardTitle>

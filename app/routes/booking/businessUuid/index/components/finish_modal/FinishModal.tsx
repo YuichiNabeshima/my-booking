@@ -47,7 +47,7 @@ export function FinishModal({ isOpen, onClose, isOpenEmail, onHandleEmail }: Fin
             </p>
           </div>
           <DialogFooter className="mt-6 space-y-2">
-            <Button className="w-full" variant="outline" onClick={onHandleEmail}>
+            <Button className="w-full cursor-pointer" variant="outline" onClick={onHandleEmail}>
               View Email Content (Debug)
             </Button>
           </DialogFooter>

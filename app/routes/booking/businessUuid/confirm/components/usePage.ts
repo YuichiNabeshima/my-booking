@@ -36,12 +36,19 @@ export function usePage() {
 
     if (result?.status === STATUS.TOKEN_EXPIRED) {
       setError(ERROR_MESSAGES.TOKEN_EXPIRED);
+      return;
     }
 
     if (result?.status === STATUS.FAILED) {
       setError(ERROR_MESSAGES.FAILED);
+      return;
     }
   }, [result]);
+
+  const isTokenExpired =
+    data?.status === STATUS.TOKEN_EXPIRED || result?.status === STATUS.TOKEN_EXPIRED;
+
+  const isFailed = data?.status === STATUS.FAILED || result?.status === STATUS.FAILED;
 
   const handleViewEmailContent = () => {
     setShowEmailContent(true);
@@ -55,6 +62,8 @@ export function usePage() {
     error,
     success,
     showEmailContent,
+    isTokenExpired,
+    isFailed,
     handleViewEmailContent,
     handleCloseEmailContent,
     emailSubject,

@@ -1,9 +1,10 @@
 export const FORM_NAME = {
+  IS_PUBLISHED: 'is-published',
   NAME: 'name',
   EMAIL: 'email',
   // SUPPORT_SINGLE: 'support_single',
   // SUPPORT_GROUP: 'support_group',
-  CAPACITY_OF_GROUP: 'capacity_of_group',
+  CAPACITY_OF_GROUP: 'capacity-of-group',
   CUISINE_KIND: 'cuisine_kind',
   PRICE_LEVEL: 'price-level',
   NEIGHBORHOOD: 'neighborhood',

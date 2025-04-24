@@ -68,14 +68,14 @@ export function Page() {
   const fieldList = tags.getFieldList();
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-2 sm:py-10">
       <Form method="post" {...getFormProps(form)}>
         <Card>
           <CardHeader>
             <CardTitle>tags</CardTitle>
             <CardDescription>Manage your tags here.</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2 sm:p-6">
             <Table>
               <TableCaption>A list of your tags.</TableCaption>
               <TableBody>
@@ -89,14 +89,14 @@ export function Page() {
                   });
                   return (
                     <TableRow key={field.key}>
-                      <TableCell>
+                      <TableCell className="w-7/8 sm:w-auto">
                         <input key={keyId} {...idField} />
                         <Input key={keyLabel} {...labelField} />
                         {fieldItem.label.errors && (
                           <p className="text-sm text-red-500">{fieldItem.label.errors}</p>
                         )}
                       </TableCell>
-                      <TableCell className="flex space-x-2">
+                      <TableCell className="w-1/8 sm:w-auto flex space-x-2">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -112,7 +112,7 @@ export function Page() {
               </TableBody>
             </Table>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="p-2 sm:p-6">
             <div className="w-full">
               <Button
                 className="w-full"

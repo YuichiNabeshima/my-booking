@@ -11,6 +11,7 @@ export type CalendarProps = {
   className?: string;
   disabled?: (date: Date) => boolean;
   name?: string;
+  defaultMonth?: Date;
 };
 
 export function Calendar({
@@ -20,8 +21,15 @@ export function Calendar({
   className,
   disabled,
   name,
+  defaultMonth,
 }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = React.useState(new Date());
+  const [currentMonth, setCurrentMonth] = React.useState(defaultMonth || selected || new Date());
+
+  React.useEffect(() => {
+    if (defaultMonth) {
+      setCurrentMonth(defaultMonth);
+    }
+  }, [defaultMonth]);
 
   const daysInMonth = new Date(
     currentMonth.getFullYear(),

@@ -152,10 +152,15 @@ export function ConfirmModal({ isOpen, onClose, bookingDetails, courses }: Confi
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={onClose} className="cursor-pointer">
               Cancel
             </Button>
-            <Button type="submit" name={fields[FORM_NAME.INTENT].name} value={INTENT_KIND.FINISH}>
+            <Button
+              type="submit"
+              name={fields[FORM_NAME.INTENT].name}
+              value={INTENT_KIND.FINISH}
+              className="cursor-pointer"
+            >
               Confirm Booking
             </Button>
           </DialogFooter>

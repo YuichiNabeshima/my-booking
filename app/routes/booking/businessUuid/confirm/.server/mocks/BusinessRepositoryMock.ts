@@ -11,7 +11,7 @@ export class BusinessRepositoryMock
 
     return {
       id: 1,
-      name: 'Sample Restaurant',
+      name: 'Test Restaurant',
     };
   }
 }

@@ -10,8 +10,8 @@ import { QUERY_PARAMS } from './constants/QUERY_PARAMS';
 
 export function meta() {
   return [
-    { title: `Vancouver Dining - My Reservation` },
-    { name: 'description', content: `Vancouver Dining - My Reservation` },
+    { title: `Vancouver Dining - My Booking` },
+    { name: 'description', content: `Vancouver Dining - My Booking` },
   ];
 }
 

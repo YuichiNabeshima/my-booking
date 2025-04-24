@@ -4,7 +4,7 @@ import { useActionData, useFetcher, useLoaderData } from 'react-router';
 
 import { AVAILABILITY_PARAMS } from '~/constants/AVAILABLITY_PARAMS';
 import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
-import { DAY_OF_WEEK } from '~/constants/DAY_OF_WEEK';
+import { DAY_OF_WEEK, DAY_OF_WEEK_MAP } from '~/constants/DAY_OF_WEEK';
 import { BUSINESS_HOURS_KIND } from '~/constants/enums/BUSINESS_HOURS_KIND';
 import { TIME_SLOTS } from '~/constants/TIME_SLOT';
 import type { BusinessHoursKind } from '~/types/enums/BusinessHoursKind';
@@ -184,6 +184,19 @@ export function useReservationForm() {
 
     return timeSlotsByKind;
   };
+
+  function isDisableDate(date: Date) {
+    if (date < new Date()) {
+      return true;
+    }
+    if (
+      !businessHours.some((b) => b.day_of_week === Object.values(DAY_OF_WEEK_MAP)[date.getDay()])
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   return {
     setnumberOfGuests,
     date,
@@ -206,5 +219,6 @@ export function useReservationForm() {
     fetcher,
     getNumberOfGuestsOptions,
     getAvailableTimeSlots,
+    isDisableDate,
   };
 }

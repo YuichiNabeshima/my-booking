@@ -4,6 +4,7 @@ import type { Neighborhood } from '~/types/enums/Neighborhood';
 export interface BusinessRepositoryDTO {
   id: number;
   uuid: string;
+  is_published: boolean;
   name: string;
   email: string;
   password: string;

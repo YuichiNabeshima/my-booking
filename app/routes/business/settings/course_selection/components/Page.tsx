@@ -78,7 +78,7 @@ export function Page() {
             <CardTitle>Courses</CardTitle>
             <CardDescription>Manage your courses here.</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2 sm:p-6">
             <Table>
               <TableCaption>A list of your courses.</TableCaption>
               <TableBody>
@@ -95,20 +95,20 @@ export function Page() {
                   });
                   return (
                     <TableRow key={field.key}>
-                      <TableCell>
+                      <TableCell className="w-5/8 sm:w-auto">
                         <input key={keyId} {...idField} />
                         <Input key={keyLabel} {...labelField} />
                         {fieldItem.label.errors && (
                           <p className="text-sm text-red-500">{fieldItem.label.errors}</p>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-2/8 sm:w-auto">
                         <Input key={keyDuration} {...durationField} step="15" />
                         {fieldItem.duration.errors && (
                           <p className="text-sm text-red-500">{fieldItem.duration.errors}</p>
                         )}
                       </TableCell>
-                      <TableCell className="flex space-x-2">
+                      <TableCell className="w-1/8 sm:w-auto flex space-x-2">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -124,7 +124,7 @@ export function Page() {
               </TableBody>
             </Table>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="p-2 sm:p-6">
             <div className="w-full">
               <Button
                 className="w-full"

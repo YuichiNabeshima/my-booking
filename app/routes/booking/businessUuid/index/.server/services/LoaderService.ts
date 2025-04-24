@@ -28,7 +28,7 @@ export class LoaderService implements ILoaderService {
   async execute({ businessUuid }: LoaderServiceArgsDTO): Promise<LoaderServiceResultDTO> {
     const existingBusiness = await this.businessRepository.fetch({ uuid: businessUuid });
 
-    if (!existingBusiness) {
+    if (!existingBusiness || !existingBusiness.is_published) {
       throw new BusinessNotFoundError('Business not found.');
     }
 

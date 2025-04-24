@@ -1,3 +1,4 @@
+import type { BookingStatus } from '~/types/enums/BookingStatus';
 import type { CustomerKind } from '~/types/enums/CustomerKind';
 
 export interface BookingRepositoryDTO {
@@ -9,4 +10,5 @@ export interface BookingRepositoryDTO {
   course_id: number;
   number_of_guests: number;
   customer_kind: CustomerKind;
+  status: BookingStatus;
 }

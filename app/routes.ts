@@ -17,6 +17,8 @@ export default [
     route('business', 'routes/business/_layout/layout.tsx', [
       route('dashboard', 'routes/business/dashboard/route.tsx'),
 
+      route('booking/:bookingId', 'routes/business/booking/bookingId/route.tsx'),
+
       route('settings', 'routes/business/settings/_layout/layout.tsx', [
         route('basic-info', 'routes/business/settings/basic_info/route.tsx'),
         route('course-selection', 'routes/business/settings/course_selection/route.tsx'),

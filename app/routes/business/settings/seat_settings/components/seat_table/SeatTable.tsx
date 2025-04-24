@@ -41,7 +41,7 @@ export function SeatTable({
 
   const getAvailableTimeSlots = (day: string) => {
     const dayHours = businessHours?.filter((hour) => hour.day_of_week === day);
-    if (!dayHours?.length) return TIME_SEGMENTS;
+    if (!dayHours?.length) return [];
 
     const timeSlots: string[] = [];
     Object.values(BUSINESS_HOURS_KIND).forEach((kind) => {

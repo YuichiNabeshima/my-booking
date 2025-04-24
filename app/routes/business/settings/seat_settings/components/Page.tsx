@@ -66,7 +66,7 @@ export function Page() {
         <CardHeader>
           <CardTitle>Seat Settings</CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-2 sm:p-6">
           <Form action="/business/settings/seat-settings" method="post" {...getFormProps(form)}>
             <div className="space-y-4">
               <Accordion

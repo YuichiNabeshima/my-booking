@@ -8,6 +8,7 @@
     "start": "react-router-serve ./build/server/index.js",
     "batch": "tsx ./app/.server/batch/runBatch.ts",
     "exec": "tsx",
+    "test": "vitest",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {

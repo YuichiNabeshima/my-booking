@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-import { CustomBaseError } from '~/.server/core/custom_error/custom_base_error';
 import type { Time } from '~/types/Time';
+import type { CreateBookingConfirmationDataTokenPayload } from '~/utils/createBookingConfirmationDataToken.server';
 
-import type { CreateTokenPayload } from '../index/utils/createToken.server';
 import { DI_TYPES } from './.server/di_container/DI_TYPES';
 import { DIContainer } from './.server/di_container/DIContainer';
 import type { IActionService } from './.server/interfaces/IActionService';
@@ -28,11 +27,11 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   const loaderService = container.get<ILoaderService>(DI_TYPES.LoaderService);
 
   try {
-    const resutl = await loaderService.execute({ businessUuid, token });
+    const data = await loaderService.execute({ businessUuid, token });
 
     return {
       status: STATUS.SUCCESS,
-      data: resutl,
+      data,
     };
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
@@ -41,12 +40,9 @@ export async function loader({ request, params }: Route.LoaderArgs) {
       };
     }
 
-    if (error instanceof CustomBaseError || error instanceof jwt.JsonWebTokenError) {
-      return {
-        status: STATUS.FAILED,
-      };
-    }
-    return null;
+    return {
+      status: STATUS.FAILED,
+    };
   }
 }
 
@@ -69,7 +65,7 @@ export async function action({ request, params }: Route.ActionArgs) {
     const { guests, kind, course, date, time, name, email } = jwt.verify(
       token,
       process.env.TOKEN_KEY as string,
-    ) as CreateTokenPayload;
+    ) as CreateBookingConfirmationDataTokenPayload;
 
     const result = await actionService.execute({
       fullName: name,
@@ -90,12 +86,9 @@ export async function action({ request, params }: Route.ActionArgs) {
       };
     }
 
-    if (error instanceof CustomBaseError || error instanceof jwt.JsonWebTokenError) {
-      return {
-        status: STATUS.FAILED,
-      };
-    }
-    throw new Response('Internal Server Error', { status: 500 });
+    return {
+      status: STATUS.FAILED,
+    };
   }
 }
 

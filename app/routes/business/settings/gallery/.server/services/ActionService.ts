@@ -41,7 +41,6 @@ export class ActionService implements IActionService {
     // do transaction
     return await this.transactionManager.execute(async () => {
       for (const pic of shouldDeletePictures) {
-        await this.imageStorage.delete(pic.key);
         await this.businessPictureRepository.remove({ id: pic.id });
       }
 
@@ -75,7 +74,6 @@ export class ActionService implements IActionService {
           } = {};
 
           if (image.file) {
-            await this.imageStorage.delete(existPicture.key);
             const newPictureKey = await this.imageStorage.upload(image.file, 'business');
             updateData.key = newPictureKey;
           }

@@ -1,4 +1,5 @@
 export interface IsSuccess {
+  is_published: boolean;
   name: string;
   email: string;
   capacity_of_group: number;

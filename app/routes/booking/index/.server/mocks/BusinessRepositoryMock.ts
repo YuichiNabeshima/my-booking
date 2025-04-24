@@ -19,6 +19,7 @@ export class BusinessRepositoryMock
       return [
         {
           id: 1,
+          uuid: '1',
           name: 'Sushi Master',
           cuisine_kind: CUISINE_KIND.ASIAN,
           price_level: 3,
@@ -58,6 +59,7 @@ export class BusinessRepositoryMock
       return [
         {
           id: 2,
+          uuid: '2',
           name: 'Pasta Paradise',
           cuisine_kind: CUISINE_KIND.ITALIAN,
           price_level: 2,
@@ -94,6 +96,7 @@ export class BusinessRepositoryMock
       return [
         {
           id: 1,
+          uuid: '1',
           name: 'Sushi Master',
           cuisine_kind: CUISINE_KIND.ASIAN,
           price_level: 3,
@@ -126,6 +129,43 @@ export class BusinessRepositoryMock
       ];
     }
 
+    if (args.price_level === 2) {
+      return [
+        {
+          id: 2,
+          uuid: '2',
+          name: 'Pasta Paradise',
+          cuisine_kind: CUISINE_KIND.ITALIAN,
+          price_level: 2,
+          neighborhood: NEIGHBORHOOD.YALETOWN,
+          description: 'Italian restaurant serving homemade pasta and wine',
+          business_tag: [
+            { id: 4, business_id: 2, name: 'Italian' },
+            { id: 5, business_id: 2, name: 'Pasta' },
+            { id: 6, business_id: 2, name: 'Wine' },
+          ] as BusinessTagRepositoryDTO[],
+          business_picture: [
+            {
+              id: 3,
+              business_id: 2,
+              key: 'pasta_paradise_1.jpg',
+              caption: 'Main dining area',
+              is_top_slide: true,
+              is_gallery: true,
+            },
+            {
+              id: 4,
+              business_id: 2,
+              key: 'pasta_paradise_2.jpg',
+              caption: 'Wine cellar',
+              is_top_slide: false,
+              is_gallery: true,
+            },
+          ] as BusinessPictureRepositoryDTO[],
+        },
+      ];
+    }
+
     if (args.cuisine?.length && args.neighborhood?.length && args.price_level) {
       return [];
     }
@@ -133,6 +173,7 @@ export class BusinessRepositoryMock
     return [
       {
         id: 1,
+        uuid: '1',
         name: 'Sushi Master',
         cuisine_kind: CUISINE_KIND.ASIAN,
         price_level: 3,
@@ -164,6 +205,7 @@ export class BusinessRepositoryMock
       },
       {
         id: 2,
+        uuid: '2',
         name: 'Pasta Paradise',
         cuisine_kind: CUISINE_KIND.ITALIAN,
         price_level: 2,

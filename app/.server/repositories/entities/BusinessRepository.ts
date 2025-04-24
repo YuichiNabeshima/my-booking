@@ -39,6 +39,7 @@ export class BusinessRepository
   async fetchBusinesses(args: FetchBusinessesArgs) {
     const where = {
       AND: [
+        { is_published: true },
         args.cuisine?.filter(Boolean).length
           ? { cuisine_kind: { in: args.cuisine.filter(Boolean) } }
           : {},
@@ -62,6 +63,7 @@ export class BusinessRepository
   async getTotalCount(params: FilterCondition): Promise<number> {
     const where = {
       AND: [
+        { is_published: true },
         params.cuisine?.filter(Boolean).length
           ? { cuisine_kind: { in: params.cuisine.filter(Boolean) } }
           : {},

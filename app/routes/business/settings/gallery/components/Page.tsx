@@ -98,10 +98,10 @@ export function Page() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-2 sm:p-4">
         <Form method="post" encType="multipart/form-data" {...getFormProps(form)}>
           <input type="hidden" name="images[-1].id" defaultValue={''} />
-          <div className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+          <div className="bg-white p-2 sm:p-6 rounded-lg shadow-sm border mb-6">
             <h2 className="text-lg font-semibold mb-6">Store Image Management</h2>
 
             <div className="space-y-4">
@@ -166,7 +166,6 @@ export function Page() {
                         <div className="flex flex-col gap-2 mt-2 mb-2">
                           <div className="flex items-center space-x-2">
                             <input
-                              // defaultChecked={isMv.defaultValue === "true"}
                               className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                               {...isMv}
                             />
@@ -177,7 +176,6 @@ export function Page() {
 
                           <div className="flex items-center space-x-2">
                             <input
-                              // defaultChecked={isGallery?.value === "true"}
                               className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                               {...isGallery}
                             />

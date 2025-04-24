@@ -21,7 +21,7 @@ export default function Layout() {
     <>
       <ActionToast />
       <div className="min-h-screen flex flex-col">
-        <div className="flex-1 p-6">
+        <div className="flex-1 p-2 sm:p-6">
           <div className="max-w-[1200px] mx-auto space-y-6">
             <div className="flex flex-wrap w-full rounded-lg p-1 bg-muted/20">
               {navItems.map((item) => {
@@ -31,7 +31,7 @@ export default function Layout() {
                     key={item.to}
                     to={item.to}
                     className={cn(
-                      'basis-1/3 flex justify-center py-2 px-3 border text-sm font-medium rounded-md transition-all',
+                      'basis-1/3 flex items-center justify-center py-2 px-3 border text-sm font-medium rounded-md transition-all text-center',
                       isActive
                         ? 'bg-primary text-white shadow-sm'
                         : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',

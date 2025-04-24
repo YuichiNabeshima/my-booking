@@ -2,6 +2,7 @@ import './style.css';
 
 import { parseWithZod } from '@conform-to/zod';
 
+import { BusinessNotFoundError } from '~/.server/core/custom_error/errors/repositories/BusinessNotFoundError';
 import type { ILogger } from '~/.server/core/logger/ILogger';
 import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
 import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
@@ -22,8 +23,8 @@ import { schema } from './schemas/schema';
 
 export function meta({ data }: Route.MetaArgs) {
   return [
-    { title: `${data?.business.name} - My Reservation` },
-    { name: 'description', content: `${data?.business?.description} - My Reservation` },
+    { title: `${data?.business.name} - My Booking` },
+    { name: 'description', content: `${data?.business?.description} - My Booking` },
   ];
 }
 
@@ -47,6 +48,14 @@ export async function loader({ params }: Route.LoaderArgs) {
     };
   } catch (error) {
     logger.error(error as Error);
+
+    if (error instanceof BusinessNotFoundError) {
+      throw new Response('404', {
+        status: 404,
+        statusText: 'Business not found',
+      });
+    }
+
     return null;
   }
 }

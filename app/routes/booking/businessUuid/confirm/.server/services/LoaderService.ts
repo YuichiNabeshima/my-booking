@@ -7,8 +7,8 @@ import { GLOBAL_DI_TYPES } from '~/.server/di_container/GLOBAL_DI_TYPES';
 import type { IBusinessRepository } from '~/.server/repositories/interfaces/IBusinessRepository';
 import type { ICourseRepository } from '~/.server/repositories/interfaces/ICourseRepository';
 import { CUSTOMER_KIND } from '~/constants/CUSTOMER_KIND';
+import type { CreateBookingConfirmationDataTokenPayload } from '~/utils/createBookingConfirmationDataToken.server';
 
-import type { CreateTokenPayload } from '../../../index/utils/createToken.server';
 import type { LoaderServiceArgsDTO, LoaderServiceResultDTO } from '../dtos/LoaderServiceDTO';
 import type { ILoaderService } from '../interfaces/ILoaderService';
 
@@ -19,7 +19,10 @@ export class LoaderService implements ILoaderService {
     @inject(GLOBAL_DI_TYPES.CourseRepository) private courseRepository: ICourseRepository,
   ) {}
   async execute({ businessUuid, token }: LoaderServiceArgsDTO): Promise<LoaderServiceResultDTO> {
-    const decoded = jwt.verify(token, process.env.TOKEN_KEY as string) as CreateTokenPayload;
+    const decoded = jwt.verify(
+      token,
+      process.env.TOKEN_KEY as string,
+    ) as CreateBookingConfirmationDataTokenPayload;
 
     const business = await this.businessRepository.fetch({ uuid: businessUuid });
     const course = await this.courseRepository.fetch({ id: decoded.course });
@@ -39,7 +42,7 @@ export class LoaderService implements ILoaderService {
       businessName: business.name,
       dateTime: date,
       courseName: `${course.name} (${course.time_duration}min)`,
-      customerKind: decoded.kind === CUSTOMER_KIND.SINGLE ? 'Bar Sheet' : 'Table Sheet',
+      customerKind: decoded.kind === CUSTOMER_KIND.SINGLE ? 'Bar seat' : 'Table seat',
       numberOfGuests: Number(decoded.guests),
     };
   }
