@@ -34,7 +34,7 @@ export class RemoveUnusedS3Images extends BaseBatch {
     const dbKeys = new Set(businessPictures.map((p) => p.key));
 
     while (true) {
-      const s3Keys = await queueClient.popValues<string>(S3_KEY, 5);
+      const s3Keys = await queueClient.popValues<string>(S3_KEY, 3);
       if (!s3Keys.length) break;
       const shouldDeletes = s3Keys.filter((key) => !dbKeys.has(key));
 

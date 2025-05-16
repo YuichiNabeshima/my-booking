@@ -2,4 +2,4 @@
 * * * * * cd /app && npm run batch common/SendEmail
 
 # Cleanup unused S3 images
-0 4 * * * cd /app && npm run batch common/RemoveUnusedS3Images
+0 6 * * * cd /app && npm run batch common/RemoveUnusedS3Images
