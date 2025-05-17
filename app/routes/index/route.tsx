@@ -321,7 +321,7 @@ export default function Route() {
                     <Search className="h-4 w-4" /> Browse Restaurants
                   </Button>
                 </Link>
-                <Link to="/booking/0037b559-1ef0-464d-8d9a-e5a2114b3387">
+                <Link to="/booking/3db15ac4-3dd7-4f4f-9794-a7b2aec0c251">
                   <Button variant="outline" className="gap-2 cursor-pointer">
                     <Calendar className="h-4 w-4" /> Make a Reservation
                   </Button>
