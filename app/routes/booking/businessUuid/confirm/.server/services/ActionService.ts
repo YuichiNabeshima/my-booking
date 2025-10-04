@@ -68,7 +68,7 @@ We look forward to welcoming you to ${
     }. If you need to make any changes to your reservation, please contact us at least 24 hours before your scheduled time.
 
 Best regards,
-The My Booking Team
+The Thermopolium Team
 `;
 
     const customerExists = await this.customerRepository.fetch({ email });

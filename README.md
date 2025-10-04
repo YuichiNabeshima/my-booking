@@ -1,8 +1,8 @@
 🚧 This app is WIP 🚧
 
-# My Booking
+# Thermopolium
 
-**My Booking** is a full-stack restaurant reservation platform built with React and TypeScript, designed as a portfolio project to demonstrate practical engineering skills and architectural decisions. The app simulates real-world restaurant booking flows, complete with admin capabilities, batch processing, and an emphasis on clean, maintainable design.
+**Thermopolium** is a full-stack restaurant reservation platform built with React and TypeScript, designed as a portfolio project to demonstrate practical engineering skills and architectural decisions. The app simulates real-world restaurant booking flows, complete with admin capabilities, batch processing, and an emphasis on clean, maintainable design.
 
 - 🌐 Live site: [https://my-booking.tech/](https://my-booking.tech/)
 - 🔑 Admin login: [Login Page](https://my-booking.tech/booking/login)

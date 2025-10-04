@@ -23,8 +23,8 @@ import { schema } from './schemas/schema';
 
 export function meta({ data }: Route.MetaArgs) {
   return [
-    { title: `${data?.business.name} - My Booking` },
-    { name: 'description', content: `${data?.business?.description} - My Booking` },
+    { title: `${data?.business.name} - Thermopolium` },
+    { name: 'description', content: `${data?.business?.description} - Thermopolium` },
   ];
 }
 
