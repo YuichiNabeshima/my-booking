@@ -47,7 +47,7 @@ Thank you for starting your reservation. Before you proceed, please confirm your
 This link will expire in 1 hours. If you did not request this, please ignore this email.
 
 Best regards,
-My Booking Team
+Thermopolium Team
 `;
 
     await this.emailQueueRepository.create({
